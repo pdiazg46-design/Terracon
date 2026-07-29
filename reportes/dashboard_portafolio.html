@@ -448,9 +448,9 @@
             <div class="project-section">
                 <h2>📦 Carrera Pinto — Control de Caja Chica (CC-CP-01)</h2>
                 <div class="caja-card">
-                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$0 CLP</span></div>
-                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono">$0 CLP</span></div>
-                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" style="color:var(--success-green);">$0 CLP</span></div>
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$500.000 CLP</span></div>
+                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono" id="cp-caja-rendido" style="color:var(--solar-amber); font-weight:800;">$0 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="cp-caja-saldo" style="color:var(--success-green); font-weight:800;">$500.000 CLP</span></div>
                 </div>
             </div>
         </div>
@@ -458,9 +458,21 @@
         <div id="cp-sub-opex" class="sub-tab-content cp-sub-group">
             <div class="project-section">
                 <h2>💰 OPEX & Facturas Carrera Pinto</h2>
-                <div class="empty-placeholder">
-                    <p>🧾 <strong>Sin rendiciones de gastos ni facturas registradas. Tabla limpia para inicio.</strong></p>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Proveedor & Concepto</th>
+                            <th>Categoría</th>
+                            <th>Monto Total</th>
+                            <th>Respaldo & Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cp-opex-table-body">
+                        <!-- Carga dinámica -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -515,9 +527,9 @@
             <div class="project-section">
                 <h2>📦 Diego de Almagro — Control de Caja Chica (CC-DA-02)</h2>
                 <div class="caja-card">
-                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$0 CLP</span></div>
-                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono">$0 CLP</span></div>
-                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" style="color:var(--success-green);">$0 CLP</span></div>
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$500.000 CLP</span></div>
+                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono" id="da-caja-rendido" style="color:var(--solar-amber); font-weight:800;">$0 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="da-caja-saldo" style="color:var(--success-green); font-weight:800;">$500.000 CLP</span></div>
                 </div>
             </div>
         </div>
@@ -525,9 +537,21 @@
         <div id="da-sub-opex" class="sub-tab-content da-sub-group">
             <div class="project-section">
                 <h2>💰 OPEX & Facturas Diego de Almagro</h2>
-                <div class="empty-placeholder">
-                    <p>🧾 <strong>Sin rendiciones de gastos ni facturas registradas. Tabla limpia para inicio.</strong></p>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Proveedor & Concepto</th>
+                            <th>Categoría</th>
+                            <th>Monto Total</th>
+                            <th>Respaldo & Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="da-opex-table-body">
+                        <!-- Carga dinámica -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -698,11 +722,29 @@
 
             totalAcumulado = totalCP + totalDA;
 
+            // Actualizar Caja Chica Carrera Pinto
+            const cpRendido = document.getElementById('cp-caja-rendido');
+            const cpSaldo = document.getElementById('cp-caja-saldo');
+            if (cpRendido) cpRendido.innerText = `$${totalCP.toLocaleString('es-CL')} CLP`;
+            if (cpSaldo) cpSaldo.innerText = `$${(500000 - totalCP).toLocaleString('es-CL')} CLP`;
+
+            // Actualizar Caja Chica Diego de Almagro
+            const daRendido = document.getElementById('da-caja-rendido');
+            const daSaldo = document.getElementById('da-caja-saldo');
+            if (daRendido) daRendido.innerText = `$${totalDA.toLocaleString('es-CL')} CLP`;
+            if (daSaldo) daSaldo.innerText = `$${(500000 - totalDA).toLocaleString('es-CL')} CLP`;
+
             // Actualizar KPI superior
             const kpiFinVal = document.getElementById('kpi-financial-val');
             if (kpiFinVal) {
                 kpiFinVal.innerText = `$${totalAcumulado.toLocaleString('es-CL')} CLP`;
                 document.getElementById('kpi-financial-sub').innerText = `$${totalCP.toLocaleString('es-CL')} CP + $${totalDA.toLocaleString('es-CL')} DDA`;
+            }
+
+            const kpi3Val = document.getElementById('kpi-3-val');
+            if (kpi3Val) {
+                kpi3Val.innerText = `$${totalAcumulado.toLocaleString('es-CL')} CLP`;
+                document.getElementById('kpi-3-sub').innerText = `Rendido $${totalAcumulado.toLocaleString('es-CL')} CLP en Total`;
             }
         } catch (e) {
             console.log("Esperando primeras rendiciones...", e);
