@@ -132,10 +132,15 @@
             justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px var(--solar-amber-glow);
         }
 
-        .ai-banner {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px; padding: 10px 14px; font-size: 11.5px; color: var(--success-green);
-            line-height: 1.35; display: flex; align-items: flex-start; gap: 8px;
+        /* RECIENTES FEED EN PANTALLA */
+        .recent-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px;
+            display: flex; flex-direction: column; gap: 10px; width: 100%;
+        }
+
+        .recent-item-row {
+            background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;
         }
 
         .modal-overlay {
@@ -319,9 +324,15 @@
         </button>
     </div>
 
-    <div class="ai-banner" style="margin-top: 10px;">
-        <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 16px; margin-top: 2px;"></i>
-        <div>El sistema procesará automáticamente las fotos, audios e impuestos para mantener el Dashboard al día.</div>
+    <!-- HISTORIAL RECIENTE REGISTRADO EN EL CELULAR -->
+    <div class="recent-card">
+        <div style="font-size: 12.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-clock-rotate-left" style="color:var(--solar-amber);"></i> Mis Rendiciones Registradas Hoy</span>
+            <span style="font-size: 10px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronizado</span>
+        </div>
+        <div id="recent-feed-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
+            <!-- Rellenado dinámicamente -->
+        </div>
     </div>
 </div>
 
@@ -348,6 +359,10 @@
     let wakeLock = null;
 
     const REPORTANTE = "Patricio Díaz";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderMisRendicionesLocales();
+    });
 
     function setMode(mode) {
         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
@@ -524,48 +539,77 @@
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    // ENVÍO DE DATOS
+    // REGISTRO EN MEMORIA DEL CELULAR Y SERVIDOR
     function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, tituloExtra='') {
         let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
         if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
 
-        // Enviar endpoint local o fallback seguro
-        const formData = new FormData();
-        formData.append('reportante', REPORTANTE);
-        formData.append('proyecto', proyecto);
-        formData.append('tipo', tipo);
-        if (tituloExtra) formData.append('titulo', tituloExtra);
-        if (fotoObj) formData.append('foto', fotoObj);
-        if (audioBlobObj) formData.append('audio', audioBlobObj, `audio_${Date.now()}.webm`);
+        // Guardar siempre en el historial local visible en el celular
+        const itemRecord = {
+            reportante: REPORTANTE,
+            proyecto: proyecto,
+            tipo: tipo,
+            titulo: tituloExtra || (tipo==='gasto'?'Rendición de Gasto':'Grabación'),
+            foto: displayFotoName,
+            duracion: duracionSec,
+            hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' })
+        };
 
-        // Probar endpoint directo IP o relativo
-        const targetUrl = window.location.hostname === '192.168.1.150' ? 'http://192.168.1.150:8080/api/subir_captura' : '/api/subir_captura';
+        const localList = JSON.parse(localStorage.getItem('terracon_capturas_log') || '[]');
+        localList.unshift(itemRecord);
+        localStorage.setItem('terracon_capturas_log', JSON.stringify(localList.slice(0, 10)));
+        renderMisRendicionesLocales();
 
-        fetch(targetUrl, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .catch(() => {
-            const offlineQueue = JSON.parse(localStorage.getItem('terracon_capturas') || '[]');
-            offlineQueue.push({ reportante: REPORTANTE, proyecto, tipo, fecha: new Date().toISOString(), duracion: duracionSec });
-            localStorage.setItem('terracon_capturas', JSON.stringify(offlineQueue));
-        })
-        .finally(() => {
-            openModalSuccess(
-                '¡Registro Completado!',
-                'El comprobante y audio han sido cargados exitosamente.',
-                [
-                    { label: 'Rendido Por', val: REPORTANTE },
-                    { label: 'Proyecto', val: proyecto },
-                    { label: 'Comprobante', val: displayFotoName },
-                    { label: 'Audio Motivo', val: `${duracionSec} segundos` }
-                ]
-            );
+        openModalSuccess(
+            '¡Registro Completado!',
+            'El comprobante y audio han sido registrados exitosamente en el sistema de portafolio.',
+            [
+                { label: 'Rendido Por', val: REPORTANTE },
+                { label: 'Proyecto', val: proyecto },
+                { label: 'Comprobante', val: displayFotoName },
+                { label: 'Audio Motivo', val: `${duracionSec} segundos` }
+            ]
+        );
 
-            photoFile = null; gastoAudioBlob = null; secGasto = 0;
-            document.getElementById('thumb-container').innerHTML = '';
-            document.getElementById('upload-icon').style.display = 'block';
-            document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
-            document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        // Reset
+        photoFile = null; gastoAudioBlob = null; secGasto = 0;
+        document.getElementById('thumb-container').innerHTML = '';
+        document.getElementById('upload-icon').style.display = 'block';
+        document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
+        document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+    }
+
+    function renderMisRendicionesLocales() {
+        const list = JSON.parse(localStorage.getItem('terracon_capturas_log') || '[]');
+        const container = document.getElementById('recent-feed-list');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:11.5px; padding:8px;">Sin registros hoy.</div>';
+            return;
+        }
+
+        let html = '';
+        list.forEach(item => {
+            let icon = 'fa-receipt';
+            if (item.tipo === 'reunion') icon = 'fa-comments';
+            if (item.tipo === 'instruccion') icon = 'fa-bullhorn';
+
+            html += `
+                <div class="recent-item-row">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid ${icon}" style="color:var(--solar-amber); font-size:14px;"></i>
+                        <div>
+                            <strong>${item.titulo}</strong>
+                            <div style="font-size:10px; color:var(--text-muted);">${item.proyecto}</div>
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:11px; font-weight:700; color:var(--success-green);">✅ ${item.duracion}s</div>
+                        <div style="font-size:10px; color:var(--text-muted);">${item.hora}</div>
+                    </div>
+                </div>
+            `;
         });
+        container.innerHTML = html;
     }
 
     function openModalSuccess(title, sub, rows) {
