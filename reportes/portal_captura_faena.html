@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Meta etiquetas PWA para agregar a la pantalla de inicio del celular -->
+    <!-- Meta etiquetas PWA para celular -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#090d16">
@@ -18,7 +18,7 @@
             --bg-card: #131b2e;
             --bg-card-hover: #1c2742;
             --bg-input: #0b1120;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(255, 255, 255, 0.12);
             
             --solar-amber: #f59e0b;
             --solar-amber-glow: rgba(245, 158, 11, 0.2);
@@ -61,19 +61,19 @@
 
         .brand { display: flex; align-items: center; gap: 12px; }
         .brand-icon {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             background: linear-gradient(135deg, var(--solar-amber), #d97706);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             color: #000;
             box-shadow: 0 0 15px var(--solar-amber-glow);
         }
 
-        .brand-text h1 { font-size: 17px; font-weight: 700; }
+        .brand-text h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
         .brand-text p { font-size: 11px; color: var(--text-muted); }
 
         /* MODOS DE CARGA */
@@ -87,7 +87,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 14px 8px;
+            padding: 14px 6px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -108,7 +108,7 @@
 
         .type-card.active i, .type-card.active span { color: var(--electric-cyan); }
 
-        /* FORMULARIO DE CARGA */
+        /* FORMULARIO DE CARGA MÓVIL SLIM */
         .form-section {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -124,6 +124,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            width: 100%;
         }
 
         .form-group label {
@@ -138,11 +139,12 @@
             background: var(--bg-input);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 12px 14px;
+            padding: 14px;
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 14.5px;
             font-family: inherit;
             outline: none;
+            width: 100%;
             transition: border-color 0.2s ease;
         }
 
@@ -150,19 +152,26 @@
             border-color: var(--electric-cyan);
         }
 
+        /* Responsive GRID: En celular 1 columna apilada limpia */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr !important;
+            }
         }
 
         /* CARGADOR DE ARCHIVOS */
         .file-upload-zone {
             border: 2px dashed var(--border-color);
             border-radius: 12px;
-            padding: 18px;
+            padding: 20px 14px;
             text-align: center;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.25);
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -172,18 +181,18 @@
             background: rgba(6, 182, 212, 0.05);
         }
 
-        .file-upload-zone i { font-size: 26px; color: var(--solar-amber); margin-bottom: 6px; }
-        .file-upload-zone p { font-size: 12px; color: var(--text-muted); }
-        .file-upload-zone span { font-size: 10px; color: var(--electric-cyan); font-weight: 600; }
+        .file-upload-zone i { font-size: 28px; color: var(--solar-amber); margin-bottom: 6px; }
+        .file-upload-zone p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .file-upload-zone span { font-size: 11px; color: var(--electric-cyan); font-weight: 600; display: block; margin-top: 4px; }
 
         /* BOTÓN DE GUARDADO */
         .btn-submit {
             background: linear-gradient(135deg, var(--solar-amber), #d97706);
             color: #000;
             border: none;
-            padding: 14px;
+            padding: 16px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
@@ -192,6 +201,7 @@
             gap: 8px;
             box-shadow: 0 4px 15px var(--solar-amber-glow);
             transition: transform 0.1s ease;
+            width: 100%;
         }
 
         .btn-submit:active { transform: scale(0.98); }
@@ -223,7 +233,7 @@
             background: rgba(0,0,0,0.2);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 10px;
+            padding: 10px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -231,14 +241,14 @@
         }
 
         .recent-item-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             background: rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -277,7 +287,8 @@
 
     <!-- FORMULARIO DINÁMICO -->
     <div class="form-section">
-        <!-- SELECCIÓN DE REPORTANTE -->
+        
+        <!-- ROW 1: QUIEN RINDE & PROYECTO -->
         <div class="form-row">
             <div class="form-group">
                 <label><i class="fa-solid fa-user-check"></i> ¿Quién Rinde?</label>
@@ -288,19 +299,19 @@
                 </select>
             </div>
             <div class="form-group">
-                <label><i class="fa-solid fa-building-flag"></i> Proyecto</label>
+                <label><i class="fa-solid fa-building-flag"></i> Proyecto / Centro Costo</label>
                 <select id="form-proyecto" class="form-control">
-                    <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto</option>
-                    <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro</option>
+                    <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
+                    <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro (CC-DA-02)</option>
                 </select>
             </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: GASTO -->
-        <div id="fields-gasto">
+        <div id="fields-gasto" style="display: flex; flex-direction: column; gap: 12px;">
             <div class="form-row">
                 <div class="form-group">
-                    <label><i class="fa-solid fa-tags"></i> Categoría</label>
+                    <label><i class="fa-solid fa-tags"></i> Categoría de Gasto</label>
                     <select id="gasto-categoria" class="form-control">
                         <option value="CAT-04">Alojamiento / Casino</option>
                         <option value="CAT-02">Combustible / Vehículos</option>
@@ -310,42 +321,42 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label><i class="fa-solid fa-store"></i> Proveedor</label>
-                    <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec / Hotel">
+                    <label><i class="fa-solid fa-store"></i> Proveedor / Razón Social</label>
+                    <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec S.A. / Hotel Atacama">
                 </div>
             </div>
 
-            <div class="form-row" style="margin-top: 10px;">
+            <div class="form-row">
                 <div class="form-group">
-                    <label><i class="fa-solid fa-file-invoice"></i> N° Boleta/Factura</label>
-                    <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234">
+                    <label><i class="fa-solid fa-file-invoice"></i> N° Boleta / Factura</label>
+                    <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234 / B-9981">
                 </div>
                 <div class="form-group">
-                    <label><i class="fa-solid fa-sack-dollar"></i> Monto ($ CLP)</label>
-                    <input type="number" id="gasto-monto" class="form-control" placeholder="45000" oninput="calcularImpuestos()">
+                    <label><i class="fa-solid fa-sack-dollar"></i> Monto Total ($ CLP)</label>
+                    <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 45000" oninput="calcularImpuestos()">
                 </div>
             </div>
 
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; gap: 12px;" id="calc-preview">
+            <div style="font-size: 11px; color: var(--text-muted); display: flex; gap: 14px;" id="calc-preview">
                 <span>Neto: $0</span>
                 <span>IVA (19%): $0</span>
             </div>
 
-            <div class="form-group" style="margin-top: 10px;">
+            <div class="form-group">
                 <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto</label>
                 <input type="text" id="gasto-concepto" class="form-control" placeholder="Ej: Combustible Camioneta CP Copiapó">
             </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: REUNIÓN -->
-        <div id="fields-reunion" style="display: none;">
+        <div id="fields-reunion" style="display: none; flex-direction: column; gap: 12px;">
             <div class="form-group">
                 <label><i class="fa-solid fa-heading"></i> Título de la Reunión</label>
                 <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Coordinación Outage Bloque 1">
             </div>
-            <div class="form-row" style="margin-top: 10px;">
+            <div class="form-row">
                 <div class="form-group">
-                    <label><i class="fa-solid fa-user-gear"></i> Responsable</label>
+                    <label><i class="fa-solid fa-user-gear"></i> Responsable del Acuerdo</label>
                     <select id="reunion-responsable" class="form-control">
                         <option value="Víctor Escanilla">Víctor Escanilla</option>
                         <option value="Marcos Font">Marcos Font</option>
@@ -358,31 +369,31 @@
                     <input type="date" id="reunion-limite" class="form-control">
                 </div>
             </div>
-            <div class="form-group" style="margin-top: 10px;">
-                <label><i class="fa-solid fa-list-check"></i> Compromisos</label>
-                <textarea id="reunion-notas" class="form-control" rows="2" placeholder="Detalla los acuerdos..."></textarea>
+            <div class="form-group">
+                <label><i class="fa-solid fa-list-check"></i> Compromisos Acordados</label>
+                <textarea id="reunion-notas" class="form-control" rows="2" placeholder="Detalla los acuerdos principales..."></textarea>
             </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: INSTRUCCIÓN / AUDIO -->
-        <div id="fields-instruccion" style="display: none;">
+        <div id="fields-instruccion" style="display: none; flex-direction: column; gap: 12px;">
             <div class="form-group">
                 <label><i class="fa-solid fa-bullhorn"></i> Resumen de la Instrucción</label>
                 <input type="text" id="instruccion-titulo" class="form-control" placeholder="Ej: Avance 10 String Inverters montados">
             </div>
-            <div class="form-group" style="margin-top: 10px;">
+            <div class="form-group">
                 <label><i class="fa-solid fa-comment-dots"></i> Transcripción / Comentarios</label>
-                <textarea id="instruccion-notas" class="form-control" rows="2" placeholder="Ingresa notas o transcripción..."></textarea>
+                <textarea id="instruccion-notas" class="form-control" rows="2" placeholder="Ingresa detalles o notas de voz de terreno..."></textarea>
             </div>
         </div>
 
         <!-- SUBIDA DE RESPALDO (FOTO O AUDIO) -->
         <div class="form-group">
-            <label><i class="fa-solid fa-paperclip"></i> Adjuntar Boleta (Cámara / Galería)</label>
+            <label><i class="fa-solid fa-paperclip"></i> Adjuntar Foto Boleta / Audio</label>
             <div class="file-upload-zone" onclick="document.getElementById('file-input').click()">
                 <i class="fa-solid fa-camera" id="upload-icon"></i>
-                <p id="upload-filename">📸 Toca para tomar foto o adjuntar comprobante</p>
-                <span>Formatos: Fotos, PDF, Audios</span>
+                <p id="upload-filename">📸 Toca para tomar foto a la boleta</p>
+                <span>Formatos: Cámara, Fotos, PDF, Audios</span>
             </div>
             <input type="file" id="file-input" accept="image/*,application/pdf,audio/*" style="display: none;" onchange="handleFileSelect(this)">
         </div>
@@ -397,7 +408,7 @@
     <div class="recent-section">
         <div class="recent-title">
             <span><i class="fa-solid fa-history"></i> Rendiciones Ingresadas Hoy</span>
-            <span style="font-size: 11px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronizado</span>
+            <span style="font-size: 11px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Listo</span>
         </div>
         <div class="recent-list" id="recent-list">
             <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 1rem;">
@@ -417,9 +428,9 @@
         document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
         element.classList.add('active');
 
-        document.getElementById('fields-gasto').style.display = type === 'gasto' ? 'block' : 'none';
-        document.getElementById('fields-reunion').style.display = type === 'reunion' ? 'block' : 'none';
-        document.getElementById('fields-instruccion').style.display = type === 'instruccion' ? 'block' : 'none';
+        document.getElementById('fields-gasto').style.display = type === 'gasto' ? 'flex' : 'none';
+        document.getElementById('fields-reunion').style.display = type === 'reunion' ? 'flex' : 'none';
+        document.getElementById('fields-instruccion').style.display = type === 'instruccion' ? 'flex' : 'none';
 
         const icon = document.getElementById('upload-icon');
         if (type === 'gasto') icon.className = 'fa-solid fa-camera';
@@ -534,7 +545,7 @@
         document.getElementById('reunion-notas').value = '';
         document.getElementById('instruccion-titulo').value = '';
         document.getElementById('instruccion-notas').value = '';
-        document.getElementById('upload-filename').innerText = '📸 Toca para tomar foto o adjuntar comprobante';
+        document.getElementById('upload-filename').innerText = '📸 Toca para tomar foto a la boleta';
         selectedFile = null;
     }
 </script>
