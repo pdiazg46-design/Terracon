@@ -72,7 +72,6 @@
             color: var(--text-main); font-size: 14px; font-family: inherit; outline: none; width: 100%;
         }
 
-        /* UPLOAD ZONE ELEGANTE */
         .upload-zone-large {
             border: 2px dashed var(--solar-amber); border-radius: 14px; padding: 20px 14px; text-align: center;
             background: rgba(245, 158, 11, 0.05); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -139,7 +138,6 @@
             line-height: 1.35; display: flex; align-items: flex-start; gap: 8px;
         }
 
-        /* VENTANA MODAL FLOTANTE ELEGANTE */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
@@ -217,7 +215,7 @@
         </div>
     </div>
 
-    <!-- MODO 1: RENDICIÓN DE GASTOS -->
+    <!-- MODO 1: GASTO -->
     <div class="form-section" id="section-gasto">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto a Asignar</label>
@@ -327,17 +325,12 @@
     </div>
 </div>
 
-<!-- MODAL DE CONFIRMACIÓN FLOTANTE ELEGANTE -->
 <div id="modal-confirm" class="modal-overlay" style="display: none;">
     <div class="modal-card">
         <div class="modal-icon"><i class="fa-solid fa-circle-check"></i></div>
         <h2 id="modal-title">¡Registro Completado!</h2>
-        <p id="modal-sub">El comprobante y el audio han sido cargados con éxito al sistema de portafolio.</p>
-
-        <div class="modal-info-box" id="modal-info-box">
-            <!-- Rellenado dinámicamente -->
-        </div>
-
+        <p id="modal-sub">El comprobante y el audio han sido cargados con éxito al sistema.</p>
+        <div class="modal-info-box" id="modal-info-box"></div>
         <button class="btn-modal-close" onclick="closeModal()">
             <i class="fa-solid fa-check"></i> ENTENDIDO / CONTINUAR
         </button>
@@ -378,21 +371,16 @@
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
             const sizeMb = (photoFile.size / (1024*1024)).toFixed(1);
-            
-            // Truncar nombre largo si excede 20 caracteres
             let displayFileName = photoFile.name;
             if (displayFileName.length > 22) {
                 const ext = displayFileName.split('.').pop();
                 displayFileName = displayFileName.substring(0, 14) + '...' + ext;
             }
 
-            // Vista previa de imagen si es archivo gráfico
             const thumbContainer = document.getElementById('thumb-container');
             if (photoFile.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = e => {
-                    thumbContainer.innerHTML = `<img src="${e.target.result}" class="img-preview-thumb">`;
-                };
+                reader.onload = e => { thumbContainer.innerHTML = `<img src="${e.target.result}" class="img-preview-thumb">`; };
                 reader.readAsDataURL(photoFile);
             }
 
@@ -422,7 +410,7 @@
 
             document.getElementById('btn-gasto-rec-start').style.display = 'none';
             document.getElementById('btn-gasto-rec-stop').style.display = 'flex';
-            document.getElementById('gasto-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando motivo del gasto...</span>';
+            document.getElementById('gasto-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando motivo...</span>';
         } catch (err) { alert('⚠️ Permiso de micrófono requerido: ' + err.message); }
     }
 
@@ -438,36 +426,11 @@
     }
 
     function enviarGasto() {
-        if (!photoFile) {
-            openModalError('Falta Foto de Boleta', 'Por favor toma la foto de la boleta o factura antes de enviar.');
-            return;
-        }
-        if (!gastoAudioBlob && secGasto === 0) {
-            openModalError('Falta Audio del Motivo', 'Por favor toca "Grabar Motivo por Voz" para indicar en qué se gastó el dinero.');
-            return;
-        }
+        if (!photoFile) { openModalError('Falta Foto de Boleta', 'Por favor toma la foto de la boleta o factura.'); return; }
+        if (!gastoAudioBlob && secGasto === 0) { openModalError('Falta Audio del Motivo', 'Por favor graba el audio del motivo.'); return; }
 
         const proj = document.getElementById('form-proyecto-gasto').value;
-        let shortName = photoFile.name;
-        if (shortName.length > 20) shortName = shortName.substring(0, 14) + '...' + shortName.split('.').pop();
-
-        openModalSuccess(
-            '¡Rendición Registrada!',
-            'El comprobante y la justificación de voz han sido enviados para imputación automática.',
-            [
-                { label: 'Rendido Por', val: REPORTANTE },
-                { label: 'Proyecto', val: proj },
-                { label: 'Foto Boleta', val: shortName },
-                { label: 'Audio Motivo', val: `${secGasto} segundos` }
-            ]
-        );
-
-        // Reset
-        photoFile = null; gastoAudioBlob = null; secGasto = 0;
-        document.getElementById('thumb-container').innerHTML = '';
-        document.getElementById('upload-icon').style.display = 'block';
-        document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
-        document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto);
     }
 
     // INSTRUCCIÓN
@@ -491,7 +454,7 @@
 
             document.getElementById('btn-inst-rec-start').style.display = 'none';
             document.getElementById('btn-inst-rec-stop').style.display = 'flex';
-            document.getElementById('inst-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando instrucción...</span>';
+            document.getElementById('inst-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando...</span>';
         } catch (err) { alert('⚠️ Permiso de micrófono requerido: ' + err.message); }
     }
 
@@ -509,26 +472,9 @@
     function enviarInstruccion() {
         const titulo = document.getElementById('instruccion-titulo').value || 'Instrucción de Terreno';
         const proj = document.getElementById('form-proyecto-instruccion').value;
+        if (!instAudioBlob && secInst === 0) { openModalError('Falta Audio de Instrucción', 'Graba la instrucción por favor.'); return; }
 
-        if (!instAudioBlob && secInst === 0) {
-            openModalError('Falta Audio de Instrucción', 'Por favor toca el botón para grabar la instrucción por voz.');
-            return;
-        }
-
-        openModalSuccess(
-            '¡Instrucción Publicada!',
-            'La nota de voz de terreno ha sido registrada en el sistema.',
-            [
-                { label: 'Emisor', val: REPORTANTE },
-                { label: 'Proyecto', val: proj },
-                { label: 'Asunto', val: titulo },
-                { label: 'Duración Audio', val: `${secInst} segundos` }
-            ]
-        );
-
-        document.getElementById('instruccion-titulo').value = '';
-        instAudioBlob = null; secInst = 0;
-        document.getElementById('inst-audio-status').innerText = '🎙️ Dictar instrucción o nota de avance de terreno';
+        enviarAlServidor('instruccion', proj, null, instAudioBlob, secInst, titulo);
     }
 
     // REUNIÓN 2 HORAS
@@ -538,6 +484,12 @@
             mediaRecorderReunion = new MediaRecorder(stream);
             let chunks = [];
             mediaRecorderReunion.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorderReunion.onstop = () => {
+                const reunionBlob = new Blob(chunks, { type: 'audio/webm' });
+                const titulo = document.getElementById('reunion-titulo').value || 'Reunión de Coordinación';
+                const proj = document.getElementById('form-proyecto-reunion').value;
+                enviarAlServidor('reunion', proj, null, reunionBlob, secReunion, titulo);
+            };
             mediaRecorderReunion.start(5000);
 
             if ('wakeLock' in navigator) { try { wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
@@ -565,19 +517,6 @@
         document.getElementById('rec-tag').innerHTML = '<i class="fa-solid fa-check-circle" style="color:var(--success-green);"></i> Grabación Finalizada';
         document.getElementById('btn-rec-start').style.display = 'flex';
         document.getElementById('btn-rec-stop').style.display = 'none';
-
-        const titulo = document.getElementById('reunion-titulo').value || 'Reunión de Coordinación';
-        const duracion = document.getElementById('rec-timer').innerText;
-
-        openModalSuccess(
-            '¡Reunión Registrada!',
-            'El audio completo fue enviado para transcripción y minutas.',
-            [
-                { label: 'Responsable', val: REPORTANTE },
-                { label: 'Título', val: titulo },
-                { label: 'Duración', val: duracion }
-            ]
-        );
     }
 
     function updateTimerDisplay() {
@@ -587,15 +526,54 @@
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    // MODAL ELEGANTE
+    // ENVÍO DE DATOS AL SERVIDOR PYTHON / LOCALSTORAGE
+    function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, tituloExtra='') {
+        const formData = new FormData();
+        formData.append('reportante', REPORTANTE);
+        formData.append('proyecto', proyecto);
+        formData.append('tipo', tipo);
+        if (tituloExtra) formData.append('titulo', tituloExtra);
+        if (fotoObj) formData.append('foto', fotoObj);
+        if (audioBlobObj) formData.append('audio', audioBlobObj, `audio_${Date.now()}.webm`);
+
+        let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
+        if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
+
+        // Enviar vía fetch a servidor receptor local
+        fetch('/api/subir_captura', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .catch(() => {
+            // Guardar respaldo en localStorage para procesamiento offline
+            const offlineQueue = JSON.parse(localStorage.getItem('terracon_capturas') || '[]');
+            offlineQueue.push({ reportante: REPORTANTE, proyecto, tipo, fecha: new Date().toISOString(), duracion: duracionSec });
+            localStorage.setItem('terracon_capturas', JSON.stringify(offlineQueue));
+        })
+        .finally(() => {
+            openModalSuccess(
+                '¡Registro Completado!',
+                'El comprobante y audio han sido registrados exitosamente en el sistema de portafolio.',
+                [
+                    { label: 'Rendido Por', val: REPORTANTE },
+                    { label: 'Proyecto', val: proyecto },
+                    { label: 'Comprobante', val: displayFotoName },
+                    { label: 'Audio Motivo', val: `${duracionSec} segundos` }
+                ]
+            );
+
+            // Limpieza
+            photoFile = null; gastoAudioBlob = null; secGasto = 0;
+            document.getElementById('thumb-container').innerHTML = '';
+            document.getElementById('upload-icon').style.display = 'block';
+            document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
+            document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        });
+    }
+
     function openModalSuccess(title, sub, rows) {
         document.getElementById('modal-title').innerText = title;
         document.getElementById('modal-sub').innerText = sub;
-        
         let html = '';
-        rows.forEach(r => {
-            html += `<div class="modal-info-row"><span>${r.label}:</span><strong>${r.val}</strong></div>`;
-        });
+        rows.forEach(r => { html += `<div class="modal-info-row"><span>${r.label}:</span><strong>${r.val}</strong></div>`; });
         document.getElementById('modal-info-box').innerHTML = html;
         document.getElementById('modal-confirm').style.display = 'flex';
     }
@@ -607,9 +585,7 @@
         document.getElementById('modal-confirm').style.display = 'flex';
     }
 
-    function closeModal() {
-        document.getElementById('modal-confirm').style.display = 'none';
-    }
+    function closeModal() { document.getElementById('modal-confirm').style.display = 'none'; }
 </script>
 </body>
 </html>

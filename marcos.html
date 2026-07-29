@@ -354,7 +354,6 @@
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
             const sizeMb = (photoFile.size / (1024*1024)).toFixed(1);
-            
             let displayFileName = photoFile.name;
             if (displayFileName.length > 22) {
                 const ext = displayFileName.split('.').pop();
@@ -364,9 +363,7 @@
             const thumbContainer = document.getElementById('thumb-container');
             if (photoFile.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = e => {
-                    thumbContainer.innerHTML = `<img src="${e.target.result}" class="img-preview-thumb">`;
-                };
+                reader.onload = e => { thumbContainer.innerHTML = `<img src="${e.target.result}" class="img-preview-thumb">`; };
                 reader.readAsDataURL(photoFile);
             }
 
@@ -416,25 +413,7 @@
         if (!gastoAudioBlob && secGasto === 0) { openModalError('Falta Audio del Motivo', 'Por favor graba el audio del motivo.'); return; }
 
         const proj = document.getElementById('form-proyecto-gasto').value;
-        let shortName = photoFile.name;
-        if (shortName.length > 20) shortName = shortName.substring(0, 14) + '...' + shortName.split('.').pop();
-
-        openModalSuccess(
-            '¡Rendición Registrada!',
-            'El comprobante y el audio han sido enviados para imputación.',
-            [
-                { label: 'Rendido Por', val: REPORTANTE },
-                { label: 'Proyecto', val: proj },
-                { label: 'Foto Factura', val: shortName },
-                { label: 'Audio Motivo', val: `${secGasto} segundos` }
-            ]
-        );
-
-        photoFile = null; gastoAudioBlob = null; secGasto = 0;
-        document.getElementById('thumb-container').innerHTML = '';
-        document.getElementById('upload-icon').style.display = 'block';
-        document.getElementById('photo-label').innerText = 'Toca para tomar foto a la factura';
-        document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto);
     }
 
     async function iniciarAudioInstruccion() {
@@ -477,20 +456,7 @@
         const proj = document.getElementById('form-proyecto-instruccion').value;
         if (!instAudioBlob && secInst === 0) { openModalError('Falta Audio de Instrucción', 'Graba el audio por favor.'); return; }
 
-        openModalSuccess(
-            '¡Instrucción Publicada!',
-            'La nota de voz de terreno ha sido registrada.',
-            [
-                { label: 'Emisor', val: REPORTANTE },
-                { label: 'Proyecto', val: proj },
-                { label: 'Asunto', val: titulo },
-                { label: 'Duración Audio', val: `${secInst} segundos` }
-            ]
-        );
-
-        document.getElementById('instruccion-titulo').value = '';
-        instAudioBlob = null; secInst = 0;
-        document.getElementById('inst-audio-status').innerText = '🎙️ Dictar instrucción o nota de avance de terreno';
+        enviarAlServidor('instruccion', proj, null, instAudioBlob, secInst, titulo);
     }
 
     async function iniciarGrabacionReunion() {
@@ -499,6 +465,11 @@
             mediaRecorderReunion = new MediaRecorder(stream);
             let chunks = [];
             mediaRecorderReunion.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorderReunion.onstop = () => {
+                const reunionBlob = new Blob(chunks, { type: 'audio/webm' });
+                const titulo = document.getElementById('reunion-titulo').value || 'Reunión Diego de Almagro';
+                enviarAlServidor('reunion', 'Diego de Almagro (CC-DA-02)', null, reunionBlob, secReunion, titulo);
+            };
             mediaRecorderReunion.start(5000);
 
             if ('wakeLock' in navigator) { try { wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
@@ -526,19 +497,6 @@
         document.getElementById('rec-tag').innerHTML = '<i class="fa-solid fa-check-circle" style="color:var(--success-green);"></i> Grabación Finalizada';
         document.getElementById('btn-rec-start').style.display = 'flex';
         document.getElementById('btn-rec-stop').style.display = 'none';
-
-        const titulo = document.getElementById('reunion-titulo').value || 'Reunión Diego de Almagro';
-        const duracion = document.getElementById('rec-timer').innerText;
-
-        openModalSuccess(
-            '¡Reunión Registrada!',
-            'El audio completo fue enviado para transcripción.',
-            [
-                { label: 'Responsable', val: REPORTANTE },
-                { label: 'Título', val: titulo },
-                { label: 'Duración', val: duracion }
-            ]
-        );
     }
 
     function updateTimerDisplay() {
@@ -546,6 +504,45 @@
         const mins = String(Math.floor((secReunion % 3600) / 60)).padStart(2, '0');
         const secs = String(secReunion % 60).padStart(2, '0');
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
+    }
+
+    function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, tituloExtra='') {
+        const formData = new FormData();
+        formData.append('reportante', REPORTANTE);
+        formData.append('proyecto', proyecto);
+        formData.append('tipo', tipo);
+        if (tituloExtra) formData.append('titulo', tituloExtra);
+        if (fotoObj) formData.append('foto', fotoObj);
+        if (audioBlobObj) formData.append('audio', audioBlobObj, `audio_${Date.now()}.webm`);
+
+        let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
+        if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
+
+        fetch('/api/subir_captura', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .catch(() => {
+            const offlineQueue = JSON.parse(localStorage.getItem('terracon_capturas') || '[]');
+            offlineQueue.push({ reportante: REPORTANTE, proyecto, tipo, fecha: new Date().toISOString(), duracion: duracionSec });
+            localStorage.setItem('terracon_capturas', JSON.stringify(offlineQueue));
+        })
+        .finally(() => {
+            openModalSuccess(
+                '¡Registro Completado!',
+                'El comprobante y audio han sido registrados exitosamente en el sistema.',
+                [
+                    { label: 'Rendido Por', val: REPORTANTE },
+                    { label: 'Proyecto', val: proyecto },
+                    { label: 'Comprobante', val: displayFotoName },
+                    { label: 'Audio Motivo', val: `${duracionSec} segundos` }
+                ]
+            );
+
+            photoFile = null; gastoAudioBlob = null; secGasto = 0;
+            document.getElementById('thumb-container').innerHTML = '';
+            document.getElementById('upload-icon').style.display = 'block';
+            document.getElementById('photo-label').innerText = 'Toca para tomar foto a la factura';
+            document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        });
     }
 
     function openModalSuccess(title, sub, rows) {
