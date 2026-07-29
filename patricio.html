@@ -433,7 +433,6 @@
         enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto);
     }
 
-    // INSTRUCCIÓN
     async function iniciarAudioInstruccion() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -477,7 +476,6 @@
         enviarAlServidor('instruccion', proj, null, instAudioBlob, secInst, titulo);
     }
 
-    // REUNIÓN 2 HORAS
     async function iniciarGrabacionReunion() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -526,8 +524,12 @@
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    // ENVÍO DE DATOS AL SERVIDOR PYTHON / LOCALSTORAGE
+    // ENVÍO DE DATOS
     function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, tituloExtra='') {
+        let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
+        if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
+
+        // Enviar endpoint local o fallback seguro
         const formData = new FormData();
         formData.append('reportante', REPORTANTE);
         formData.append('proyecto', proyecto);
@@ -536,14 +538,12 @@
         if (fotoObj) formData.append('foto', fotoObj);
         if (audioBlobObj) formData.append('audio', audioBlobObj, `audio_${Date.now()}.webm`);
 
-        let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
-        if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
+        // Probar endpoint directo IP o relativo
+        const targetUrl = window.location.hostname === '192.168.1.150' ? 'http://192.168.1.150:8080/api/subir_captura' : '/api/subir_captura';
 
-        // Enviar vía fetch a servidor receptor local
-        fetch('/api/subir_captura', { method: 'POST', body: formData })
+        fetch(targetUrl, { method: 'POST', body: formData })
         .then(res => res.json())
         .catch(() => {
-            // Guardar respaldo en localStorage para procesamiento offline
             const offlineQueue = JSON.parse(localStorage.getItem('terracon_capturas') || '[]');
             offlineQueue.push({ reportante: REPORTANTE, proyecto, tipo, fecha: new Date().toISOString(), duracion: duracionSec });
             localStorage.setItem('terracon_capturas', JSON.stringify(offlineQueue));
@@ -551,7 +551,7 @@
         .finally(() => {
             openModalSuccess(
                 '¡Registro Completado!',
-                'El comprobante y audio han sido registrados exitosamente en el sistema de portafolio.',
+                'El comprobante y audio han sido cargados exitosamente.',
                 [
                     { label: 'Rendido Por', val: REPORTANTE },
                     { label: 'Proyecto', val: proyecto },
@@ -560,7 +560,6 @@
                 ]
             );
 
-            // Limpieza
             photoFile = null; gastoAudioBlob = null; secGasto = 0;
             document.getElementById('thumb-container').innerHTML = '';
             document.getElementById('upload-icon').style.display = 'block';

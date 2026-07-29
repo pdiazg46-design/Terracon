@@ -12,7 +12,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class TerraconUploadHandler(SimpleHTTPRequestHandler):
     def translate_path(self, path):
-        # Asegurar que se sirvan los archivos desde BASE_DIR
         rel_path = path.lstrip('/')
         full_path = os.path.join(BASE_DIR, rel_path)
         if os.path.isdir(full_path):
@@ -20,6 +19,13 @@ class TerraconUploadHandler(SimpleHTTPRequestHandler):
             if os.path.exists(index_path):
                 return index_path
         return full_path
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
 
     def do_POST(self):
         if self.path == '/api/subir_captura':
@@ -29,14 +35,14 @@ class TerraconUploadHandler(SimpleHTTPRequestHandler):
                     pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
                     fields = cgi.parse_multipart(self.rfile, pdict)
                     
-                    reportante = fields.get('reportante', ['Patricio Díaz'])[0].decode('utf-8')
-                    proyecto = fields.get('proyecto', ['Carrera Pinto (CC-CP-01)'])[0].decode('utf-8')
-                    tipo = fields.get('tipo', ['gasto'])[0].decode('utf-8')
+                    reportante = fields.get('reportante', [b'Patricio Diaz'])[0].decode('utf-8')
+                    proyecto = fields.get('proyecto', [b'Carrera Pinto'])[0].decode('utf-8')
+                    tipo = fields.get('tipo', [b'gasto'])[0].decode('utf-8')
                     
                     timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
                     
                     # Guardar foto si existe
-                    photo_name = "Sin_foto"
+                    photo_name = "Sin_foto.jpg"
                     if 'foto' in fields and fields['foto']:
                         photo_data = fields['foto'][0]
                         photo_name = f"boleta_{timestamp}_{reportante.split()[0]}.jpg"
@@ -45,7 +51,7 @@ class TerraconUploadHandler(SimpleHTTPRequestHandler):
                             f.write(photo_data)
                     
                     # Guardar audio si existe
-                    audio_name = "Sin_audio"
+                    audio_name = "Sin_audio.webm"
                     if 'audio' in fields and fields['audio']:
                         audio_data = fields['audio'][0]
                         target_folder = 'audios_instrucciones' if tipo != 'reunion' else 'reuniones'
@@ -74,7 +80,6 @@ class TerraconUploadHandler(SimpleHTTPRequestHandler):
                     except Exception as e:
                         print("Error en git push auto:", e)
 
-                    # Responder OK JSON
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
@@ -90,6 +95,7 @@ class TerraconUploadHandler(SimpleHTTPRequestHandler):
             except Exception as err:
                 print("Error procesando POST:", err)
                 self.send_response(500)
+                self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(str(err).encode('utf-8'))
                 return
@@ -103,5 +109,5 @@ def cat_by_type(tipo):
 
 if __name__ == '__main__':
     server = HTTPServer(('0.0.0.0', PORT), TerraconUploadHandler)
-    print(f"Servidor Terracon activo en puerto {PORT}...")
+    print(f"Servidor Terracon activo con CORS en puerto {PORT}...")
     server.serve_forever()
