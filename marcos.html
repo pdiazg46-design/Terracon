@@ -79,6 +79,22 @@
         }
         .upload-zone-large i { font-size: 36px; color: var(--sonedix-blue); }
 
+        .btn-rec-inline {
+            background: rgba(59, 130, 246, 0.15); border: 1.5px solid var(--sonedix-blue); color: var(--sonedix-blue);
+            padding: 14px; border-radius: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+        }
+        .btn-rec-inline:active { transform: scale(0.98); }
+
+        .btn-rec-inline-stop {
+            background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none;
+            padding: 14px; border-radius: 12px; font-size: 13.5px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
         .recorder-box {
             background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 14px; padding: 18px;
             text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;
@@ -89,12 +105,7 @@
         .record-status-tag {
             font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05); color: var(--text-muted);
         }
-
-        .record-status-tag.recording {
-            background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--alert-red); animation: pulse-red 1.5s infinite;
-        }
-
-        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .record-status-tag.recording { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--alert-red); }
 
         .btn-record-main {
             background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
@@ -121,7 +132,7 @@
             <div class="brand-icon"><i class="fa-solid fa-user-tie"></i></div>
             <div class="brand-text">
                 <h1>TERRACON CAPTURA</h1>
-                <p>3 Modos: Gastos | Reuniones | Instrucciones</p>
+                <p>Gastos | Reuniones | Instrucciones</p>
             </div>
         </div>
         <a href="reportes/dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 11px;">
@@ -134,7 +145,6 @@
         <span style="font-size: 10px; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px;">PM SENIOR / DA</span>
     </div>
 
-    <!-- TRES MODOS ESTRUCTURALES -->
     <div class="mode-switch-3">
         <div class="mode-btn active" id="btn-mode-gasto" onclick="setMode('gasto')">
             <i class="fa-solid fa-receipt"></i> 1. Rendir Gasto
@@ -147,7 +157,7 @@
         </div>
     </div>
 
-    <!-- MODO 1: GASTO -->
+    <!-- MODO 1: GASTO (FOTO + AUDIO EN PANTALLA OBLIGATORIOS) -->
     <div class="form-section" id="section-gasto">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto Asignado</label>
@@ -158,18 +168,26 @@
         </div>
 
         <div class="form-group">
-            <label><i class="fa-solid fa-camera"></i> Foto Factura / Boleta</label>
+            <label><i class="fa-solid fa-camera"></i> 1. Foto Factura / Boleta (Obligatoria)</label>
             <div class="upload-zone-large" onclick="document.getElementById('file-photo').click()">
                 <i class="fa-solid fa-camera-retro"></i>
                 <strong id="photo-label">Toca para tomar foto a la factura</strong>
-                <p id="photo-sub">Extracción de Proveedor, RUT, Folio, Neto, IVA y Total</p>
+                <p id="photo-sub">Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total</p>
             </div>
             <input type="file" id="file-photo" accept="image/*,application/pdf" style="display: none;" onchange="handlePhotoSelect(this)">
         </div>
 
         <div class="form-group">
-            <label><i class="fa-solid fa-microphone"></i> Audio Explicativo (Opcional)</label>
-            <input type="file" id="file-audio-gasto" accept="audio/*" class="form-control">
+            <label><i class="fa-solid fa-microphone"></i> 2. Audio Explicativo del Motivo (Obligatorio)</label>
+            <button class="btn-rec-inline" id="btn-gasto-rec-start" onclick="iniciarAudioGasto()">
+                <i class="fa-solid fa-microphone"></i> 🎙️ TOCA AQUÍ PARA GRABAR MOTIVO POR VOZ
+            </button>
+            <button class="btn-rec-inline-stop" id="btn-gasto-rec-stop" onclick="detenerAudioGasto()" style="display: none;">
+                <i class="fa-solid fa-square"></i> DETENER GRABACIÓN (<span id="gasto-rec-timer">00:00</span>)
+            </button>
+            <div id="gasto-audio-status" style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; text-align: center;">
+                🎙️ Explica brevemente el motivo del gasto en voz alta
+            </div>
         </div>
 
         <button class="btn-submit-ai" onclick="enviarGasto()">
@@ -200,7 +218,7 @@
         </div>
     </div>
 
-    <!-- MODO 3: INSTRUCCIONES -->
+    <!-- MODO 3: INSTRUCCIÓN EN PANTALLA -->
     <div class="form-section" id="section-instruccion" style="display: none;">
         <div class="form-group">
             <label><i class="fa-solid fa-bullhorn"></i> Resumen / Asunto de la Instrucción</label>
@@ -208,8 +226,16 @@
         </div>
 
         <div class="form-group">
-            <label><i class="fa-solid fa-microphone"></i> Adjuntar Audio o Nota de Voz</label>
-            <input type="file" id="file-audio-instruccion" accept="audio/*" class="form-control">
+            <label><i class="fa-solid fa-microphone"></i> Grabar Instrucción de Voz</label>
+            <button class="btn-rec-inline" id="btn-inst-rec-start" onclick="iniciarAudioInstruccion()">
+                <i class="fa-solid fa-microphone"></i> 🎙️ TOCA AQUÍ PARA GRABAR INSTRUCCIÓN
+            </button>
+            <button class="btn-rec-inline-stop" id="btn-inst-rec-stop" onclick="detenerAudioInstruccion()" style="display: none;">
+                <i class="fa-solid fa-square"></i> DETENER INSTRUCCIÓN (<span id="inst-rec-timer">00:00</span>)
+            </button>
+            <div id="inst-audio-status" style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; text-align: center;">
+                🎙️ Dictar instrucción o nota de avance de terreno
+            </div>
         </div>
 
         <button class="btn-submit-ai" onclick="enviarInstruccion()">
@@ -219,17 +245,23 @@
 
     <div class="ai-banner" style="margin-top: 10px;">
         <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 16px; margin-top: 2px;"></i>
-        <div>El sistema procesará automáticamente el contenido de las 3 opciones para mantener el Dashboard actualizado.</div>
+        <div>El sistema procesará automáticamente las fotos, audios e impuestos para mantener el Dashboard al día.</div>
     </div>
 </div>
 
 <script>
     let photoFile = null;
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let recordInterval = null;
-    let secondsElapsed = 0;
+    let gastoAudioBlob = null;
+    let instAudioBlob = null;
+    let mediaRecorderGasto = null;
+    let mediaRecorderInst = null;
+    let mediaRecorderReunion = null;
+
+    let timerGastoInt = null, secGasto = 0;
+    let timerInstInt = null, secInst = 0;
+    let timerReunionInt = null, secReunion = 0;
     let wakeLock = null;
+
     const REPORTANTE = "Marcos Font";
 
     function setMode(mode) {
@@ -260,51 +292,125 @@
         }
     }
 
+    async function iniciarAudioGasto() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorderGasto = new MediaRecorder(stream);
+            let chunks = [];
+            mediaRecorderGasto.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorderGasto.onstop = () => { gastoAudioBlob = new Blob(chunks, { type: 'audio/webm' }); };
+            mediaRecorderGasto.start();
+
+            secGasto = 0;
+            document.getElementById('gasto-rec-timer').innerText = '00:00';
+            timerGastoInt = setInterval(() => {
+                secGasto++;
+                const m = String(Math.floor(secGasto / 60)).padStart(2, '0');
+                const s = String(secGasto % 60).padStart(2, '0');
+                document.getElementById('gasto-rec-timer').innerText = `${m}:${s}`;
+            }, 1000);
+
+            document.getElementById('btn-gasto-rec-start').style.display = 'none';
+            document.getElementById('btn-gasto-rec-stop').style.display = 'flex';
+            document.getElementById('gasto-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando motivo del gasto...</span>';
+        } catch (err) { alert('⚠️ Permiso de micrófono requerido: ' + err.message); }
+    }
+
+    function detenerAudioGasto() {
+        if (mediaRecorderGasto && mediaRecorderGasto.state !== 'inactive') {
+            mediaRecorderGasto.stop();
+            mediaRecorderGasto.stream.getTracks().forEach(t => t.stop());
+        }
+        clearInterval(timerGastoInt);
+        document.getElementById('btn-gasto-rec-start').style.display = 'flex';
+        document.getElementById('btn-gasto-rec-stop').style.display = 'none';
+        document.getElementById('gasto-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;">✅ Audio grabado con éxito (${secGasto} seg)</span>`;
+    }
+
     function enviarGasto() {
-        if (!photoFile) { alert('⚠️ Toma la foto a la factura.'); return; }
+        if (!photoFile) { alert('⚠️ OBLIGATORIO: Toma la foto a la factura.'); return; }
+        if (!gastoAudioBlob && secGasto === 0) { alert('⚠️ OBLIGATORIO: Toca "Grabar Motivo por Voz" para indicar el motivo del gasto.'); return; }
+
         const proj = document.getElementById('form-proyecto-gasto').value;
-        alert(`🚀 ¡Rendición enviada por ${REPORTANTE} para ${proj}! El sistema procesará los datos e impuestos.`);
-        photoFile = null;
+        alert(`🚀 ¡Rendición enviada con éxito por ${REPORTANTE} para ${proj}!\n\n📸 Foto: ${photoFile.name}\n🎙️ Audio Motivo: Grabado (${secGasto} seg)\n\nEl sistema procesará los datos, impuestos y justificación.`);
+        photoFile = null; gastoAudioBlob = null; secGasto = 0;
         document.getElementById('photo-label').innerText = 'Toca para tomar foto a la factura';
+        document.getElementById('gasto-audio-status').innerHTML = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+    }
+
+    async function iniciarAudioInstruccion() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorderInst = new MediaRecorder(stream);
+            let chunks = [];
+            mediaRecorderInst.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorderInst.onstop = () => { instAudioBlob = new Blob(chunks, { type: 'audio/webm' }); };
+            mediaRecorderInst.start();
+
+            secInst = 0;
+            document.getElementById('inst-rec-timer').innerText = '00:00';
+            timerInstInt = setInterval(() => {
+                secInst++;
+                const m = String(Math.floor(secInst / 60)).padStart(2, '0');
+                const s = String(secInst % 60).padStart(2, '0');
+                document.getElementById('inst-rec-timer').innerText = `${m}:${s}`;
+            }, 1000);
+
+            document.getElementById('btn-inst-rec-start').style.display = 'none';
+            document.getElementById('btn-inst-rec-stop').style.display = 'flex';
+            document.getElementById('inst-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando instrucción de voz...</span>';
+        } catch (err) { alert('⚠️ Permiso de micrófono requerido: ' + err.message); }
+    }
+
+    function detenerAudioInstruccion() {
+        if (mediaRecorderInst && mediaRecorderInst.state !== 'inactive') {
+            mediaRecorderInst.stop();
+            mediaRecorderInst.stream.getTracks().forEach(t => t.stop());
+        }
+        clearInterval(timerInstInt);
+        document.getElementById('btn-inst-rec-start').style.display = 'flex';
+        document.getElementById('btn-inst-rec-stop').style.display = 'none';
+        document.getElementById('inst-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;">✅ Instrucción grabada (${secInst} seg)</span>`;
     }
 
     function enviarInstruccion() {
         const titulo = document.getElementById('instruccion-titulo').value || 'Instrucción Diego de Almagro';
-        alert(`📢 ¡Instrucción enviada por ${REPORTANTE} para Diego de Almagro!\nAsunto: ${titulo}`);
+        const proj = document.getElementById('form-proyecto-instruccion').value;
+        if (!instAudioBlob && secInst === 0) { alert('⚠️ OBLIGATORIO: Toca el botón para grabar la instrucción por voz.'); return; }
+
+        alert(`📢 ¡Instrucción enviada por ${REPORTANTE} para ${proj}!\nAsunto: ${titulo}\nDuración: ${secInst} seg`);
         document.getElementById('instruccion-titulo').value = '';
+        instAudioBlob = null; secInst = 0;
+        document.getElementById('inst-audio-status').innerHTML = '🎙️ Dictar instrucción o nota de avance de terreno';
     }
 
     async function iniciarGrabacionReunion() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
-            mediaRecorder.start(5000);
+            mediaRecorderReunion = new MediaRecorder(stream);
+            let chunks = [];
+            mediaRecorderReunion.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorderReunion.start(5000);
 
-            if ('wakeLock' in navigator) {
-                try { wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {}
-            }
+            if ('wakeLock' in navigator) { try { wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 
-            secondsElapsed = 0;
+            secReunion = 0;
             updateTimerDisplay();
-            recordInterval = setInterval(() => { secondsElapsed++; updateTimerDisplay(); }, 1000);
+            timerReunionInt = setInterval(() => { secReunion++; updateTimerDisplay(); }, 1000);
 
             document.getElementById('rec-tag').className = 'record-status-tag recording';
             document.getElementById('rec-tag').innerHTML = '<i class="fa-solid fa-circle"></i> GRABANDO REUNIÓN EN SEGUNDO PLANO';
             document.getElementById('btn-rec-start').style.display = 'none';
             document.getElementById('btn-rec-stop').style.display = 'flex';
-        } catch (err) {
-            alert('⚠️ Permiso de micrófono denegado: ' + err.message);
-        }
+        } catch (err) { alert('⚠️ Permiso de micrófono denegado: ' + err.message); }
     }
 
     function detenerGrabacionReunion() {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-            mediaRecorder.stop();
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        if (mediaRecorderReunion && mediaRecorderReunion.state !== 'inactive') {
+            mediaRecorderReunion.stop();
+            mediaRecorderReunion.stream.getTracks().forEach(t => t.stop());
         }
-        clearInterval(recordInterval);
+        clearInterval(timerReunionInt);
         if (wakeLock) { wakeLock.release().then(() => { wakeLock = null; }); }
 
         document.getElementById('rec-tag').className = 'record-status-tag';
@@ -318,9 +424,9 @@
     }
 
     function updateTimerDisplay() {
-        const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
-        const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
-        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        const hrs = String(Math.floor(secReunion / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((secReunion % 3600) / 60)).padStart(2, '0');
+        const secs = String(secReunion % 60).padStart(2, '0');
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 </script>
