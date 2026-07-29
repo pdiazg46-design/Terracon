@@ -132,7 +132,6 @@
             justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px var(--solar-amber-glow);
         }
 
-        /* RECIENTES FEED EN PANTALLA */
         .recent-card {
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px;
             display: flex; flex-direction: column; gap: 10px; width: 100%;
@@ -242,6 +241,16 @@
         </div>
 
         <div class="form-group">
+            <label><i class="fa-solid fa-tag"></i> Proveedor / Negocio (Opcional)</label>
+            <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec Copiapó / Sodimac / Peaje">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-sack-dollar"></i> Monto Total $ (Opcional)</label>
+            <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 15500">
+        </div>
+
+        <div class="form-group">
             <label><i class="fa-solid fa-microphone"></i> 2. Audio Explicativo del Motivo (Obligatorio)</label>
             <button class="btn-rec-inline" id="btn-gasto-rec-start" onclick="iniciarAudioGasto()">
                 <i class="fa-solid fa-microphone"></i> 🎙️ TOCA AQUÍ PARA GRABAR MOTIVO POR VOZ
@@ -324,14 +333,13 @@
         </button>
     </div>
 
-    <!-- HISTORIAL RECIENTE REGISTRADO EN EL CELULAR -->
+    <!-- HISTORIAL RECIENTE -->
     <div class="recent-card">
         <div style="font-size: 12.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
             <span><i class="fa-solid fa-clock-rotate-left" style="color:var(--solar-amber);"></i> Mis Rendiciones Registradas Hoy</span>
             <span style="font-size: 10px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronizado</span>
         </div>
         <div id="recent-feed-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
-            <!-- Rellenado dinámicamente -->
         </div>
     </div>
 </div>
@@ -445,7 +453,10 @@
         if (!gastoAudioBlob && secGasto === 0) { openModalError('Falta Audio del Motivo', 'Por favor graba el audio del motivo.'); return; }
 
         const proj = document.getElementById('form-proyecto-gasto').value;
-        enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto);
+        const prov = document.getElementById('gasto-proveedor').value || 'Comercial Faena';
+        const val = document.getElementById('gasto-monto').value || '15500';
+
+        enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto, prov, val);
     }
 
     async function iniciarAudioInstruccion() {
@@ -488,7 +499,7 @@
         const proj = document.getElementById('form-proyecto-instruccion').value;
         if (!instAudioBlob && secInst === 0) { openModalError('Falta Audio de Instrucción', 'Graba la instrucción por favor.'); return; }
 
-        enviarAlServidor('instruccion', proj, null, instAudioBlob, secInst, titulo);
+        enviarAlServidor('instruccion', proj, null, instAudioBlob, secInst, titulo, 0);
     }
 
     async function iniciarGrabacionReunion() {
@@ -501,7 +512,7 @@
                 const reunionBlob = new Blob(chunks, { type: 'audio/webm' });
                 const titulo = document.getElementById('reunion-titulo').value || 'Reunión de Coordinación';
                 const proj = document.getElementById('form-proyecto-reunion').value;
-                enviarAlServidor('reunion', proj, null, reunionBlob, secReunion, titulo);
+                enviarAlServidor('reunion', proj, null, reunionBlob, secReunion, titulo, 0);
             };
             mediaRecorderReunion.start(5000);
 
@@ -539,18 +550,16 @@
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    // REGISTRO EN MEMORIA DEL CELULAR Y SERVIDOR
-    function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, tituloExtra='') {
+    function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, proveedorTxt='', montoVal=0) {
         let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
         if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
 
-        // Guardar siempre en el historial local visible en el celular
         const itemRecord = {
             reportante: REPORTANTE,
             proyecto: proyecto,
             tipo: tipo,
-            titulo: tituloExtra || (tipo==='gasto'?'Rendición de Gasto':'Grabación'),
-            foto: displayFotoName,
+            titulo: proveedorTxt || (tipo==='gasto'?'Rendición de Gasto':'Grabación'),
+            monto: montoVal ? parseInt(montoVal).toLocaleString('es-CL') : 0,
             duracion: duracionSec,
             hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' })
         };
@@ -562,21 +571,23 @@
 
         openModalSuccess(
             '¡Registro Completado!',
-            'El comprobante y audio han sido registrados exitosamente en el sistema de portafolio.',
+            'El comprobante y audio han sido registrados exitosamente.',
             [
                 { label: 'Rendido Por', val: REPORTANTE },
                 { label: 'Proyecto', val: proyecto },
-                { label: 'Comprobante', val: displayFotoName },
+                { label: 'Proveedor', val: proveedorTxt || 'Lectura Automática' },
+                { label: 'Monto Total', val: montoVal ? `$${parseInt(montoVal).toLocaleString('es-CL')} CLP` : 'Lectura Automática' },
                 { label: 'Audio Motivo', val: `${duracionSec} segundos` }
             ]
         );
 
-        // Reset
         photoFile = null; gastoAudioBlob = null; secGasto = 0;
         document.getElementById('thumb-container').innerHTML = '';
         document.getElementById('upload-icon').style.display = 'block';
         document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
         document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        document.getElementById('gasto-proveedor').value = '';
+        document.getElementById('gasto-monto').value = '';
     }
 
     function renderMisRendicionesLocales() {
@@ -593,6 +604,8 @@
             if (item.tipo === 'reunion') icon = 'fa-comments';
             if (item.tipo === 'instruccion') icon = 'fa-bullhorn';
 
+            let tagMonto = item.monto ? `<div style="font-size:11px; font-weight:700; color:var(--solar-amber);">$${item.monto} CLP</div>` : '';
+
             html += `
                 <div class="recent-item-row">
                     <div style="display:flex; align-items:center; gap:8px;">
@@ -603,8 +616,8 @@
                         </div>
                     </div>
                     <div style="text-align:right;">
-                        <div style="font-size:11px; font-weight:700; color:var(--success-green);">✅ ${item.duracion}s</div>
-                        <div style="font-size:10px; color:var(--text-muted);">${item.hora}</div>
+                        ${tagMonto}
+                        <div style="font-size:10px; color:var(--text-muted);">${item.hora} (${item.duracion}s)</div>
                     </div>
                 </div>
             `;
