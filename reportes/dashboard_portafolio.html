@@ -348,6 +348,7 @@
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-carrera-pinto')">⚡ Carrera Pinto (CC-CP-01)</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-diego-almagro')">🛠️ Diego de Almagro (CC-DA-02)</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-auditoria')">🔍 Auditoría Cajas & Maquinaria</button>
+        <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-bitacora')">📋 Bitácora Directiva</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-proveedores')">🏭 Maestro Proveedores</button>
         <button class="main-tab-btn sonedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonedix</button>
     </div>
@@ -595,6 +596,66 @@
         </div>
     </div>
 
+    <!-- MAIN TAB: BITÁCORA DIRECTIVA DE PENDIENTES -->
+    <div id="main-tab-bitacora" class="tab-content">
+        <div class="project-section">
+            <div class="project-header">
+                <div>
+                    <h2>📋 Bitácora Directiva de Pendientes y Compromisos de Portafolio</h2>
+                    <p>Control Ejecutivo de Temas por Resolver, Decisiones y Compromisos de Terreno</p>
+                </div>
+            </div>
+
+            <!-- Formulario Rápido -->
+            <div style="background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 14px; padding: 18px; margin-bottom: 20px;">
+                <h3 style="font-size: 13.5px; font-weight: 700; margin-bottom: 12px; color: var(--solar-amber);">
+                    ➕ Registrar Nuevo Tema a la Bitácora
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="bitacora-tema-txt" class="form-control" placeholder="Escribe el tema o compromiso a resolver (ej: Definición de arquitectura macro para audio)...">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px;">
+                        <select id="bitacora-proyecto-sel" class="form-control">
+                            <option value="Portafolio Global">🌐 Portafolio Global</option>
+                            <option value="Carrera Pinto">⚡ Carrera Pinto</option>
+                            <option value="Diego de Almagro">🛠️ Diego de Almagro</option>
+                        </select>
+                        <select id="bitacora-resp-sel" class="form-control">
+                            <option value="Patricio Díaz">👨‍💼 Patricio Díaz (Director)</option>
+                            <option value="Marcos Font">👨‍💻 Marcos Font (PM Senior)</option>
+                            <option value="Víctor Escanilla">👷 Víctor Escanilla (Site Manager)</option>
+                        </select>
+                        <select id="bitacora-prio-sel" class="form-control">
+                            <option value="ALTA">🔴 Alta (Crítico)</option>
+                            <option value="MEDIA">🟡 Media</option>
+                            <option value="NORMAL">🟢 Normal</option>
+                        </select>
+                        <button onclick="ingresarTemaLocalBitacora()" style="background: linear-gradient(135deg, var(--solar-amber), #d97706); color: #000; font-weight: 800; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap;">
+                            ➕ Agregar Tema
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Pendientes -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Tema / Compromiso por Atender</th>
+                        <th>Proyecto</th>
+                        <th>Responsable</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="bitacora-table-body">
+                    <!-- Carga dinámica -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- MAIN TAB 5: PROVEEDORES GLOBALES -->
     <div id="main-tab-proveedores" class="tab-content">
         <div class="project-section">
@@ -742,6 +803,16 @@
                 console.log("Sin instrucciones aún", errInst);
             }
 
+            // Cargar Bitácora Directiva de Pendientes
+            try {
+                const respBit = await fetch('../datos/bitacora_pendientes.csv' + cacheBuster);
+                const textBit = await respBit.text();
+                const rowsBit = parseCSV(textBit);
+                renderTablaBitacora(rowsBit);
+            } catch (errBit) {
+                console.log("Sin bitácora aún", errBit);
+            }
+
             let totalAcumulado = 0;
             let totalCP = 0, totalDA = 0;
             let rowsCP = parseCSV(textCP);
@@ -863,6 +934,65 @@
             `;
         });
         container.innerHTML = html;
+    }
+
+    function renderTablaBitacora(items) {
+        const tbody = document.getElementById('bitacora-table-body');
+        if (!tbody) return;
+        
+        const extraLocal = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
+        const allItems = [...extraLocal, ...(items || [])];
+
+        if (allItems.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Sin temas registrados en la bitácora.</td></tr>';
+            return;
+        }
+
+        let html = '';
+        allItems.forEach((b, idx) => {
+            let prioTag = '<span class="badge-tag warning">🟡 Media</span>';
+            if (b.prioridad === 'ALTA') prioTag = '<span class="badge-tag alert">🔴 Alta (Crítico)</span>';
+            if (b.prioridad === 'NORMAL') prioTag = '<span class="badge-tag ok">🟢 Normal</span>';
+
+            html += `
+                <tr>
+                    <td class="mono">${b.id || ('BIT-00' + (idx+1))}</td>
+                    <td>${b.fecha || new Date().toISOString().substring(0,10)}</td>
+                    <td><strong>${b.tema}</strong></td>
+                    <td>${b.proyecto}</td>
+                    <td>${b.responsable}</td>
+                    <td>${prioTag}</td>
+                    <td><span class="badge-tag warning">⏳ ${b.estado || 'PENDIENTE'}</span></td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function ingresarTemaLocalBitacora() {
+        const txt = document.getElementById('bitacora-tema-txt').value;
+        if (!txt || txt.trim() === '') { alert('Por favor escribe el tema o compromiso.'); return; }
+
+        const proy = document.getElementById('bitacora-proyecto-sel').value;
+        const resp = document.getElementById('bitacora-resp-sel').value;
+        const prio = document.getElementById('bitacora-prio-sel').value;
+
+        const nuevoTema = {
+            id: 'BIT-' + Math.floor(100 + Math.random() * 900),
+            fecha: new Date().toISOString().substring(0, 10),
+            tema: txt,
+            proyecto: proy,
+            responsable: resp,
+            prioridad: prio,
+            estado: 'PENDIENTE'
+        };
+
+        const list = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
+        list.unshift(nuevoTema);
+        localStorage.setItem('terracon_bitacora_local', JSON.stringify(list));
+
+        document.getElementById('bitacora-tema-txt').value = '';
+        renderTablaBitacora([]);
     }
 </script>
 
