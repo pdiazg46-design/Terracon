@@ -1,1 +1,2 @@
 item_id,fecha,categoria_codigo,categoria_nombre,proveedor,nro_documento,concepto,monto_neto,iva,monto_total,respaldado,archivo_respaldo
+CP-GASTO-181718,2026-07-29,CAT-05,Combustible y Faena,Copec Copiapo,B-1044,Carga Combustible Faena,15546,2954,18500,SI,boleta_movil_1817.jpg

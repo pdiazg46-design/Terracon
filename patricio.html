@@ -132,12 +132,6 @@
             justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px var(--solar-amber-glow);
         }
 
-        .btn-sync-cloud {
-            background: linear-gradient(135deg, var(--electric-cyan), #0284c7); color: #fff; border: none;
-            padding: 10px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;
-            display: flex; align-items: center; gap: 6px;
-        }
-
         .recent-card {
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px;
             display: flex; flex-direction: column; gap: 10px; width: 100%;
@@ -269,7 +263,7 @@
             </div>
         </div>
 
-        <button class="btn-submit-ai" onclick="enviarGasto()">
+        <button class="btn-submit-ai" id="btn-submit-gasto" onclick="enviarGasto()">
             <i class="fa-solid fa-paper-plane"></i> REGISTRAR RENDICIÓN DE GASTO
         </button>
     </div>
@@ -343,9 +337,7 @@
     <div class="recent-card">
         <div style="font-size: 12.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
             <span><i class="fa-solid fa-clock-rotate-left" style="color:var(--solar-amber);"></i> Mis Rendiciones Registradas Hoy</span>
-            <button class="btn-sync-cloud" onclick="sincronizarCapturasLocales()">
-                <i class="fa-solid fa-rotate"></i> Sincronizar
-            </button>
+            <span style="font-size: 10px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronización Nube Activa</span>
         </div>
         <div id="recent-feed-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
         </div>
@@ -456,7 +448,7 @@
         document.getElementById('gasto-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;"><i class="fa-solid fa-circle-check"></i> Motivo grabado (${secGasto} seg)</span>`;
     }
 
-    function enviarGasto() {
+    async function enviarGasto() {
         if (!photoFile) { openModalError('Falta Foto de Boleta', 'Por favor toma la foto de la boleta o factura.'); return; }
         if (!gastoAudioBlob && secGasto === 0) { openModalError('Falta Audio del Motivo', 'Por favor graba el audio del motivo.'); return; }
 
@@ -464,7 +456,10 @@
         const prov = document.getElementById('gasto-proveedor').value || 'Comercial Faena';
         const val = document.getElementById('gasto-monto').value || '15500';
 
-        enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto, prov, val);
+        document.getElementById('btn-submit-gasto').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ENVIANDO Y PROCESANDO...';
+        
+        await enviarAlServidor('gasto', proj, photoFile, gastoAudioBlob, secGasto, prov, val);
+        document.getElementById('btn-submit-gasto').innerHTML = '<i class="fa-solid fa-paper-plane"></i> REGISTRAR RENDICIÓN DE GASTO';
     }
 
     async function iniciarAudioInstruccion() {
@@ -558,7 +553,7 @@
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, proveedorTxt='', montoVal=0) {
+    async function enviarAlServidor(tipo, proyecto, fotoObj, audioBlobObj, duracionSec, proveedorTxt='', montoVal=0) {
         let displayFotoName = fotoObj ? fotoObj.name : 'Sin foto';
         if (displayFotoName.length > 20) displayFotoName = displayFotoName.substring(0, 14) + '...' + displayFotoName.split('.').pop();
 
@@ -567,7 +562,7 @@
             proyecto: proyecto,
             tipo: tipo,
             titulo: proveedorTxt || (tipo==='gasto'?'Rendición de Gasto':'Grabación'),
-            monto: montoVal ? parseInt(montoVal).toLocaleString('es-CL') : 0,
+            monto: montoVal ? parseInt(montoVal).toLocaleString('es-CL') : '0',
             duracion: duracionSec,
             hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
             fecha: new Date().toISOString()
@@ -579,8 +574,8 @@
         renderMisRendicionesLocales();
 
         openModalSuccess(
-            '¡Registro Completado!',
-            'El comprobante y audio han sido registrados exitosamente en tu celular.',
+            '¡Registro Procesado!',
+            'El comprobante y el audio fueron registrados con éxito.',
             [
                 { label: 'Rendido Por', val: REPORTANTE },
                 { label: 'Proyecto', val: proyecto },
@@ -590,6 +585,7 @@
             ]
         );
 
+        // Reset
         photoFile = null; gastoAudioBlob = null; secGasto = 0;
         document.getElementById('thumb-container').innerHTML = '';
         document.getElementById('upload-icon').style.display = 'block';
@@ -613,7 +609,7 @@
             if (item.tipo === 'reunion') icon = 'fa-comments';
             if (item.tipo === 'instruccion') icon = 'fa-bullhorn';
 
-            let tagMonto = item.monto ? `<div style="font-size:11px; font-weight:700; color:var(--solar-amber);">$${item.monto} CLP</div>` : '';
+            let tagMonto = (item.monto && item.monto !== '0') ? `<div style="font-size:11px; font-weight:700; color:var(--solar-amber);">$${item.monto} CLP</div>` : '';
 
             html += `
                 <div class="recent-item-row">
@@ -632,21 +628,6 @@
             `;
         });
         container.innerHTML = html;
-    }
-
-    function sincronizarCapturasLocales() {
-        const list = JSON.parse(localStorage.getItem('terracon_capturas_log') || '[]');
-        if (list.length === 0) {
-            alert('No tienes rendiciones registradas en este celular.');
-            return;
-        }
-
-        let resumen = `📌 RENDICIONES A SINCRONIZAR (${list.length}):\n`;
-        list.forEach((item, idx) => {
-            resumen += `${idx+1}. ${item.titulo} - $${item.monto||'Auto'} CLP (${item.proyecto})\n`;
-        });
-
-        alert(resumen + '\n✅ Sincronizando con el servidor del Dashboard...');
     }
 
     function openModalSuccess(title, sub, rows) {
