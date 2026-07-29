@@ -725,15 +725,16 @@
 
     async function cargarDatosRendiciones() {
         try {
-            const respCP = await fetch('../datos/carrera_pinto/rendicion_gastos.csv');
+            const cacheBuster = '?t=' + new Date().getTime();
+            const respCP = await fetch('../datos/carrera_pinto/rendicion_gastos.csv' + cacheBuster);
             const textCP = await respCP.text();
             
-            const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv');
+            const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv' + cacheBuster);
             const textDA = await respDA.text();
 
             // Cargar instrucciones por voz
             try {
-                const respInstCP = await fetch('../datos/carrera_pinto/instrucciones_voz.csv');
+                const respInstCP = await fetch('../datos/carrera_pinto/instrucciones_voz.csv' + cacheBuster);
                 const textInstCP = await respInstCP.text();
                 const rowsInstCP = parseCSV(textInstCP);
                 renderInstruccionesAudio('cp-instrucciones-container', rowsInstCP);
