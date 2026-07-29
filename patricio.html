@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terracon — Carga Patricio Díaz (Solo Foto + Audio)</title>
+    <title>Terracon — Carga Patricio Díaz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -58,7 +58,6 @@
             color: var(--text-main); font-size: 14.5px; font-family: inherit; outline: none; width: 100%;
         }
 
-        /* ZONA DE CARGA DE FOTO GIGANTE */
         .upload-zone-large {
             border: 2px dashed var(--solar-amber);
             border-radius: 16px;
@@ -78,7 +77,6 @@
         .upload-zone-large strong { font-size: 15px; color: #fff; }
         .upload-zone-large p { font-size: 12px; color: var(--text-muted); }
 
-        /* ZONA DE AUDIO OPIONAL */
         .upload-zone-audio {
             border: 1px dashed var(--electric-cyan);
             border-radius: 14px;
@@ -114,10 +112,10 @@
 <div class="app-container">
     <header>
         <div class="brand">
-            <div class="brand-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="brand-icon"><i class="fa-solid fa-solar-panel"></i></div>
             <div class="brand-text">
-                <h1>ANTIGRAVITY AI CAPTURA</h1>
-                <p>Procesamiento Automático con Visión e IA</p>
+                <h1>TERRACON CAPTURA</h1>
+                <p>Procesamiento Automático de Terreno</p>
             </div>
         </div>
         <a href="reportes/dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 12px;">
@@ -131,7 +129,6 @@
     </div>
 
     <div class="form-section">
-        <!-- SELECCIÓN DE PROYECTO -->
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto a Asignar</label>
             <select id="form-proyecto" class="form-control">
@@ -140,18 +137,16 @@
             </select>
         </div>
 
-        <!-- PASO 1: FOTO O PDF OBLIGATORIO -->
         <div class="form-group">
             <label><i class="fa-solid fa-camera"></i> 1. Foto de la Boleta / Factura</label>
             <div class="upload-zone-large" onclick="document.getElementById('file-photo').click()">
                 <i class="fa-solid fa-camera-retro"></i>
                 <strong id="photo-label">Toca aquí para tomar foto o adjuntar boleta</strong>
-                <p id="photo-sub">Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total</p>
+                <p id="photo-sub">Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total</p>
             </div>
             <input type="file" id="file-photo" accept="image/*,application/pdf" style="display: none;" onchange="handlePhotoSelect(this)">
         </div>
 
-        <!-- PASO 2: AUDIO DE RESPALDO (OPCIONAL) -->
         <div class="form-group">
             <label><i class="fa-solid fa-microphone"></i> 2. Audio o Nota de Voz (Opcional)</label>
             <div class="upload-zone-audio" onclick="document.getElementById('file-audio').click()">
@@ -164,12 +159,12 @@
         <div class="ai-banner">
             <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 18px; margin-top: 2px;"></i>
             <div>
-                <strong>Cero Escribir Manual:</strong> Antigravity extraerá los datos de la imagen y audio. Si alguna foto está borrosa o ilegible, te notificará de inmediato para repetirla.
+                <strong>Cero Escritura Manual:</strong> El sistema procesará los datos de la imagen y audio. Si alguna foto está borrosa o ilegible, se te notificará de inmediato para repetirla.
             </div>
         </div>
 
-        <button class="btn-submit-ai" onclick="enviarAAntigravity()">
-            <i class="fa-solid fa-paper-plane"></i> ENVIAR A ANTIGRAVITY IA
+        <button class="btn-submit-ai" onclick="enviarAlSistema()">
+            <i class="fa-solid fa-paper-plane"></i> PROCESAR Y CARGAR A PORTAFOLIO
         </button>
     </div>
 </div>
@@ -183,7 +178,7 @@
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
             document.getElementById('photo-label').innerText = `✅ Foto Adjuntada: ${photoFile.name}`;
-            document.getElementById('photo-sub').innerText = `Tamaño: ${Math.round(photoFile.size/1024)} KB | Lista para lectura IA`;
+            document.getElementById('photo-sub').innerText = `Tamaño: ${Math.round(photoFile.size/1024)} KB | Lista para procesamiento`;
         }
     }
 
@@ -194,25 +189,24 @@
         }
     }
 
-    function enviarAAntigravity() {
+    function enviarAlSistema() {
         if (!photoFile && !audioFile) {
-            alert('⚠️ Por favor toma la foto a la boleta o adjunta un audio para enviar a Antigravity.');
+            alert('⚠️ Por favor toma la foto a la boleta o adjunta un audio para enviar al sistema.');
             return;
         }
 
         const proj = document.getElementById('form-proyecto').value;
-        let msg = `🚀 ¡Comprobante enviado a Antigravity por ${REPORTANTE} para ${proj}!\n\n`;
+        let msg = `🚀 ¡Comprobante enviado exitosamente por ${REPORTANTE} para ${proj}!\n\n`;
         msg += `📸 Foto: ${photoFile ? photoFile.name : 'No adjuntada'}\n`;
         msg += `🎙️ Audio: ${audioFile ? audioFile.name : 'No adjuntado'}\n\n`;
-        msg += `🤖 Tu asistente procesará los datos, impuestos y actualizará el Dashboard. Si algo está ilegible te avisará.`;
+        msg += `El sistema procesará los datos, impuestos y actualizará el Dashboard. Si algo está ilegible te avisará.`;
 
         alert(msg);
         
-        // Reset
         photoFile = null;
         audioFile = null;
         document.getElementById('photo-label').innerText = 'Toca aquí para tomar foto o adjuntar boleta';
-        document.getElementById('photo-sub').innerText = 'Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total';
+        document.getElementById('photo-sub').innerText = 'Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total';
         document.getElementById('audio-label').innerText = 'Grabar o adjuntar audio explicativo';
     }
 </script>

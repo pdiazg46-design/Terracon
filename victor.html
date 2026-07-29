@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terracon — Carga Víctor Escanilla (Solo Foto + Audio)</title>
+    <title>Terracon — Carga Víctor Escanilla</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -112,8 +112,8 @@
         <div class="brand">
             <div class="brand-icon"><i class="fa-solid fa-helmet-safety"></i></div>
             <div class="brand-text">
-                <h1>ANTIGRAVITY AI CAPTURA</h1>
-                <p>Procesamiento Automático con Visión e IA</p>
+                <h1>TERRACON CAPTURA</h1>
+                <p>Procesamiento Automático de Terreno</p>
             </div>
         </div>
         <a href="reportes/dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 12px;">
@@ -139,7 +139,7 @@
             <div class="upload-zone-large" onclick="document.getElementById('file-photo').click()">
                 <i class="fa-solid fa-camera-retro"></i>
                 <strong id="photo-label">Toca aquí para tomar foto o adjuntar boleta</strong>
-                <p id="photo-sub">Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total</p>
+                <p id="photo-sub">Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total</p>
             </div>
             <input type="file" id="file-photo" accept="image/*,application/pdf" style="display: none;" onchange="handlePhotoSelect(this)">
         </div>
@@ -156,12 +156,12 @@
         <div class="ai-banner">
             <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 18px; margin-top: 2px;"></i>
             <div>
-                <strong>Cero Escribir Manual:</strong> Antigravity procesará la foto y el audio. Si la foto está borrosa, se te avisará inmediatamente para tomarla de nuevo.
+                <strong>Cero Escritura Manual:</strong> El sistema procesará la foto y el audio. Si la foto está borrosa, se te avisará inmediatamente para tomarla de nuevo.
             </div>
         </div>
 
-        <button class="btn-submit-ai" onclick="enviarAAntigravity()">
-            <i class="fa-solid fa-paper-plane"></i> ENVIAR A ANTIGRAVITY IA
+        <button class="btn-submit-ai" onclick="enviarAlSistema()">
+            <i class="fa-solid fa-paper-plane"></i> PROCESAR Y CARGAR A PORTAFOLIO
         </button>
     </div>
 </div>
@@ -175,7 +175,7 @@
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
             document.getElementById('photo-label').innerText = `✅ Foto Adjuntada: ${photoFile.name}`;
-            document.getElementById('photo-sub').innerText = `Tamaño: ${Math.round(photoFile.size/1024)} KB | Lista para lectura IA`;
+            document.getElementById('photo-sub').innerText = `Tamaño: ${Math.round(photoFile.size/1024)} KB | Lista para procesamiento`;
         }
     }
 
@@ -186,24 +186,24 @@
         }
     }
 
-    function enviarAAntigravity() {
+    function enviarAlSistema() {
         if (!photoFile && !audioFile) {
-            alert('⚠️ Por favor toma la foto a la boleta o adjunta un audio para enviar a Antigravity.');
+            alert('⚠️ Por favor toma la foto a la boleta o adjunta un audio para enviar al sistema.');
             return;
         }
 
         const proj = "Carrera Pinto (CC-CP-01)";
-        let msg = `🚀 ¡Comprobante enviado a Antigravity por ${REPORTANTE} para ${proj}!\n\n`;
+        let msg = `🚀 ¡Comprobante enviado exitosamente por ${REPORTANTE} para ${proj}!\n\n`;
         msg += `📸 Foto: ${photoFile ? photoFile.name : 'No adjuntada'}\n`;
         msg += `🎙️ Audio: ${audioFile ? audioFile.name : 'No adjuntado'}\n\n`;
-        msg += `🤖 Antigravity procesará los datos e impuestos para el reporte de Carrera Pinto.`;
+        msg += `El sistema procesará los datos e impuestos para el reporte de Carrera Pinto.`;
 
         alert(msg);
         
         photoFile = null;
         audioFile = null;
         document.getElementById('photo-label').innerText = 'Toca aquí para tomar foto o adjuntar boleta';
-        document.getElementById('photo-sub').innerText = 'Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total';
+        document.getElementById('photo-sub').innerText = 'Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total';
         document.getElementById('audio-label').innerText = 'Grabar o adjuntar audio de faena';
     }
 </script>
