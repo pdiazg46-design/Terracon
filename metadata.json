@@ -1,0 +1,6 @@
+{
+  "name": "AT-SIT Gestor IA",
+  "description": "Gestor de proyectos AT-SIT con inteligencia artificial para control de Carrera Pinto y Diego de Almagro.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
