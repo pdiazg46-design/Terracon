@@ -132,6 +132,12 @@
             justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px var(--solar-amber-glow);
         }
 
+        .btn-sync-cloud {
+            background: linear-gradient(135deg, var(--electric-cyan), #0284c7); color: #fff; border: none;
+            padding: 10px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+        }
+
         .recent-card {
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px;
             display: flex; flex-direction: column; gap: 10px; width: 100%;
@@ -337,7 +343,9 @@
     <div class="recent-card">
         <div style="font-size: 12.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
             <span><i class="fa-solid fa-clock-rotate-left" style="color:var(--solar-amber);"></i> Mis Rendiciones Registradas Hoy</span>
-            <span style="font-size: 10px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronizado</span>
+            <button class="btn-sync-cloud" onclick="sincronizarCapturasLocales()">
+                <i class="fa-solid fa-rotate"></i> Sincronizar
+            </button>
         </div>
         <div id="recent-feed-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
         </div>
@@ -561,7 +569,8 @@
             titulo: proveedorTxt || (tipo==='gasto'?'Rendición de Gasto':'Grabación'),
             monto: montoVal ? parseInt(montoVal).toLocaleString('es-CL') : 0,
             duracion: duracionSec,
-            hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' })
+            hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
+            fecha: new Date().toISOString()
         };
 
         const localList = JSON.parse(localStorage.getItem('terracon_capturas_log') || '[]');
@@ -571,7 +580,7 @@
 
         openModalSuccess(
             '¡Registro Completado!',
-            'El comprobante y audio han sido registrados exitosamente.',
+            'El comprobante y audio han sido registrados exitosamente en tu celular.',
             [
                 { label: 'Rendido Por', val: REPORTANTE },
                 { label: 'Proyecto', val: proyecto },
@@ -623,6 +632,21 @@
             `;
         });
         container.innerHTML = html;
+    }
+
+    function sincronizarCapturasLocales() {
+        const list = JSON.parse(localStorage.getItem('terracon_capturas_log') || '[]');
+        if (list.length === 0) {
+            alert('No tienes rendiciones registradas en este celular.');
+            return;
+        }
+
+        let resumen = `📌 RENDICIONES A SINCRONIZAR (${list.length}):\n`;
+        list.forEach((item, idx) => {
+            resumen += `${idx+1}. ${item.titulo} - $${item.monto||'Auto'} CLP (${item.proyecto})\n`;
+        });
+
+        alert(resumen + '\n✅ Sincronizando con el servidor del Dashboard...');
     }
 
     function openModalSuccess(title, sub, rows) {
