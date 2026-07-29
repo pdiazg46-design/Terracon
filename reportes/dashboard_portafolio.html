@@ -787,30 +787,45 @@
     async function cargarDatosRendiciones() {
         try {
             const cacheBuster = '?t=' + new Date().getTime();
-            const respCP = await fetch('../datos/carrera_pinto/rendicion_gastos.csv' + cacheBuster);
-            const textCP = await respCP.text();
-            
-            const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv' + cacheBuster);
-            const textDA = await respDA.text();
+            let textCP = '', textDA = '', textInstCP = '', textBit = '';
 
-            // Cargar instrucciones por voz
-            try {
-                const respInstCP = await fetch('../datos/carrera_pinto/instrucciones_voz.csv' + cacheBuster);
-                const textInstCP = await respInstCP.text();
-                const rowsInstCP = parseCSV(textInstCP);
-                renderInstruccionesAudio('cp-instrucciones-container', rowsInstCP);
-            } catch (errInst) {
-                console.log("Sin instrucciones aún", errInst);
+            if (window.location.protocol === 'file:') {
+                // Fallback para apertura directa en disco local sin servidor local
+                textBit = `id,fecha,tema,proyecto,responsable,prioridad,estado
+BIT-001,2026-07-29,Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena,Portafolio Global,Patricio Díaz,ALTA,PENDIENTE
+BIT-002,2026-07-29,Coordinación de inicio de partida Inversores de String en bloques MVS 4480,Carrera Pinto,Víctor Escanilla,ALTA,PENDIENTE
+BIT-003,2026-07-29,Revisión y firma de contrato para Hitos de Pago con Sonedix,Portafolio Global,Patricio Díaz,MEDIA,PENDIENTE
+BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos (Carrera Pinto y Diego de Almagro),Portafolio Global,Patricio Díaz,ALTA,PENDIENTE`;
+            } else {
+                try {
+                    const respCP = await fetch('../datos/carrera_pinto/rendicion_gastos.csv' + cacheBuster);
+                    textCP = await respCP.text();
+                } catch (e) {}
+
+                try {
+                    const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv' + cacheBuster);
+                    textDA = await respDA.text();
+                } catch (e) {}
+
+                try {
+                    const respInstCP = await fetch('../datos/carrera_pinto/instrucciones_voz.csv' + cacheBuster);
+                    textInstCP = await respInstCP.text();
+                } catch (e) {}
+
+                try {
+                    const respBit = await fetch('../datos/bitacora_pendientes.csv' + cacheBuster);
+                    textBit = await respBit.text();
+                } catch (e) {}
             }
 
-            // Cargar Bitácora Directiva de Pendientes
-            try {
-                const respBit = await fetch('../datos/bitacora_pendientes.csv' + cacheBuster);
-                const textBit = await respBit.text();
+            if (textInstCP) {
+                const rowsInstCP = parseCSV(textInstCP);
+                renderInstruccionesAudio('cp-instrucciones-container', rowsInstCP);
+            }
+
+            if (textBit) {
                 const rowsBit = parseCSV(textBit);
                 renderTablaBitacora(rowsBit);
-            } catch (errBit) {
-                console.log("Sin bitácora aún", errBit);
             }
 
             let totalAcumulado = 0;
