@@ -564,8 +564,22 @@
             <table>
                 <thead><tr><th>Proyecto</th><th>Responsable</th><th>Fondo Asignado</th><th>Fondo Rendido</th><th>Saldo</th><th>Estado</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Carrera Pinto</strong></td><td>Víctor Escanilla</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td><span class="badge-tag warning">⚪ Sin Movimientos</span></td></tr>
-                    <tr><td><strong>Diego de Almagro</strong></td><td>Marcos Font</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td><span class="badge-tag warning">⚪ Sin Movimientos</span></td></tr>
+                    <tr>
+                        <td><strong>Carrera Pinto</strong></td>
+                        <td>Víctor Escanilla</td>
+                        <td class="mono">$500.000 CLP</td>
+                        <td class="mono font-bold" id="audit-cp-rendido" style="color:var(--solar-amber);">$0 CLP</td>
+                        <td class="mono font-bold" id="audit-cp-saldo" style="color:var(--success-green);">$500.000 CLP</td>
+                        <td id="audit-cp-estado"><span class="badge-tag warning">⚪ Sin Movimientos</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Diego de Almagro</strong></td>
+                        <td>Marcos Font</td>
+                        <td class="mono">$500.000 CLP</td>
+                        <td class="mono font-bold" id="audit-da-rendido" style="color:var(--solar-amber);">$0 CLP</td>
+                        <td class="mono font-bold" id="audit-da-saldo" style="color:var(--success-green);">$500.000 CLP</td>
+                        <td id="audit-da-estado"><span class="badge-tag warning">⚪ Sin Movimientos</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -728,11 +742,25 @@
             if (cpRendido) cpRendido.innerText = `$${totalCP.toLocaleString('es-CL')} CLP`;
             if (cpSaldo) cpSaldo.innerText = `$${(500000 - totalCP).toLocaleString('es-CL')} CLP`;
 
+            const auditCpRendido = document.getElementById('audit-cp-rendido');
+            const auditCpSaldo = document.getElementById('audit-cp-saldo');
+            const auditCpEstado = document.getElementById('audit-cp-estado');
+            if (auditCpRendido) auditCpRendido.innerText = `$${totalCP.toLocaleString('es-CL')} CLP`;
+            if (auditCpSaldo) auditCpSaldo.innerText = `$${(500000 - totalCP).toLocaleString('es-CL')} CLP`;
+            if (auditCpEstado && totalCP > 0) auditCpEstado.innerHTML = `<span class="badge-tag ok">🟢 Rendiciones Activas</span>`;
+
             // Actualizar Caja Chica Diego de Almagro
             const daRendido = document.getElementById('da-caja-rendido');
             const daSaldo = document.getElementById('da-caja-saldo');
             if (daRendido) daRendido.innerText = `$${totalDA.toLocaleString('es-CL')} CLP`;
             if (daSaldo) daSaldo.innerText = `$${(500000 - totalDA).toLocaleString('es-CL')} CLP`;
+
+            const auditDaRendido = document.getElementById('audit-da-rendido');
+            const auditDaSaldo = document.getElementById('audit-da-saldo');
+            const auditDaEstado = document.getElementById('audit-da-estado');
+            if (auditDaRendido) auditDaRendido.innerText = `$${totalDA.toLocaleString('es-CL')} CLP`;
+            if (auditDaSaldo) auditDaSaldo.innerText = `$${(500000 - totalDA).toLocaleString('es-CL')} CLP`;
+            if (auditDaEstado && totalDA > 0) auditDaEstado.innerHTML = `<span class="badge-tag ok">🟢 Rendiciones Activas</span>`;
 
             // Actualizar KPI superior
             const kpiFinVal = document.getElementById('kpi-financial-val');
