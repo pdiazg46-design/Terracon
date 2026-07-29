@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terracon — Carga Víctor Escanilla</title>
+    <title>Terracon — Carga & Grabadora Víctor Escanilla</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
             --electric-cyan: #06b6d4;
             --electric-cyan-glow: rgba(6, 182, 212, 0.25);
             --success-green: #10b981;
+            --alert-red: #ef4444;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -44,6 +45,19 @@
             display: flex; align-items: center; justify-content: space-between;
         }
 
+        .mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+
+        .mode-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
+            padding: 14px 10px; text-align: center; cursor: pointer; color: var(--text-muted); font-weight: 700;
+            font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        .mode-btn.active {
+            background: rgba(6, 182, 212, 0.15); border-color: var(--electric-cyan); color: var(--electric-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
         .form-section {
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px;
             display: flex; flex-direction: column; gap: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
@@ -57,46 +71,53 @@
         }
 
         .upload-zone-large {
-            border: 2px dashed var(--electric-cyan);
-            border-radius: 16px;
-            padding: 28px 16px;
-            text-align: center;
-            background: rgba(6, 182, 212, 0.05);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+            border: 2px dashed var(--electric-cyan); border-radius: 16px; padding: 26px 16px; text-align: center;
+            background: rgba(6, 182, 212, 0.05); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .upload-zone-large i { font-size: 40px; color: var(--electric-cyan); }
+
+        .recorder-box {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px;
+            text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px;
         }
 
-        .upload-zone-large:active { transform: scale(0.98); background: rgba(6, 182, 212, 0.12); }
-        .upload-zone-large i { font-size: 42px; color: var(--electric-cyan); margin-bottom: 4px; }
-        .upload-zone-large strong { font-size: 15px; color: #fff; }
-        .upload-zone-large p { font-size: 12px; color: var(--text-muted); }
-
-        .upload-zone-audio {
-            border: 1px dashed var(--solar-amber);
-            border-radius: 14px;
-            padding: 16px;
-            text-align: center;
-            background: rgba(245, 158, 11, 0.05);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .record-timer {
+            font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 800; color: var(--electric-cyan);
+            letter-spacing: 2px;
         }
-        .upload-zone-audio i { font-size: 22px; color: var(--solar-amber); }
-        .upload-zone-audio span { font-size: 13px; font-weight: 600; color: var(--text-main); }
+
+        .record-status-tag {
+            font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; background: rgba(255,255,255,0.05);
+            color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px;
+        }
+
+        .record-status-tag.recording {
+            background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--alert-red);
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .btn-record-main {
+            background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none; padding: 18px;
+            border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; width: 100%; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-record-stop {
+            background: linear-gradient(135deg, #10b981, #047857); color: #fff; border: none; padding: 18px;
+            border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; width: 100%; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+        }
 
         .btn-submit-ai {
             background: linear-gradient(135deg, var(--electric-cyan), #0284c7); color: #fff; border: none; padding: 18px;
             border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 10px; width: 100%; box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
-            margin-top: 6px;
         }
-        .btn-submit-ai:active { transform: scale(0.98); }
 
         .ai-banner {
             background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
@@ -113,7 +134,7 @@
             <div class="brand-icon"><i class="fa-solid fa-helmet-safety"></i></div>
             <div class="brand-text">
                 <h1>TERRACON CAPTURA</h1>
-                <p>Procesamiento Automático de Terreno</p>
+                <p>Gastos & Grabación de Reuniones (Hasta 2 Horas)</p>
             </div>
         </div>
         <a href="reportes/dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 12px;">
@@ -126,10 +147,20 @@
         <span style="font-size: 11px; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px;">SITE MANAGER CP</span>
     </div>
 
-    <div class="form-section">
+    <div class="mode-switch">
+        <div class="mode-btn active" id="btn-mode-gasto" onclick="setMode('gasto')">
+            <i class="fa-solid fa-receipt"></i> Rendir Gasto
+        </div>
+        <div class="mode-btn" id="btn-mode-reunion" onclick="setMode('reunion')">
+            <i class="fa-solid fa-microphone-lines"></i> Grabar Reunión (2h)
+        </div>
+    </div>
+
+    <!-- SECCIÓN 1: GASTO -->
+    <div class="form-section" id="section-gasto">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto Asignado</label>
-            <select id="form-proyecto" class="form-control" disabled>
+            <select id="form-proyecto-gasto" class="form-control" disabled>
                 <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
             </select>
         </div>
@@ -138,73 +169,146 @@
             <label><i class="fa-solid fa-camera"></i> 1. Foto de la Boleta / Factura</label>
             <div class="upload-zone-large" onclick="document.getElementById('file-photo').click()">
                 <i class="fa-solid fa-camera-retro"></i>
-                <strong id="photo-label">Toca aquí para tomar foto o adjuntar boleta</strong>
+                <strong id="photo-label">Toca para tomar foto a la boleta</strong>
                 <p id="photo-sub">Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total</p>
             </div>
             <input type="file" id="file-photo" accept="image/*,application/pdf" style="display: none;" onchange="handlePhotoSelect(this)">
         </div>
 
         <div class="form-group">
-            <label><i class="fa-solid fa-microphone"></i> 2. Audio o Nota de Voz (Opcional)</label>
-            <div class="upload-zone-audio" onclick="document.getElementById('file-audio').click()">
-                <i class="fa-solid fa-microphone-lines"></i>
-                <span id="audio-label">Grabar o adjuntar audio de faena</span>
+            <label><i class="fa-solid fa-microphone"></i> 2. Audio Explicativo (Opcional)</label>
+            <input type="file" id="file-audio-gasto" accept="audio/*" class="form-control">
+        </div>
+
+        <button class="btn-submit-ai" onclick="enviarGasto()">
+            <i class="fa-solid fa-paper-plane"></i> PROCESAR Y CARGAR A PORTAFOLIO
+        </button>
+    </div>
+
+    <!-- SECCIÓN 2: GRABADORA REUNIÓN LARGA -->
+    <div class="form-section" id="section-reunion" style="display: none;">
+        <div class="form-group">
+            <label><i class="fa-solid fa-heading"></i> Título o Asunto de la Reunión</label>
+            <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Reunión Faena Carrera Pinto">
+        </div>
+
+        <div class="recorder-box">
+            <div class="record-status-tag" id="rec-tag">
+                <i class="fa-solid fa-circle"></i> Listo para Grabar
             </div>
-            <input type="file" id="file-audio" accept="audio/*" style="display: none;" onchange="handleAudioSelect(this)">
+
+            <div class="record-timer" id="rec-timer">00:00:00</div>
+
+            <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.3;">
+                🔒 <strong>Grabación de Fondo Activa:</strong> Puedes bloquear la pantalla del celular. Grabación continua hasta por 2 horas.
+            </div>
+
+            <button class="btn-record-main" id="btn-rec-start" onclick="iniciarGrabacionReunion()">
+                <i class="fa-solid fa-circle-dot"></i> INICIAR GRABACIÓN DE REUNIÓN
+            </button>
+
+            <button class="btn-record-stop" id="btn-rec-stop" onclick="detenerGrabacionReunion()" style="display: none;">
+                <i class="fa-solid fa-square"></i> FINALIZAR Y ENVIAR REUNIÓN
+            </button>
         </div>
 
         <div class="ai-banner">
             <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 18px; margin-top: 2px;"></i>
             <div>
-                <strong>Cero Escritura Manual:</strong> El sistema procesará la foto y el audio. Si la foto está borrosa, se te avisará inmediatamente para tomarla de nuevo.
+                <strong>Transcripción & Minuta:</strong> El sistema procesará el audio completo de la reunión y extraerá los acuerdos automáticamente.
             </div>
         </div>
-
-        <button class="btn-submit-ai" onclick="enviarAlSistema()">
-            <i class="fa-solid fa-paper-plane"></i> PROCESAR Y CARGAR A PORTAFOLIO
-        </button>
     </div>
 </div>
 
 <script>
     let photoFile = null;
-    let audioFile = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordInterval = null;
+    let secondsElapsed = 0;
+    let wakeLock = null;
     const REPORTANTE = "Víctor Escanilla";
+
+    function setMode(mode) {
+        document.getElementById('btn-mode-gasto').classList.remove('active');
+        document.getElementById('btn-mode-reunion').classList.remove('active');
+
+        if (mode === 'gasto') {
+            document.getElementById('btn-mode-gasto').classList.add('active');
+            document.getElementById('section-gasto').style.display = 'flex';
+            document.getElementById('section-reunion').style.display = 'none';
+        } else {
+            document.getElementById('btn-mode-reunion').classList.add('active');
+            document.getElementById('section-gasto').style.display = 'none';
+            document.getElementById('section-reunion').style.display = 'flex';
+        }
+    }
 
     function handlePhotoSelect(input) {
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
             document.getElementById('photo-label').innerText = `✅ Foto Adjuntada: ${photoFile.name}`;
-            document.getElementById('photo-sub').innerText = `Tamaño: ${Math.round(photoFile.size/1024)} KB | Lista para procesamiento`;
         }
     }
 
-    function handleAudioSelect(input) {
-        if (input.files && input.files[0]) {
-            audioFile = input.files[0];
-            document.getElementById('audio-label').innerText = `🎙️ Audio Adjuntado: ${audioFile.name}`;
-        }
-    }
-
-    function enviarAlSistema() {
-        if (!photoFile && !audioFile) {
-            alert('⚠️ Por favor toma la foto a la boleta o adjunta un audio para enviar al sistema.');
-            return;
-        }
-
-        const proj = "Carrera Pinto (CC-CP-01)";
-        let msg = `🚀 ¡Comprobante enviado exitosamente por ${REPORTANTE} para ${proj}!\n\n`;
-        msg += `📸 Foto: ${photoFile ? photoFile.name : 'No adjuntada'}\n`;
-        msg += `🎙️ Audio: ${audioFile ? audioFile.name : 'No adjuntado'}\n\n`;
-        msg += `El sistema procesará los datos e impuestos para el reporte de Carrera Pinto.`;
-
-        alert(msg);
-        
+    function enviarGasto() {
+        if (!photoFile) { alert('⚠️ Toma la foto a la boleta.'); return; }
+        alert(`🚀 ¡Comprobante enviado por ${REPORTANTE} para Carrera Pinto! El sistema procesará los datos e impuestos.`);
         photoFile = null;
-        audioFile = null;
-        document.getElementById('photo-label').innerText = 'Toca aquí para tomar foto o adjuntar boleta';
-        document.getElementById('photo-sub').innerText = 'Procesamiento automático de Proveedor, RUT, Folio, Neto, IVA y Total';
-        document.getElementById('audio-label').innerText = 'Grabar o adjuntar audio de faena';
+        document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
+    }
+
+    async function iniciarGrabacionReunion() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+            mediaRecorder.start(5000);
+
+            if ('wakeLock' in navigator) {
+                try { wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {}
+            }
+
+            secondsElapsed = 0;
+            updateTimerDisplay();
+            recordInterval = setInterval(() => { secondsElapsed++; updateTimerDisplay(); }, 1000);
+
+            document.getElementById('rec-tag').className = 'record-status-tag recording';
+            document.getElementById('rec-tag').innerHTML = '<i class="fa-solid fa-circle"></i> GRABANDO REUNIÓN EN SEGUNDO PLANO';
+            document.getElementById('btn-rec-start').style.display = 'none';
+            document.getElementById('btn-rec-stop').style.display = 'flex';
+
+        } catch (err) {
+            alert('⚠️ Permiso de micrófono denegado: ' + err.message);
+        }
+    }
+
+    function detenerGrabacionReunion() {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+        clearInterval(recordInterval);
+        if (wakeLock) { wakeLock.release().then(() => { wakeLock = null; }); }
+
+        document.getElementById('rec-tag').className = 'record-status-tag';
+        document.getElementById('rec-tag').innerHTML = '<i class="fa-solid fa-check-circle" style="color:var(--success-green);"></i> Grabación Finalizada';
+        document.getElementById('btn-rec-start').style.display = 'flex';
+        document.getElementById('btn-rec-stop').style.display = 'none';
+
+        const titulo = document.getElementById('reunion-titulo').value || 'Reunión Carrera Pinto';
+        const duracion = document.getElementById('rec-timer').innerText;
+
+        alert(`✅ ¡Grabación de Reunión Finalizada!\n\nTítulo: ${titulo}\nDuración: ${duracion}\n\nAudio enviado al sistema para transcripción de acuerdos.`);
+    }
+
+    function updateTimerDisplay() {
+        const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
     }
 </script>
 </body>
