@@ -1,3 +1,2 @@
 item_id,fecha,categoria_codigo,categoria_nombre,proveedor,nro_documento,concepto,monto_neto,iva,monto_total,respaldado,archivo_respaldo
-CP-GASTO-181718,2026-07-29,CAT-05,Combustible y Faena,Copec Copiapo,B-1044,Carga Combustible Faena,15546,2954,18500,SI,boleta_movil_1817.jpg
-CP-GASTO-181720,2026-07-29,CAT-05,Combustible y Faena,Peaje Valles del Desierto,B-1044,Peaje Traslado Copiapo,3781,719,4500,SI,boleta_movil_1817.jpg
+CP-GASTO-91736,2026-07-27,CAT-05,Combustible y Repuestos Faena,Importadora RACO S.A.,B-91736,4 Válvulas y 4 Neumáticos 205/50R17 Vehículo Faena,187280,35583,222863,SI,boleta_raco_91736.jpg
