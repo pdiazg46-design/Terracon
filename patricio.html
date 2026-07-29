@@ -54,9 +54,7 @@
             font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 5px;
             transition: all 0.2s ease;
         }
-
         .mode-btn i { font-size: 18px; }
-
         .mode-btn.active {
             background: rgba(6, 182, 212, 0.15); border-color: var(--electric-cyan); color: var(--electric-cyan);
             box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
@@ -74,19 +72,31 @@
             color: var(--text-main); font-size: 14px; font-family: inherit; outline: none; width: 100%;
         }
 
+        /* UPLOAD ZONE ELEGANTE */
         .upload-zone-large {
-            border: 2px dashed var(--solar-amber); border-radius: 14px; padding: 22px 14px; text-align: center;
+            border: 2px dashed var(--solar-amber); border-radius: 14px; padding: 20px 14px; text-align: center;
             background: rgba(245, 158, 11, 0.05); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;
+            overflow: hidden; width: 100%;
         }
         .upload-zone-large i { font-size: 36px; color: var(--solar-amber); }
+        
+        .filename-badge {
+            background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success-green);
+            padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; max-width: 100%;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-flex; align-items: center; gap: 6px;
+        }
 
-        /* BOTONES DE GRABACIÓN DIRECTA EN PANTALLA */
+        .img-preview-thumb {
+            width: 70px; height: 70px; border-radius: 10px; object-fit: cover; border: 2px solid var(--success-green);
+            margin-bottom: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
         .btn-rec-inline {
             background: rgba(6, 182, 212, 0.15); border: 1.5px solid var(--electric-cyan); color: var(--electric-cyan);
             padding: 14px; border-radius: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
         }
-        .btn-rec-inline:active { transform: scale(0.98); background: rgba(6, 182, 212, 0.25); }
+        .btn-rec-inline:active { transform: scale(0.98); }
 
         .btn-rec-inline-stop {
             background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none;
@@ -105,21 +115,16 @@
         .record-timer { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 800; color: var(--electric-cyan); }
 
         .record-status-tag {
-            font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05);
-            color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05); color: var(--text-muted);
         }
         .record-status-tag.recording { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--alert-red); }
 
         .btn-record-main {
-            background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none; padding: 16px;
-            border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
-            justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
         }
 
         .btn-record-stop {
-            background: linear-gradient(135deg, #10b981, #047857); color: #fff; border: none; padding: 16px;
-            border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
-            justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #10b981, #047857); color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
         }
 
         .btn-submit-ai {
@@ -132,6 +137,50 @@
             background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 12px; padding: 10px 14px; font-size: 11.5px; color: var(--success-green);
             line-height: 1.35; display: flex; align-items: flex-start; gap: 8px;
+        }
+
+        /* VENTANA MODAL FLOTANTE ELEGANTE */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
+        }
+
+        .modal-card {
+            background: #131b2e; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 22px;
+            padding: 24px 20px; max-width: 380px; width: 100%; text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(16, 185, 129, 0.2);
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+            animation: modalSlideUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(25px) scale(0.92); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-icon {
+            width: 64px; height: 64px; background: rgba(16, 185, 129, 0.18); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 32px; color: #10b981;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.35); border: 2px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .modal-card h2 { font-size: 18px; font-weight: 800; color: #fff; }
+        .modal-card p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+        .modal-info-box {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 12px; width: 100%; font-size: 12px; text-align: left; display: flex; flex-direction: column; gap: 6px;
+        }
+
+        .modal-info-row { display: flex; justify-content: space-between; align-items: center; }
+        .modal-info-row span { color: var(--text-muted); }
+        .modal-info-row strong { color: var(--text-main); font-weight: 700; }
+
+        .btn-modal-close {
+            background: linear-gradient(135deg, var(--solar-amber), #d97706); color: #000; border: none;
+            padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer;
+            width: 100%; box-shadow: 0 4px 15px var(--solar-amber-glow);
         }
     </style>
 </head>
@@ -168,7 +217,7 @@
         </div>
     </div>
 
-    <!-- MODO 1: RENDICIÓN DE GASTOS (FOTO + AUDIO EN PANTALLA OBLIGATORIOS) -->
+    <!-- MODO 1: RENDICIÓN DE GASTOS -->
     <div class="form-section" id="section-gasto">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto a Asignar</label>
@@ -178,18 +227,17 @@
             </select>
         </div>
 
-        <!-- 1. FOTO BOLETA OBLIGATORIA -->
         <div class="form-group">
             <label><i class="fa-solid fa-camera"></i> 1. Foto Boleta / Factura (Obligatoria)</label>
             <div class="upload-zone-large" onclick="document.getElementById('file-photo').click()">
-                <i class="fa-solid fa-camera-retro"></i>
+                <div id="thumb-container"></div>
+                <i class="fa-solid fa-camera-retro" id="upload-icon"></i>
                 <strong id="photo-label">Toca para tomar foto a la boleta</strong>
                 <p id="photo-sub">Extracción automática de Proveedor, RUT, Folio, Neto, IVA y Total</p>
             </div>
             <input type="file" id="file-photo" accept="image/*,application/pdf" style="display: none;" onchange="handlePhotoSelect(this)">
         </div>
 
-        <!-- 2. AUDIO MOTIVO EN PANTALLA OBLIGATORIO -->
         <div class="form-group">
             <label><i class="fa-solid fa-microphone"></i> 2. Audio Explicativo del Motivo (Obligatorio)</label>
             <button class="btn-rec-inline" id="btn-gasto-rec-start" onclick="iniciarAudioGasto()">
@@ -208,7 +256,7 @@
         </button>
     </div>
 
-    <!-- MODO 2: REUNIÓN LARGA (HASTA 2 HORAS) -->
+    <!-- MODO 2: REUNIÓN LARGA -->
     <div class="form-section" id="section-reunion" style="display: none;">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto de la Reunión</label>
@@ -240,7 +288,7 @@
         </div>
     </div>
 
-    <!-- MODO 3: INSTRUCCIÓN POR AUDIO EN PANTALLA -->
+    <!-- MODO 3: INSTRUCCIÓN -->
     <div class="form-section" id="section-instruccion" style="display: none;">
         <div class="form-group">
             <label><i class="fa-solid fa-building-flag"></i> Proyecto de la Instrucción</label>
@@ -279,14 +327,28 @@
     </div>
 </div>
 
+<!-- MODAL DE CONFIRMACIÓN FLOTANTE ELEGANTE -->
+<div id="modal-confirm" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+        <div class="modal-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <h2 id="modal-title">¡Registro Completado!</h2>
+        <p id="modal-sub">El comprobante y el audio han sido cargados con éxito al sistema de portafolio.</p>
+
+        <div class="modal-info-box" id="modal-info-box">
+            <!-- Rellenado dinámicamente -->
+        </div>
+
+        <button class="btn-modal-close" onclick="closeModal()">
+            <i class="fa-solid fa-check"></i> ENTENDIDO / CONTINUAR
+        </button>
+    </div>
+</div>
+
 <script>
     let photoFile = null;
     let gastoAudioBlob = null;
     let instAudioBlob = null;
-    let mediaRecorderGasto = null;
-    let mediaRecorderInst = null;
-    let mediaRecorderReunion = null;
-    
+    let mediaRecorderGasto = null, mediaRecorderInst = null, mediaRecorderReunion = null;
     let timerGastoInt = null, secGasto = 0;
     let timerInstInt = null, secInst = 0;
     let timerReunionInt = null, secReunion = 0;
@@ -295,10 +357,7 @@
     const REPORTANTE = "Patricio Díaz";
 
     function setMode(mode) {
-        document.getElementById('btn-mode-gasto').classList.remove('active');
-        document.getElementById('btn-mode-reunion').classList.remove('active');
-        document.getElementById('btn-mode-instruccion').classList.remove('active');
-
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('section-gasto').style.display = 'none';
         document.getElementById('section-reunion').style.display = 'none';
         document.getElementById('section-instruccion').style.display = 'none';
@@ -318,11 +377,31 @@
     function handlePhotoSelect(input) {
         if (input.files && input.files[0]) {
             photoFile = input.files[0];
-            document.getElementById('photo-label').innerText = `✅ Foto Adjuntada: ${photoFile.name}`;
+            const sizeMb = (photoFile.size / (1024*1024)).toFixed(1);
+            
+            // Truncar nombre largo si excede 20 caracteres
+            let displayFileName = photoFile.name;
+            if (displayFileName.length > 22) {
+                const ext = displayFileName.split('.').pop();
+                displayFileName = displayFileName.substring(0, 14) + '...' + ext;
+            }
+
+            // Vista previa de imagen si es archivo gráfico
+            const thumbContainer = document.getElementById('thumb-container');
+            if (photoFile.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    thumbContainer.innerHTML = `<img src="${e.target.result}" class="img-preview-thumb">`;
+                };
+                reader.readAsDataURL(photoFile);
+            }
+
+            document.getElementById('upload-icon').style.display = 'none';
+            document.getElementById('photo-label').innerHTML = `<span class="filename-badge"><i class="fa-solid fa-circle-check"></i> ${displayFileName} (${sizeMb} MB)</span>`;
+            document.getElementById('photo-sub').innerText = 'Foto lista para lectura automática de impuestos';
         }
     }
 
-    // GRABACIÓN DE AUDIO GASTO EN PANTALLA
     async function iniciarAudioGasto() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -355,30 +434,43 @@
         clearInterval(timerGastoInt);
         document.getElementById('btn-gasto-rec-start').style.display = 'flex';
         document.getElementById('btn-gasto-rec-stop').style.display = 'none';
-        document.getElementById('gasto-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;">✅ Audio grabado con éxito (${secGasto} seg)</span>`;
+        document.getElementById('gasto-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;"><i class="fa-solid fa-circle-check"></i> Motivo grabado (${secGasto} seg)</span>`;
     }
 
     function enviarGasto() {
         if (!photoFile) {
-            alert('⚠️ OBLIGATORIO: Toma la foto a la boleta/factura.');
+            openModalError('Falta Foto de Boleta', 'Por favor toma la foto de la boleta o factura antes de enviar.');
             return;
         }
         if (!gastoAudioBlob && secGasto === 0) {
-            alert('⚠️ OBLIGATORIO: Toca "Grabar Motivo por Voz" para indicar el motivo del gasto.');
+            openModalError('Falta Audio del Motivo', 'Por favor toca "Grabar Motivo por Voz" para indicar en qué se gastó el dinero.');
             return;
         }
 
         const proj = document.getElementById('form-proyecto-gasto').value;
-        alert(`🚀 ¡Rendición enviada con éxito por ${REPORTANTE} para ${proj}!\n\n📸 Foto: ${photoFile.name}\n🎙️ Audio Motivo: Grabado (${secGasto} seg)\n\nEl sistema procesará los datos, impuestos y justificación de voz.`);
-        
-        photoFile = null;
-        gastoAudioBlob = null;
-        secGasto = 0;
+        let shortName = photoFile.name;
+        if (shortName.length > 20) shortName = shortName.substring(0, 14) + '...' + shortName.split('.').pop();
+
+        openModalSuccess(
+            '¡Rendición Registrada!',
+            'El comprobante y la justificación de voz han sido enviados para imputación automática.',
+            [
+                { label: 'Rendido Por', val: REPORTANTE },
+                { label: 'Proyecto', val: proj },
+                { label: 'Foto Boleta', val: shortName },
+                { label: 'Audio Motivo', val: `${secGasto} segundos` }
+            ]
+        );
+
+        // Reset
+        photoFile = null; gastoAudioBlob = null; secGasto = 0;
+        document.getElementById('thumb-container').innerHTML = '';
+        document.getElementById('upload-icon').style.display = 'block';
         document.getElementById('photo-label').innerText = 'Toca para tomar foto a la boleta';
-        document.getElementById('gasto-audio-status').innerHTML = '🎙️ Explica brevemente el motivo del gasto en voz alta';
+        document.getElementById('gasto-audio-status').innerText = '🎙️ Explica brevemente el motivo del gasto en voz alta';
     }
 
-    // GRABACIÓN DE AUDIO INSTRUCCIÓN EN PANTALLA
+    // INSTRUCCIÓN
     async function iniciarAudioInstruccion() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -399,7 +491,7 @@
 
             document.getElementById('btn-inst-rec-start').style.display = 'none';
             document.getElementById('btn-inst-rec-stop').style.display = 'flex';
-            document.getElementById('inst-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando instrucción de voz...</span>';
+            document.getElementById('inst-audio-status').innerHTML = '<span style="color:var(--alert-red); font-weight:700;">🔴 Grabando instrucción...</span>';
         } catch (err) { alert('⚠️ Permiso de micrófono requerido: ' + err.message); }
     }
 
@@ -411,7 +503,7 @@
         clearInterval(timerInstInt);
         document.getElementById('btn-inst-rec-start').style.display = 'flex';
         document.getElementById('btn-inst-rec-stop').style.display = 'none';
-        document.getElementById('inst-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;">✅ Instrucción grabada (${secInst} seg)</span>`;
+        document.getElementById('inst-audio-status').innerHTML = `<span style="color:var(--success-green); font-weight:700;"><i class="fa-solid fa-circle-check"></i> Instrucción grabada (${secInst} seg)</span>`;
     }
 
     function enviarInstruccion() {
@@ -419,18 +511,27 @@
         const proj = document.getElementById('form-proyecto-instruccion').value;
 
         if (!instAudioBlob && secInst === 0) {
-            alert('⚠️ OBLIGATORIO: Toca el botón para grabar la instrucción por voz.');
+            openModalError('Falta Audio de Instrucción', 'Por favor toca el botón para grabar la instrucción por voz.');
             return;
         }
 
-        alert(`📢 ¡Instrucción por audio enviada por ${REPORTANTE} para ${proj}!\nAsunto: ${titulo}\nDuración: ${secInst} seg`);
+        openModalSuccess(
+            '¡Instrucción Publicada!',
+            'La nota de voz de terreno ha sido registrada en el sistema.',
+            [
+                { label: 'Emisor', val: REPORTANTE },
+                { label: 'Proyecto', val: proj },
+                { label: 'Asunto', val: titulo },
+                { label: 'Duración Audio', val: `${secInst} segundos` }
+            ]
+        );
+
         document.getElementById('instruccion-titulo').value = '';
-        instAudioBlob = null;
-        secInst = 0;
-        document.getElementById('inst-audio-status').innerHTML = '🎙️ Dictar instrucción o nota de avance de terreno';
+        instAudioBlob = null; secInst = 0;
+        document.getElementById('inst-audio-status').innerText = '🎙️ Dictar instrucción o nota de avance de terreno';
     }
 
-    // REUNIÓN LARGA 2 HORAS
+    // REUNIÓN 2 HORAS
     async function iniciarGrabacionReunion() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -465,9 +566,18 @@
         document.getElementById('btn-rec-start').style.display = 'flex';
         document.getElementById('btn-rec-stop').style.display = 'none';
 
-        const titulo = document.getElementById('reunion-titulo').value || 'Reunión';
+        const titulo = document.getElementById('reunion-titulo').value || 'Reunión de Coordinación';
         const duracion = document.getElementById('rec-timer').innerText;
-        alert(`✅ ¡Grabación de Reunión Finalizada!\nTítulo: ${titulo}\nDuración: ${duracion}\n\nAudio enviado al sistema para transcripción y minutas.`);
+
+        openModalSuccess(
+            '¡Reunión Registrada!',
+            'El audio completo fue enviado para transcripción y minutas.',
+            [
+                { label: 'Responsable', val: REPORTANTE },
+                { label: 'Título', val: titulo },
+                { label: 'Duración', val: duracion }
+            ]
+        );
     }
 
     function updateTimerDisplay() {
@@ -475,6 +585,30 @@
         const mins = String(Math.floor((secReunion % 3600) / 60)).padStart(2, '0');
         const secs = String(secReunion % 60).padStart(2, '0');
         document.getElementById('rec-timer').innerText = `${hrs}:${mins}:${secs}`;
+    }
+
+    // MODAL ELEGANTE
+    function openModalSuccess(title, sub, rows) {
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-sub').innerText = sub;
+        
+        let html = '';
+        rows.forEach(r => {
+            html += `<div class="modal-info-row"><span>${r.label}:</span><strong>${r.val}</strong></div>`;
+        });
+        document.getElementById('modal-info-box').innerHTML = html;
+        document.getElementById('modal-confirm').style.display = 'flex';
+    }
+
+    function openModalError(title, sub) {
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-sub').innerText = sub;
+        document.getElementById('modal-info-box').innerHTML = '';
+        document.getElementById('modal-confirm').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-confirm').style.display = 'none';
     }
 </script>
 </body>
