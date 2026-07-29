@@ -731,6 +731,16 @@
             const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv');
             const textDA = await respDA.text();
 
+            // Cargar instrucciones por voz
+            try {
+                const respInstCP = await fetch('../datos/carrera_pinto/instrucciones_voz.csv');
+                const textInstCP = await respInstCP.text();
+                const rowsInstCP = parseCSV(textInstCP);
+                renderInstruccionesAudio('cp-instrucciones-container', rowsInstCP);
+            } catch (errInst) {
+                console.log("Sin instrucciones aún", errInst);
+            }
+
             let totalAcumulado = 0;
             let totalCP = 0, totalDA = 0;
             let rowsCP = parseCSV(textCP);

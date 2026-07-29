@@ -1,0 +1,2 @@
+id,fecha,hora,emisor,proyecto,titulo,duracion,estado,audio_archivo
+INST-CP-001,2026-07-29,18:30,Patricio Díaz,Carrera Pinto (CC-CP-01),Instrucción Directiva de Terreno,18s,Transcrito & Registrado,audio_patricio_instruccion.webm
