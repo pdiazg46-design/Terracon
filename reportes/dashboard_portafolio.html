@@ -344,17 +344,17 @@
 
     <!-- LEVEL 1 MAIN TABS (PROYECTOS Y PORTAFOLIO GLOBAL) -->
     <div class="main-tabs">
-        <button class="main-tab-btn active" onclick="openMainTab(event, 'main-tab-consolidado')">🌐 Consolidado Portafolio</button>
+        <button class="main-tab-btn active terracon-only" onclick="openMainTab(event, 'main-tab-bitacora')">📋 Bitácora Directiva</button>
+        <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-consolidado')">🌐 Consolidado Portafolio</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-carrera-pinto')">⚡ Carrera Pinto (CC-CP-01)</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-diego-almagro')">🛠️ Diego de Almagro (CC-DA-02)</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-auditoria')">🔍 Auditoría Cajas & Maquinaria</button>
-        <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-bitacora')">📋 Bitácora Directiva</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-proveedores')">🏭 Maestro Proveedores</button>
         <button class="main-tab-btn sonedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonedix</button>
     </div>
 
     <!-- MAIN TAB 1: CONSOLIDADO PORTAFOLIO -->
-    <div id="main-tab-consolidado" class="tab-content active">
+    <div id="main-tab-consolidado" class="tab-content">
         <div class="project-section">
             <div class="project-header">
                 <div>
@@ -597,7 +597,7 @@
     </div>
 
     <!-- MAIN TAB: BITÁCORA DIRECTIVA DE PENDIENTES -->
-    <div id="main-tab-bitacora" class="tab-content">
+    <div id="main-tab-bitacora" class="tab-content active">
         <div class="project-section">
             <div class="project-header">
                 <div>
