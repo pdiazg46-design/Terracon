@@ -448,9 +448,9 @@
             <div class="project-section">
                 <h2>📦 Carrera Pinto — Control de Caja Chica (CC-CP-01)</h2>
                 <div class="caja-card">
-                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$500.000 CLP</span></div>
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono" style="color:var(--text-muted);">Por Definir por Dirección</span></div>
                     <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono" id="cp-caja-rendido" style="color:var(--solar-amber); font-weight:800;">$0 CLP</span></div>
-                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="cp-caja-saldo" style="color:var(--success-green); font-weight:800;">$500.000 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="cp-caja-saldo" style="color:var(--success-green); font-weight:800;">$0 CLP</span></div>
                 </div>
             </div>
         </div>
@@ -527,9 +527,9 @@
             <div class="project-section">
                 <h2>📦 Diego de Almagro — Control de Caja Chica (CC-DA-02)</h2>
                 <div class="caja-card">
-                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$500.000 CLP</span></div>
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono" style="color:var(--text-muted);">Por Definir por Dirección</span></div>
                     <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono" id="da-caja-rendido" style="color:var(--solar-amber); font-weight:800;">$0 CLP</span></div>
-                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="da-caja-saldo" style="color:var(--success-green); font-weight:800;">$500.000 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" id="da-caja-saldo" style="color:var(--success-green); font-weight:800;">$0 CLP</span></div>
                 </div>
             </div>
         </div>
@@ -567,17 +567,17 @@
                     <tr>
                         <td><strong>Carrera Pinto</strong></td>
                         <td>Víctor Escanilla</td>
-                        <td class="mono">$500.000 CLP</td>
+                        <td class="mono" style="color:var(--text-muted);">Por Definir</td>
                         <td class="mono font-bold" id="audit-cp-rendido" style="color:var(--solar-amber);">$0 CLP</td>
-                        <td class="mono font-bold" id="audit-cp-saldo" style="color:var(--success-green);">$500.000 CLP</td>
+                        <td class="mono font-bold" id="audit-cp-saldo" style="color:var(--success-green);">$0 CLP</td>
                         <td id="audit-cp-estado"><span class="badge-tag warning">⚪ Sin Movimientos</span></td>
                     </tr>
                     <tr>
                         <td><strong>Diego de Almagro</strong></td>
                         <td>Marcos Font</td>
-                        <td class="mono">$500.000 CLP</td>
+                        <td class="mono" style="color:var(--text-muted);">Por Definir</td>
                         <td class="mono font-bold" id="audit-da-rendido" style="color:var(--solar-amber);">$0 CLP</td>
-                        <td class="mono font-bold" id="audit-da-saldo" style="color:var(--success-green);">$500.000 CLP</td>
+                        <td class="mono font-bold" id="audit-da-saldo" style="color:var(--success-green);">$0 CLP</td>
                         <td id="audit-da-estado"><span class="badge-tag warning">⚪ Sin Movimientos</span></td>
                     </tr>
                 </tbody>
@@ -740,26 +740,26 @@
             const cpRendido = document.getElementById('cp-caja-rendido');
             const cpSaldo = document.getElementById('cp-caja-saldo');
             if (cpRendido) cpRendido.innerText = `$${totalCP.toLocaleString('es-CL')} CLP`;
-            if (cpSaldo) cpSaldo.innerText = `$${(500000 - totalCP).toLocaleString('es-CL')} CLP`;
+            if (cpSaldo) cpSaldo.innerText = `$0 CLP`;
 
             const auditCpRendido = document.getElementById('audit-cp-rendido');
             const auditCpSaldo = document.getElementById('audit-cp-saldo');
             const auditCpEstado = document.getElementById('audit-cp-estado');
             if (auditCpRendido) auditCpRendido.innerText = `$${totalCP.toLocaleString('es-CL')} CLP`;
-            if (auditCpSaldo) auditCpSaldo.innerText = `$${(500000 - totalCP).toLocaleString('es-CL')} CLP`;
+            if (auditCpSaldo) auditCpSaldo.innerText = `$0 CLP`;
             if (auditCpEstado && totalCP > 0) auditCpEstado.innerHTML = `<span class="badge-tag ok">🟢 Rendiciones Activas</span>`;
 
             // Actualizar Caja Chica Diego de Almagro
             const daRendido = document.getElementById('da-caja-rendido');
             const daSaldo = document.getElementById('da-caja-saldo');
             if (daRendido) daRendido.innerText = `$${totalDA.toLocaleString('es-CL')} CLP`;
-            if (daSaldo) daSaldo.innerText = `$${(500000 - totalDA).toLocaleString('es-CL')} CLP`;
+            if (daSaldo) daSaldo.innerText = `$0 CLP`;
 
             const auditDaRendido = document.getElementById('audit-da-rendido');
             const auditDaSaldo = document.getElementById('audit-da-saldo');
             const auditDaEstado = document.getElementById('audit-da-estado');
             if (auditDaRendido) auditDaRendido.innerText = `$${totalDA.toLocaleString('es-CL')} CLP`;
-            if (auditDaSaldo) auditDaSaldo.innerText = `$${(500000 - totalDA).toLocaleString('es-CL')} CLP`;
+            if (auditDaSaldo) auditDaSaldo.innerText = `$0 CLP`;
             if (auditDaEstado && totalDA > 0) auditDaEstado.innerHTML = `<span class="badge-tag ok">🟢 Rendiciones Activas</span>`;
 
             // Actualizar KPI superior
