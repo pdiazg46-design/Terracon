@@ -669,6 +669,85 @@
         }
         evt.currentTarget.classList.add("active");
     }
+
+    // CARGADOR DINÁMICO DE DATOS REALES CSV
+    document.addEventListener("DOMContentLoaded", () => {
+        cargarDatosRendiciones();
+    });
+
+    async function cargarDatosRendiciones() {
+        try {
+            const respCP = await fetch('../datos/carrera_pinto/rendicion_gastos.csv');
+            const textCP = await respCP.text();
+            
+            const respDA = await fetch('../datos/diego_de_almagro/rendicion_gastos.csv');
+            const textDA = await respDA.text();
+
+            let totalAcumulado = 0;
+            let totalCP = 0, totalDA = 0;
+            let rowsCP = parseCSV(textCP);
+            let rowsDA = parseCSV(textDA);
+
+            // Renderizar Carrera Pinto
+            renderTablaGastos('cp-opex-table-body', rowsCP);
+            rowsCP.forEach(r => { totalCP += parseInt(r.monto_total || 0); });
+
+            // Renderizar Diego de Almagro
+            renderTablaGastos('da-opex-table-body', rowsDA);
+            rowsDA.forEach(r => { totalDA += parseInt(r.monto_total || 0); });
+
+            totalAcumulado = totalCP + totalDA;
+
+            // Actualizar KPI superior
+            const kpiFinVal = document.getElementById('kpi-financial-val');
+            if (kpiFinVal) {
+                kpiFinVal.innerText = `$${totalAcumulado.toLocaleString('es-CL')} CLP`;
+                document.getElementById('kpi-financial-sub').innerText = `$${totalCP.toLocaleString('es-CL')} CP + $${totalDA.toLocaleString('es-CL')} DDA`;
+            }
+        } catch (e) {
+            console.log("Esperando primeras rendiciones...", e);
+        }
+    }
+
+    function parseCSV(text) {
+        const lines = text.trim().split('\n');
+        if (lines.length <= 1) return [];
+        const headers = lines[0].split(',').map(h => h.trim());
+        const data = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            const values = lines[i].split(',').map(v => v.trim());
+            const obj = {};
+            headers.forEach((h, idx) => { obj[h] = values[idx] || ''; });
+            data.push(obj);
+        }
+        return data;
+    }
+
+    function renderTablaGastos(containerId, rows) {
+        const tbody = document.getElementById(containerId);
+        if (!tbody) return;
+        if (rows.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Sin rendiciones de gastos aún. Tabla limpia para inicio.</td></tr>';
+            return;
+        }
+
+        let html = '';
+        rows.forEach(r => {
+            html += `
+                <tr>
+                    <td class="mono">${r.item_id || 'GASTO'}</td>
+                    <td>${r.fecha || ''}</td>
+                    <td><strong>${r.proveedor || ''}</strong><br><small style="color:var(--text-muted);">${r.concepto || ''}</small></td>
+                    <td>${r.categoria_nombre || 'Gasto'}</td>
+                    <td class="mono font-bold">$${parseInt(r.monto_total || 0).toLocaleString('es-CL')} CLP</td>
+                    <td><span class="badge-tag ok">🟢 ${r.respaldado === 'SI' ? 'Con Boleta & Audio' : 'Aprobado'}</span></td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
 </script>
 
 </body>
