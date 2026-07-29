@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terracon Energy — Carga Móvil Nueva Versión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-hover: #1c2742;
+            --bg-input: #0b1120;
+            --border-color: rgba(255, 255, 255, 0.12);
+            
+            --solar-amber: #f59e0b;
+            --solar-amber-glow: rgba(245, 158, 11, 0.2);
+            --electric-cyan: #06b6d4;
+            --electric-cyan-glow: rgba(6, 182, 212, 0.2);
+            --success-green: #10b981;
+            --alert-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+        }
+
+        header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            width: 100%;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--solar-amber), #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #000;
+            box-shadow: 0 0 15px var(--solar-amber-glow);
+        }
+
+        .brand-text h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+        .brand-text p { font-size: 11px; color: var(--text-muted); }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .type-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .type-card i { font-size: 20px; color: var(--text-muted); }
+        .type-card span { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+
+        .type-card.active {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            border-color: var(--electric-cyan);
+            box-shadow: 0 0 15px var(--electric-cyan-glow);
+        }
+
+        .type-card.active i, .type-card.active span { color: var(--electric-cyan); }
+
+        .form-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 14.5px;
+            font-family: inherit;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--electric-cyan);
+        }
+
+        .file-upload-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px 14px;
+            text-align: center;
+            background: rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .file-upload-zone i { font-size: 28px; color: var(--solar-amber); margin-bottom: 6px; }
+        .file-upload-zone p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .file-upload-zone span { font-size: 11px; color: var(--electric-cyan); font-weight: 600; display: block; margin-top: 4px; }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--solar-amber), #d97706);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px var(--solar-amber-glow);
+            transition: transform 0.1s ease;
+            width: 100%;
+        }
+
+        .btn-submit:active { transform: scale(0.98); }
+
+        .recent-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+        }
+
+        .recent-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .recent-item {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .recent-item-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div class="brand-text">
+                <h1>TERRACON CAPTURA MÓVIL</h1>
+                <p>NUEVA VERSIÓN REVISADA Y APILADA</p>
+            </div>
+        </div>
+        <a href="reportes/dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 12px;">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+    </header>
+
+    <!-- SELECTOR DE TIPO DE REGISTRO -->
+    <div class="type-selector">
+        <div class="type-card active" onclick="selectType('gasto', this)">
+            <i class="fa-solid fa-receipt"></i>
+            <span>Rendir Gasto</span>
+        </div>
+        <div class="type-card" onclick="selectType('reunion', this)">
+            <i class="fa-solid fa-comments"></i>
+            <span>Acta Reunión</span>
+        </div>
+        <div class="type-card" onclick="selectType('instruccion', this)">
+            <i class="fa-solid fa-microphone"></i>
+            <span>Nota de Voz</span>
+        </div>
+    </div>
+
+    <!-- FORMULARIO DINÁMICO COMPLETAMENTE APILADO -->
+    <div class="form-section">
+        
+        <!-- CAMPO 1: QUIEN RINDE -->
+        <div class="form-group">
+            <label><i class="fa-solid fa-user-check"></i> ¿Quién Rinde?</label>
+            <select id="form-reportante" class="form-control">
+                <option value="Patricio Díaz">👨‍💼 Patricio Díaz (Director)</option>
+                <option value="Víctor Escanilla">👷‍♂️ Víctor Escanilla (Site Manager CP)</option>
+                <option value="Marcos Font">👔 Marcos Font (PM Senior)</option>
+            </select>
+        </div>
+
+        <!-- CAMPO 2: PROYECTO -->
+        <div class="form-group">
+            <label><i class="fa-solid fa-building-flag"></i> Proyecto / Centro Costo</label>
+            <select id="form-proyecto" class="form-control">
+                <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
+                <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro (CC-DA-02)</option>
+            </select>
+        </div>
+
+        <!-- SECCIÓN DINÁMICA: GASTO -->
+        <div id="fields-gasto" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+            <div class="form-group">
+                <label><i class="fa-solid fa-tags"></i> Categoría de Gasto</label>
+                <select id="gasto-categoria" class="form-control">
+                    <option value="CAT-04">Alojamiento / Casino</option>
+                    <option value="CAT-02">Combustible / Vehículos</option>
+                    <option value="CAT-03">Maquinaria / Camión Pluma</option>
+                    <option value="CAT-01">Recursos Humanos / Bono</option>
+                    <option value="CAT-05">Caja Chica / Consumibles</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-store"></i> Proveedor / Razón Social</label>
+                <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec S.A. / Hotel Atacama">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-file-invoice"></i> N° Boleta / Factura</label>
+                <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234 / B-9981">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-sack-dollar"></i> Monto Total ($ CLP)</label>
+                <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 45000" oninput="calcularImpuestos()">
+            </div>
+
+            <div style="font-size: 11px; color: var(--text-muted); display: flex; gap: 14px;" id="calc-preview">
+                <span>Neto: $0</span>
+                <span>IVA (19%): $0</span>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto del Gasto</label>
+                <input type="text" id="gasto-concepto" class="form-control" placeholder="Ej: Combustible Camioneta CP Copiapó">
+            </div>
+        </div>
+
+        <!-- SECCIÓN DINÁMICA: REUNIÓN -->
+        <div id="fields-reunion" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
+            <div class="form-group">
+                <label><i class="fa-solid fa-heading"></i> Título de la Reunión</label>
+                <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Coordinación Outage Bloque 1">
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-user-gear"></i> Responsable del Acuerdo</label>
+                <select id="reunion-responsable" class="form-control">
+                    <option value="Víctor Escanilla">Víctor Escanilla</option>
+                    <option value="Marcos Font">Marcos Font</option>
+                    <option value="Patricio Díaz">Patricio Díaz</option>
+                    <option value="Sonedix">Sonedix (Mandante)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-calendar-day"></i> Fecha Límite</label>
+                <input type="date" id="reunion-limite" class="form-control">
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-list-check"></i> Compromisos Acordados</label>
+                <textarea id="reunion-notas" class="form-control" rows="2" placeholder="Detalla los acuerdos principales..."></textarea>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DINÁMICA: INSTRUCCIÓN / AUDIO -->
+        <div id="fields-instruccion" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
+            <div class="form-group">
+                <label><i class="fa-solid fa-bullhorn"></i> Resumen de la Instrucción</label>
+                <input type="text" id="instruccion-titulo" class="form-control" placeholder="Ej: Avance 10 String Inverters montados">
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-comment-dots"></i> Transcripción / Comentarios</label>
+                <textarea id="instruccion-notas" class="form-control" rows="2" placeholder="Ingresa detalles o notas de voz de terreno..."></textarea>
+            </div>
+        </div>
+
+        <!-- SUBIDA DE RESPALDO (FOTO O AUDIO) -->
+        <div class="form-group">
+            <label><i class="fa-solid fa-paperclip"></i> Adjuntar Foto Boleta / Audio</label>
+            <div class="file-upload-zone" onclick="document.getElementById('file-input').click()">
+                <i class="fa-solid fa-camera" id="upload-icon"></i>
+                <p id="upload-filename">📸 Toca para tomar foto a la boleta</p>
+                <span>Formatos: Cámara, Fotos, PDF, Audios</span>
+            </div>
+            <input type="file" id="file-input" accept="image/*,application/pdf,audio/*" style="display: none;" onchange="handleFileSelect(this)">
+        </div>
+
+        <!-- BOTÓN DE REGISTRO -->
+        <button class="btn-submit" onclick="guardarRegistroLocal()">
+            <i class="fa-solid fa-paper-plane"></i> REGISTRAR Y PUBLICAR AL PORTAFOLIO
+        </button>
+    </div>
+
+    <!-- RECIENTES -->
+    <div class="recent-section">
+        <div class="recent-title">
+            <span><i class="fa-solid fa-history"></i> Rendiciones Ingresadas Hoy</span>
+            <span style="font-size: 11px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Listo</span>
+        </div>
+        <div class="recent-list" id="recent-list">
+            <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 1rem;">
+                Sin registros ingresados hoy. Todo listo para empezar.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentType = 'gasto';
+    let selectedFile = null;
+    let registrosLocales = [];
+
+    function selectType(type, element) {
+        currentType = type;
+        document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+        element.classList.add('active');
+
+        document.getElementById('fields-gasto').style.display = type === 'gasto' ? 'flex' : 'none';
+        document.getElementById('fields-reunion').style.display = type === 'reunion' ? 'flex' : 'none';
+        document.getElementById('fields-instruccion').style.display = type === 'instruccion' ? 'flex' : 'none';
+
+        const icon = document.getElementById('upload-icon');
+        if (type === 'gasto') icon.className = 'fa-solid fa-camera';
+        if (type === 'reunion') icon.className = 'fa-solid fa-file-pdf';
+        if (type === 'instruccion') icon.className = 'fa-solid fa-microphone';
+    }
+
+    function calcularImpuestos() {
+        const monto = parseFloat(document.getElementById('gasto-monto').value) || 0;
+        const neto = Math.round(monto / 1.19);
+        const iva = Math.round(monto - neto);
+        document.getElementById('calc-preview').innerHTML = `
+            <span>Neto: $${neto.toLocaleString('es-CL')}</span>
+            <span>IVA (19%): $${iva.toLocaleString('es-CL')}</span>
+        `;
+    }
+
+    function handleFileSelect(input) {
+        if (input.files && input.files[0]) {
+            selectedFile = input.files[0];
+            document.getElementById('upload-filename').innerText = `📎 ${selectedFile.name} (${Math.round(selectedFile.size / 1024)} KB)`;
+        }
+    }
+
+    function guardarRegistroLocal() {
+        const reportante = document.getElementById('form-reportante').value;
+        const proj = document.getElementById('form-proyecto').value;
+        const fecha = new Date().toISOString().split('T')[0];
+        let itemData = { fecha, reportante, proyecto: proj, tipo: currentType, archivo: selectedFile ? selectedFile.name : 'Sin adjunto' };
+
+        if (currentType === 'gasto') {
+            const proveedor = document.getElementById('gasto-proveedor').value || 'Comercial Faena';
+            const doc = document.getElementById('gasto-doc').value || 'B-001';
+            const monto = parseFloat(document.getElementById('gasto-monto').value) || 0;
+            const concepto = document.getElementById('gasto-concepto').value || 'Gasto de operación';
+            const cat = document.getElementById('gasto-categoria').value;
+
+            if (monto <= 0) {
+                alert('⚠️ Por favor ingresa el monto total del gasto.');
+                return;
+            }
+
+            itemData.titulo = `${proveedor} (${doc})`;
+            itemData.sub = `$${monto.toLocaleString('es-CL')} CLP por ${reportante}`;
+            itemData.monto = monto;
+            itemData.proveedor = proveedor;
+            itemData.doc = doc;
+            itemData.concepto = concepto;
+            itemData.cat = cat;
+
+        } else if (currentType === 'reunion') {
+            const titulo = document.getElementById('reunion-titulo').value || 'Minuta de Acuerdo';
+            const resp = document.getElementById('reunion-responsable').value;
+            const limite = document.getElementById('reunion-limite').value || fecha;
+            const notas = document.getElementById('reunion-notas').value || 'Acuerdos generales';
+
+            itemData.titulo = titulo;
+            itemData.sub = `Resp: ${resp} | Rendido por: ${reportante}`;
+            itemData.responsable = resp;
+            itemData.limite = limite;
+            itemData.notas = notas;
+
+        } else if (currentType === 'instruccion') {
+            const titulo = document.getElementById('instruccion-titulo').value || 'Instrucción de Terreno';
+            const notas = document.getElementById('instruccion-notas').value || 'Sin detalles';
+
+            itemData.titulo = titulo;
+            itemData.sub = `${notas} (${reportante})`;
+            itemData.notas = notas;
+        }
+
+        registrosLocales.push(itemData);
+        renderRecientes();
+        limpiarFormulario();
+        alert(`✅ Registrado por ${reportante} para ${proj}. ¡Gasto imputado con éxito!`);
+    }
+
+    function renderRecientes() {
+        const list = document.getElementById('recent-list');
+        list.innerHTML = '';
+
+        registrosLocales.slice().reverse().forEach(item => {
+            let iconClass = 'fa-receipt';
+            let colorClass = 'var(--solar-amber)';
+            if (item.tipo === 'reunion') { iconClass = 'fa-comments'; colorClass = 'var(--electric-cyan)'; }
+            if (item.tipo === 'instruccion') { iconClass = 'fa-microphone'; colorClass = 'var(--success-green)'; }
+
+            const div = document.getElementById('recent-list');
+            const divItem = document.createElement('div');
+            divItem.className = 'recent-item';
+            divItem.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="recent-item-icon" style="color: ${colorClass};">
+                        <i class="fa-solid ${iconClass}"></i>
+                    </div>
+                    <div>
+                        <strong>${item.titulo}</strong>
+                        <div style="font-size: 11px; color: var(--text-muted);">${item.sub}</div>
+                    </div>
+                </div>
+                <span style="font-size: 11px; color: var(--text-muted); font-family: monospace;">${item.fecha}</span>
+            `;
+            div.appendChild(divItem);
+        });
+    }
+
+    function limpiarFormulario() {
+        document.getElementById('gasto-proveedor').value = '';
+        document.getElementById('gasto-doc').value = '';
+        document.getElementById('gasto-monto').value = '';
+        document.getElementById('gasto-concepto').value = '';
+        document.getElementById('reunion-titulo').value = '';
+        document.getElementById('reunion-notas').value = '';
+        document.getElementById('instruccion-titulo').value = '';
+        document.getElementById('instruccion-notas').value = '';
+        document.getElementById('upload-filename').innerText = '📸 Toca para tomar foto a la boleta';
+        selectedFile = null;
+    }
+</script>
+</body>
+</html>
