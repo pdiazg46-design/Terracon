@@ -1,0 +1,73 @@
+{
+  "proveedores": [
+    {
+      "id": "PROV-001",
+      "rut_empresa": "96.539.000-3",
+      "razon_social": "COMPAÑÍA DE PETRÓLEOS DE CHILE COPEC S.A.",
+      "nombre_fantasia": "Copec S.A.",
+      "rubro_servicio": "Combustible y Lubricantes (Flota Terreno)",
+      "contacto_principal": {
+        "nombre": "Ejecutivo Flota Atacama",
+        "cargo": "Ejecutivo de Cuentas Corporativas",
+        "telefono": "+56 9 1234 5678",
+        "email": "flotas@copec.cl"
+      },
+      "datos_legales_pago": {
+        "banco": "Banco de Chile",
+        "tipo_cuenta": "Cuenta Corriente",
+        "numero_cuenta": "00-123-45678-01",
+        "email_facturacion": "dte@copec.cl",
+        "email_pagos": "pagos@copec.cl"
+      },
+      "proyectos_asociados": ["Carrera Pinto", "Diego de Almagro"],
+      "estado_acreditacion": "Acreditado",
+      "observaciones": "Convenio de combustible y tarjetas de flota para camionetas de faena."
+    },
+    {
+      "id": "PROV-002",
+      "rut_empresa": "77.890.123-4",
+      "razon_social": "HOTELERÍA Y SERVICIOS ATACAMA SPÀ",
+      "nombre_fantasia": "Hotel Atacama Copiapó",
+      "rubro_servicio": "Alojamiento y Alimentación Cuadrillas",
+      "contacto_principal": {
+        "nombre": "Loreto Morales",
+        "cargo": "Jefa de Reservas y Convenios",
+        "telefono": "+56 52 221 4455",
+        "email": "reservas@hotelatacama.cl"
+      },
+      "datos_legales_pago": {
+        "banco": "Banco Santander",
+        "tipo_cuenta": "Cuenta Corriente",
+        "numero_cuenta": "000-7654321-9",
+        "email_facturacion": "facturacion@hotelatacama.cl",
+        "email_pagos": "cobranzas@hotelatacama.cl"
+      },
+      "proyectos_asociados": ["Carrera Pinto"],
+      "estado_acreditacion": "Acreditado",
+      "observaciones": "Alojamiento para cuadrilla eléctrica de Carrera Pinto (4 a 8 personas)."
+    },
+    {
+      "id": "PROV-003",
+      "rut_empresa": "76.456.789-1",
+      "razon_social": "LOGÍSTICA Y TRANSPORTES DEL NORTE SPA",
+      "nombre_fantasia": "Logística Norte",
+      "rubro_servicio": "Transporte y Logística Inversa de Módulos",
+      "contacto_principal": {
+        "nombre": "Carlos Gutiérrez",
+        "cargo": "Gerente de Operaciones",
+        "telefono": "+56 9 8765 4321",
+        "email": "cgutierrez@logisticanorte.cl"
+      },
+      "datos_legales_pago": {
+        "banco": "BCI",
+        "tipo_cuenta": "Cuenta Corriente",
+        "numero_cuenta": "10-987654-32",
+        "email_facturacion": "facturas@logisticanorte.cl",
+        "email_pagos": "pagos@logisticanorte.cl"
+      },
+      "proyectos_asociados": ["Diego de Almagro"],
+      "estado_acreditacion": "En Proceso",
+      "observaciones": "Retiro y traslado de módulos fotovoltaicos en desuso desde Diego de Almagro."
+    }
+  ]
+}

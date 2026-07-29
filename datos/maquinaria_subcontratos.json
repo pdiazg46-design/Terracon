@@ -1,0 +1,92 @@
+{
+  "resumen_portafolio": {
+    "total_equipos_operando": 6,
+    "costo_acumulado_maquinaria_clp": 23919000,
+    "facturas_auditadas_ok": 5,
+    "facturas_en_revision": 1
+  },
+  "proyectos": [
+    {
+      "proyecto": "Carrera Pinto",
+      "centro_costo": "CC-CP-01",
+      "equipos": [
+        {
+          "id_equipo": "EQ-CP-01",
+          "tipo_maquinaria": "Retroexcavadora Cat 420F (Zanjas DC)",
+          "proveedor": "Arriendos Atacama SpA",
+          "rut_proveedor": "76.990.123-4",
+          "patente_identificador": "R-CAT-420",
+          "operador_asignado": "Carlos Mendoza (Acreditado)",
+          "horas_operadas_25pct": 120,
+          "tarifa_hora_clp": 35000,
+          "total_facturado_clp": 4200000,
+          "documento_dte": "Factura F-8890",
+          "estado_auditoria": "🟢 Auditado & Factura Pagada",
+          "observaciones": "Canalización eléctrica de zanjas en inversores 01 a 03."
+        },
+        {
+          "id_equipo": "EQ-CP-02",
+          "tipo_maquinaria": "Camioneta 4x4 Rescate y Supervisión",
+          "proveedor": "Rent a Car Copiapó",
+          "rut_proveedor": "77.345.678-9",
+          "patente_identificador": "JP-DX-90",
+          "operador_asignado": "Víctor Escanilla (Site Manager)",
+          "horas_operadas_25pct": 240,
+          "tarifa_hora_clp": 14729,
+          "total_facturado_clp": 3535000,
+          "documento_dte": "Factura F-1120",
+          "estado_auditoria": "🟢 Auditado & Factura Pagada",
+          "observaciones": "Movilización continua de faena."
+        }
+      ]
+    },
+    {
+      "proyecto": "Diego de Almagro",
+      "centro_costo": "CC-DA-02",
+      "equipos": [
+        {
+          "id_equipo": "EQ-DA-01",
+          "tipo_maquinaria": "Camión Pluma 15 Ton (Izaje MVS-01)",
+          "proveedor": "Arriendos Atacama SpA",
+          "rut_proveedor": "76.990.123-4",
+          "patente_identificador": "PL-15-DA",
+          "operador_asignado": "Roberto Silva (Certificado Rigger)",
+          "horas_operadas_25pct": 80,
+          "tarifa_hora_clp": 65000,
+          "total_facturado_clp": 5200000,
+          "documento_dte": "Factura F-8915",
+          "estado_auditoria": "🟢 Auditado & Factura Pagada",
+          "observaciones": "Posicionamiento de la losa de MVS-01."
+        },
+        {
+          "id_equipo": "EQ-DA-02",
+          "tipo_maquinaria": "Telehandler / Manipulador Telescópico 4T",
+          "proveedor": "Maquinarias del Norte SpA",
+          "rut_proveedor": "76.111.222-3",
+          "patente_identificador": "TH-4000",
+          "operador_asignado": "Esteban Morales (Acreditado)",
+          "horas_operadas_25pct": 90,
+          "tarifa_hora_clp": 45000,
+          "total_facturado_clp": 4082000,
+          "documento_dte": "Factura F-3301",
+          "estado_auditoria": "🟢 Auditado & Factura Pagada",
+          "observaciones": "Descarga de 2.400 módulos nuevos de camión."
+        },
+        {
+          "id_equipo": "EQ-DA-03",
+          "tipo_maquinaria": "Camión Rampla Cama Baja (Logística Inversa)",
+          "proveedor": "Logística Norte",
+          "rut_proveedor": "76.456.789-1",
+          "patente_identificador": "RAM-991",
+          "operador_asignado": "Jaime Araya",
+          "horas_operadas_25pct": 140,
+          "tarifa_hora_clp": 49300,
+          "total_facturado_clp": 6902000,
+          "documento_dte": "Factura F-4410",
+          "estado_auditoria": "🔴 Alerta Atraso Frecuencia Camiones",
+          "observaciones": "Despacho de 400 módulos antiguos fuera de planta."
+        }
+      ]
+    }
+  ]
+}

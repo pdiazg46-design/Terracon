@@ -1,0 +1,112 @@
+{
+  "resumen_portafolio": {
+    "monto_total_contratos_clp": 400000000,
+    "monto_cobrado_acumulado_clp": 120000000,
+    "monto_en_aprobacion_clp": 95000000,
+    "monto_pendiente_futuro_clp": 185000000
+  },
+  "contratos": [
+    {
+      "proyecto": "Carrera Pinto",
+      "centro_costo": "CC-CP-01",
+      "mandante": "Sonedix Chile SpA",
+      "contratista": "Terracon Energy SpA",
+      "monto_contrato_clp": 200000000,
+      "monto_cobrado_clp": 60000000,
+      "monto_en_aprobacion_clp": 47500000,
+      "hitos_pago": [
+        {
+          "id_hito": "HITO-CP-01",
+          "nombre": "Hito 1: Anticipo y Movilización de Faena",
+          "condicion": "Firma de Contrato e Instalación de Faena CP",
+          "pct_monto": 30.0,
+          "monto_clp": 60000000,
+          "factura_dte": "F-7701 (Terracon ➔ Sonedix)",
+          "fecha_pago": "2026-07-15",
+          "estado_pago": "🟢 Pagado por Sonedix"
+        },
+        {
+          "id_hito": "HITO-CP-02",
+          "nombre": "Hito 2: Avance Físico 25% Acreditado",
+          "condicion": "Retiro 1 MVS + 3 Inversores Instalados + Cables BT",
+          "pct_monto": 23.75,
+          "monto_clp": 47500000,
+          "factura_dte": "F-7740 (En Emisión)",
+          "fecha_pago": "2026-08-30 (Estimado)",
+          "estado_pago": "🔵 En Proceso de Aprobación Sonedix"
+        },
+        {
+          "id_hito": "HITO-CP-03",
+          "nombre": "Hito 3: Avance Físico 50% Acreditado",
+          "condicion": "6 Inversores Instalados & Cables DC",
+          "pct_monto": 18.75,
+          "monto_clp": 37500000,
+          "factura_dte": "S/F",
+          "fecha_pago": "Programado",
+          "estado_pago": "⚪ Programado"
+        },
+        {
+          "id_hito": "HITO-CP-04",
+          "nombre": "Hito 4: Cierre QA/QC, Pruebas & Energización",
+          "condicion": "Aprobación Protocolos QA/QC los 13 Inversores",
+          "pct_monto": 27.5,
+          "monto_clp": 55000000,
+          "factura_dte": "S/F",
+          "fecha_pago": "Programado",
+          "estado_pago": "⚪ Programado"
+        }
+      ]
+    },
+    {
+      "proyecto": "Diego de Almagro",
+      "centro_costo": "CC-DA-02",
+      "mandante": "Sonedix Chile SpA",
+      "contratista": "Terracon Energy SpA",
+      "monto_contrato_clp": 200000000,
+      "monto_cobrado_clp": 60000000,
+      "monto_en_aprobacion_clp": 47500000,
+      "hitos_pago": [
+        {
+          "id_hito": "HITO-DA-01",
+          "nombre": "Hito 1: Anticipo y Movilización de Faena",
+          "condicion": "Firma de Contrato e Instalación Faena DDA",
+          "pct_monto": 30.0,
+          "monto_clp": 60000000,
+          "factura_dte": "F-7702 (Terracon ➔ Sonedix)",
+          "fecha_pago": "2026-07-15",
+          "estado_pago": "🟢 Pagado por Sonedix"
+        },
+        {
+          "id_hito": "HITO-DA-02",
+          "nombre": "Hito 2: Avance Físico 25% Acreditado",
+          "condicion": "Desmontaje 600 Módulos + 1 MVS + 3 Inversores",
+          "pct_monto": 23.75,
+          "monto_clp": 47500000,
+          "factura_dte": "F-7741 (En Emisión)",
+          "fecha_pago": "2026-08-30 (Estimado)",
+          "estado_pago": "🔵 En Proceso de Aprobación Sonedix"
+        },
+        {
+          "id_hito": "HITO-DA-03",
+          "nombre": "Hito 3: Avance Físico 50% Acreditado",
+          "condicion": "1.200 Módulos Montados & 6 Inversores",
+          "pct_monto": 18.75,
+          "monto_clp": 37500000,
+          "factura_dte": "S/F",
+          "fecha_pago": "Programado",
+          "estado_pago": "⚪ Programado"
+        },
+        {
+          "id_hito": "HITO-DA-04",
+          "nombre": "Hito 4: Cierre QA/QC, Pruebas & Energización",
+          "condicion": "Despacho 2.400 Módulos & Protocolos 13 Inversores",
+          "pct_monto": 27.5,
+          "monto_clp": 55000000,
+          "factura_dte": "S/F",
+          "fecha_pago": "Programado",
+          "estado_pago": "⚪ Programado"
+        }
+      ]
+    }
+  ]
+}

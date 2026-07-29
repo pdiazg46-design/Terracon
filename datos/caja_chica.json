@@ -1,0 +1,108 @@
+{
+  "resumen_portafolio": {
+    "total_asignado_clp": 5000000,
+    "total_rendido_clp": 1250000,
+    "pct_rendido_global": 25.0,
+    "total_disponible_clp": 3750000
+  },
+  "proyectos": [
+    {
+      "proyecto": "Carrera Pinto",
+      "centro_costo": "CC-CP-01",
+      "responsable": "Víctor Escanilla",
+      "cargo": "Site Manager Carrera Pinto",
+      "formulario_id": "FORM-VICTOR-ESCANILLA",
+      "monto_asignado_clp": 2000000,
+      "monto_rendido_clp": 500000,
+      "pct_rendido": 25.0,
+      "saldo_disponible_clp": 1500000,
+      "rendiciones_detalle": [
+        {
+          "id_vale": "VALE-CP-001",
+          "fecha": "2026-08-05",
+          "proveedor": "FARMAMARKET Copiapó",
+          "rut_proveedor": "76.890.123-5",
+          "concepto": "Botiquín de primeros auxilios y sueros de faena",
+          "monto_clp": 24900,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "boleta_farmamarket_001.jpg",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Requisito legal AHS de faena solar."
+        },
+        {
+          "id_vale": "VALE-CP-002",
+          "fecha": "2026-08-12",
+          "proveedor": "Ferretería Copiapó SpA",
+          "rut_proveedor": "77.123.456-8",
+          "concepto": "Candados de Bloqueo LOTO y Tarjetas de Peligro Subestación",
+          "monto_clp": 247510,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "factura_ferreteria_copiapo_88.pdf",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Comprobante de compra verificado."
+        },
+        {
+          "id_vale": "VALE-CP-003",
+          "fecha": "2026-08-19",
+          "proveedor": "Estación de Servicio Shell Paipote",
+          "rut_proveedor": "96.540.000-1",
+          "concepto": "Recarga de combustible para camioneta 4x4 de rescate faena",
+          "monto_clp": 227590,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "boleta_shell_9901.jpg",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Rendición cerrada al hito del 25%."
+        }
+      ]
+    },
+    {
+      "proyecto": "Diego de Almagro",
+      "centro_costo": "CC-DA-02",
+      "responsable": "Marcos Font",
+      "cargo": "PM Senior / Liderazgo Operativo",
+      "formulario_id": "FORM-MARCOS-FONT",
+      "monto_asignado_clp": 3000000,
+      "monto_rendido_clp": 750000,
+      "pct_rendido": 25.0,
+      "saldo_disponible_clp": 2250000,
+      "rendiciones_detalle": [
+        {
+          "id_vale": "VALE-DA-001",
+          "fecha": "2026-08-04",
+          "proveedor": "Ferretería El Minero DDA",
+          "rut_proveedor": "76.543.210-9",
+          "concepto": "Cintas de delimitación de peligro, carpas acopio módulos y candados",
+          "monto_clp": 452200,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "factura_el_minero_450.pdf",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Insumos de seguridad Hoki."
+        },
+        {
+          "id_vale": "VALE-DA-002",
+          "fecha": "2026-08-16",
+          "proveedor": "Agua Purificada Atacama",
+          "rut_proveedor": "77.999.111-2",
+          "concepto": "Suministro de bidones de agua purificada 20L faena desierto",
+          "monto_clp": 147800,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "boleta_agua_atacama_12.jpg",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Hidratación cuadrilla desmontaje."
+        },
+        {
+          "id_vale": "VALE-DA-003",
+          "fecha": "2026-08-22",
+          "proveedor": "Vulcanización El Salvador",
+          "rut_proveedor": "14.567.111-K",
+          "concepto": "Reparación neumático de camión pluma izaje",
+          "monto_clp": 150000,
+          "metodo_pago": "Efectivo Caja Chica",
+          "foto_comprobante": "boleta_vulcanizacion_99.jpg",
+          "estado_auditoria": "🟢 Auditado & Aprobado Patricio Díaz",
+          "observaciones": "Urgencia operativa terreno."
+        }
+      ]
+    }
+  ]
+}

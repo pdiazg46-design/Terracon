@@ -1,0 +1,50 @@
+{
+  "plantas": [
+    {
+      "proyecto": "Carrera Pinto",
+      "centro_costo": "CC-CP-01",
+      "mvs_id": "MVS-01",
+      "total_inversores": 13,
+      "inversores": [
+        {
+          "id": "INV-CP-01",
+          "nombre": "String Inverter #01 (MVS-01)",
+          "posicion": "Fila A - Tracker 01",
+          "estado_general": "100% Completado & Ensayado",
+          "pct_avance": 100.0,
+          "hitos": {
+            "montaje_mecanico": { "estado": "Completado", "fecha": "2026-08-10" },
+            "cables_solares_dc": { "estado": "Completado", "strings_listos": 12, "total_strings": 12, "fecha": "2026-08-14", "detalle": "Cables Solares DC (Rojo + / Negro -)" },
+            "conectorizacion_mc4": { "estado": "Completado", "conectores_listos": 24, "total_conectores": 24, "fecha": "2026-08-16" },
+            "triadas_bt_mvs": { "estado": "Completado", "fecha": "2026-08-18" },
+            "pruebas_megado_polaridad": { "estado": "Completado", "fecha": "2026-08-20" },
+            "protocolo_qaqc": { "estado": "Aprobado Sonedix", "fecha": "2026-08-22" }
+          }
+        }
+      ]
+    },
+    {
+      "proyecto": "Diego de Almagro",
+      "centro_costo": "CC-DA-02",
+      "mvs_id": "MVS-01",
+      "total_inversores": 13,
+      "inversores": [
+        {
+          "id": "INV-DA-01",
+          "nombre": "String Inverter #01 (MVS-01)",
+          "posicion": "Bloque Mecánico 01",
+          "estado_general": "100% Completado & Pruebas Megado OK",
+          "pct_avance": 100.0,
+          "hitos": {
+            "montaje_mecanico": { "estado": "Completado", "fecha": "2026-08-11" },
+            "cables_solares_dc": { "estado": "Completado", "strings_listos": 12, "total_strings": 12, "fecha": "2026-08-15", "detalle": "Cables Solares DC (Rojo + / Negro -)" },
+            "conectorizacion_mc4": { "estado": "Completado", "conectores_listos": 24, "total_conectores": 24, "fecha": "2026-08-17" },
+            "triadas_bt_mvs": { "estado": "Completado", "fecha": "2026-08-19" },
+            "pruebas_megado_polaridad": { "estado": "Completado", "fecha": "2026-08-21" },
+            "protocolo_qaqc": { "estado": "Aprobado Sonedix", "fecha": "2026-08-23" }
+          }
+        }
+      ]
+    }
+  ]
+}

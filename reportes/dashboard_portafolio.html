@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terracon Energy - Dashboard de Portafolio Revamping Solar (Estado Inicial)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-hover: #1c2742;
+            --border-color: rgba(255, 255, 255, 0.08);
+            
+            --solar-amber: #f59e0b;
+            --solar-amber-glow: rgba(245, 158, 11, 0.15);
+            --electric-cyan: #06b6d4;
+            --electric-cyan-glow: rgba(6, 182, 212, 0.15);
+            --success-green: #10b981;
+            --alert-red: #ef4444;
+            --sonedix-blue: #3b82f6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .brand { display: flex; align-items: center; gap: 16px; }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--solar-amber), #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px var(--solar-amber-glow);
+        }
+
+        .brand-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-title p { font-size: 13px; color: var(--text-muted); }
+
+        .view-mode-selector {
+            display: flex;
+            background: rgba(0,0,0,0.4);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            background: transparent;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn.active.terracon {
+            background: linear-gradient(135deg, var(--solar-amber), #d97706);
+            color: #000;
+            box-shadow: 0 2px 10px var(--solar-amber-glow);
+        }
+
+        .view-btn.active.sonedix {
+            background: linear-gradient(135deg, var(--sonedix-blue), #1d4ed8);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-print {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--solar-amber);
+        }
+
+        .kpi-card.blue::before { background: var(--sonedix-blue); }
+        .kpi-card.cyan::before { background: var(--electric-cyan); }
+        .kpi-card.green::before { background: var(--success-green); }
+        .kpi-card.red::before { background: var(--alert-red); }
+
+        .kpi-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px; }
+        .kpi-value { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+        .kpi-subtext { font-size: 12px; color: var(--text-dim); }
+
+        /* LEVEL 1 MAIN TABS */
+        .main-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .main-tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .main-tab-btn.active {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(245, 158, 11, 0.05));
+            border-color: var(--solar-amber);
+            color: var(--solar-amber);
+            box-shadow: 0 4px 15px var(--solar-amber-glow);
+        }
+
+        /* LEVEL 2 SUB TABS INSIDE PROJECT */
+        .sub-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sub-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sub-tab-btn.active {
+            background: var(--electric-cyan);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .sub-tab-content { display: none; }
+        .sub-tab-content.active { display: block; }
+
+        .project-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .project-header { margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--solar-amber), #fbbf24);
+            border-radius: 6px;
+        }
+
+        .progress-bar-fill.cyan { background: linear-gradient(90deg, var(--electric-cyan), #38bdf8); }
+        .progress-bar-fill.green { background: linear-gradient(90deg, var(--success-green), #34d399); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13.5px; }
+        th { text-align: left; padding: 12px 14px; background: rgba(255, 255, 255, 0.03); color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border-color); text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.5px; }
+        td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+
+        .badge-tag { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-tag.ok { background: rgba(16, 185, 129, 0.15); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-tag.alert { background: rgba(239, 68, 68, 0.15); color: var(--alert-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-tag.warning { background: rgba(245, 158, 11, 0.15); color: var(--solar-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-tag.blue { background: rgba(59, 130, 246, 0.15); color: var(--sonedix-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+        .audience-banner {
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .audience-banner.terracon { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--solar-amber); }
+        .audience-banner.sonedix { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--sonedix-blue); }
+
+        .empty-placeholder {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h1 id="header-title">TERRACON ENERGY — VISTA INTERNA DE PORTAFOLIO</h1>
+                <p id="header-subtitle">Control Técnico-Financiero | Estado Inicial | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong></p>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 14px; align-items: center;">
+            <div class="view-mode-selector">
+                <button id="btn-view-terracon" class="view-btn active terracon" onclick="setProfile('terracon')">
+                    🛡️ Vista Interna (Terracon)
+                </button>
+                <button id="btn-view-sonedix" class="view-btn sonedix" onclick="setProfile('sonedix')">
+                    👔 Vista Cliente (Sonedix)
+                </button>
+            </div>
+            
+            <button class="btn-print" onclick="window.print()">🖨️ PDF</button>
+        </div>
+    </header>
+
+    <!-- BANNER DE AUDIENCIA -->
+    <div id="banner-audience" class="audience-banner terracon">
+        <span>🛡️ <strong>MODO INTERNO TERRACON</strong>: Sistema de Control de Portafolio Listo | Estado Inicial Limpio | Esperando Hito de Inicio de Contrato.</span>
+        <span class="mono">ESTADO INICIAL 0.0%</span>
+    </div>
+
+    <!-- KPI CARDS SUMMARY -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Avance Físico Promedio Global</div>
+            <div class="kpi-value" style="color: var(--solar-amber);" id="kpi-1-val">0.0%</div>
+            <div class="kpi-subtext" id="kpi-1-sub">Línea Base Lista para Inicio</div>
+        </div>
+
+        <div class="kpi-card cyan" id="kpi-financial-card">
+            <div class="kpi-label" id="kpi-financial-label">Ejecución Presupuestaria OPEX</div>
+            <div class="kpi-value" id="kpi-financial-val" style="color: var(--electric-cyan);">$0.00 CLP</div>
+            <div class="kpi-subtext" id="kpi-financial-sub">CLP Acumulados ($0 Neto | $0 IVA)</div>
+        </div>
+
+        <div class="kpi-card green">
+            <div class="kpi-label" id="kpi-3-label">Auditoría Cajas Chicas</div>
+            <div class="kpi-value" id="kpi-3-val" style="color: var(--success-green);">$0 CLP</div>
+            <div class="kpi-subtext" id="kpi-3-sub">Rendido $0 CLP de Fondos Asignados</div>
+        </div>
+
+        <div class="kpi-card red" id="kpi-alert-card">
+            <div class="kpi-label" id="kpi-alert-label">Maquinaria & Subcontratos</div>
+            <div class="kpi-value" id="kpi-alert-val" style="color: var(--success-green);">0 Equipos</div>
+            <div class="kpi-subtext" id="kpi-alert-sub">$0 Facturados | 0 Alertas Pendientes</div>
+        </div>
+    </div>
+
+    <!-- LEVEL 1 MAIN TABS (PROYECTOS Y PORTAFOLIO GLOBAL) -->
+    <div class="main-tabs">
+        <button class="main-tab-btn active" onclick="openMainTab(event, 'main-tab-consolidado')">🌐 Consolidado Portafolio</button>
+        <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-carrera-pinto')">⚡ Carrera Pinto (CC-CP-01)</button>
+        <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-diego-almagro')">🛠️ Diego de Almagro (CC-DA-02)</button>
+        <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-auditoria')">🔍 Auditoría Cajas & Maquinaria</button>
+        <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-proveedores')">🏭 Maestro Proveedores</button>
+        <button class="main-tab-btn sonedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonedix</button>
+    </div>
+
+    <!-- MAIN TAB 1: CONSOLIDADO PORTAFOLIO -->
+    <div id="main-tab-consolidado" class="tab-content active">
+        <div class="project-section">
+            <div class="project-header">
+                <div>
+                    <h2>📊 Consolidado de Alcance Técnico Real de Portafolio (Estado Inicial)</h2>
+                    <p>Estructura lista para recepcionar avances de Carrera Pinto y Diego de Almagro</p>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Código Contrato</th>
+                        <th>Alcance Específico</th>
+                        <th>Desmontaje Módulos</th>
+                        <th>MVS / Inversores</th>
+                        <th>Avance Físico</th>
+                        <th>Estado de Proyecto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Carrera Pinto</strong></td>
+                        <td><span class="mono">CC-CP-01</span></td>
+                        <td>Recambio Eléctrico Puro (Reconfiguración de Strings sin desmontar paneles)</td>
+                        <td><span class="badge-tag blue">❌ No Aplica Desmontaje</span></td>
+                        <td class="mono">MVS 4480 + String Inverters</td>
+                        <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                        <td><span class="badge-tag warning">⚪ Esperando Inicio</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Diego de Almagro</strong></td>
+                        <td><span class="mono">CC-DA-02</span></td>
+                        <td>Revamping Integral (Desmontaje/Montaje Módulos + Logística Inversa)</td>
+                        <td><span class="badge-tag warning">⚠️ Por Confirmar según Contrato</span></td>
+                        <td class="mono">MVS 4480 + String Inverters</td>
+                        <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill cyan" style="width: 0%;"></div></div></td>
+                        <td><span class="badge-tag warning">⚪ Esperando Inicio</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MAIN TAB 2: CARRERA PINTO -->
+    <div id="main-tab-carrera-pinto" class="tab-content">
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" onclick="openSubTab(event, 'cp-sub-avance', 'cp-sub-group')">📈 Avance Físico & Partidas</button>
+            <button class="sub-tab-btn sonedix-only" style="display:none;" onclick="openSubTab(event, 'cp-sub-sonedix-pago', 'cp-sub-group')">💳 Contrato & Pagos Sonedix CP</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-rrhh', 'cp-sub-group')">👥 Dotación RRHH & Acreditaciones</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-caja-chica', 'cp-sub-group')">📦 Caja Chica</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-opex', 'cp-sub-group')">💰 OPEX & Facturas</button>
+        </div>
+
+        <div id="cp-sub-avance" class="sub-tab-content cp-sub-group active">
+            <div class="project-section">
+                <div class="project-header">
+                    <h2>⚡ Carrera Pinto (CC-CP-01) — Recambio Eléctrico Puro (Estado Inicial)</h2>
+                </div>
+                <div class="empty-placeholder">
+                    <p>📋 <strong>Tabla limpia a la espera de la firma de contrato e inicio de reportabilidad diaria de terreno.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="cp-sub-sonedix-pago" class="sub-tab-content cp-sub-group">
+            <div class="project-section">
+                <div class="project-header">
+                    <h2>💳 Contrato Carrera Pinto (CC-CP-01) — Hitos de Pago Sonedix</h2>
+                    <p>Mandante: Sonedix Chile SpA | Control de Cobros Específico de Carrera Pinto</p>
+                </div>
+                <div class="empty-placeholder">
+                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonedix.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="cp-sub-rrhh" class="sub-tab-content cp-sub-group">
+            <div class="project-section">
+                <h2>👥 Carrera Pinto — Dotación de RRHH & Acreditaciones</h2>
+                <table>
+                    <thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Formulario Exclusivo</th><th>Estado</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">EMP-001</td><td>Patricio Díaz</td><td>Director Portafolio / Administrador</td><td class="mono">FORM-PATRICIO-DIAZ</td><td><span class="badge-tag ok">🟢 Director Acreditado</span></td></tr>
+                        <tr><td class="mono">EMP-002</td><td>Marcos Font</td><td>PM Senior / Jefe de Proyecto</td><td class="mono">FORM-MARCOS-FONT</td><td><span class="badge-tag ok">🟢 PM Acreditado</span></td></tr>
+                        <tr><td class="mono">EMP-003</td><td>Víctor Escanilla</td><td>Site Manager Carrera Pinto</td><td class="mono">FORM-VICTOR-ESCANILLA</td><td><span class="badge-tag ok">🟢 Site Manager Acreditado</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="cp-sub-caja-chica" class="sub-tab-content cp-sub-group">
+            <div class="project-section">
+                <h2>📦 Carrera Pinto — Control de Caja Chica (CC-CP-01)</h2>
+                <div class="caja-card">
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$0 CLP</span></div>
+                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono">$0 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" style="color:var(--success-green);">$0 CLP</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cp-sub-opex" class="sub-tab-content cp-sub-group">
+            <div class="project-section">
+                <h2>💰 OPEX & Facturas Carrera Pinto</h2>
+                <div class="empty-placeholder">
+                    <p>🧾 <strong>Sin rendiciones de gastos ni facturas registradas. Tabla limpia para inicio.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TAB 3: DIEGO DE ALMAGRO -->
+    <div id="main-tab-diego-almagro" class="tab-content">
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" onclick="openSubTab(event, 'da-sub-avance', 'da-sub-group')">📈 Avance Físico & Módulos</button>
+            <button class="sub-tab-btn sonedix-only" style="display:none;" onclick="openSubTab(event, 'da-sub-sonedix-pago', 'da-sub-group')">💳 Contrato & Pagos Sonedix DA</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-rrhh', 'da-sub-group')">👥 Dotación RRHH</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-caja-chica', 'da-sub-group')">📦 Caja Chica</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-opex', 'da-sub-group')">💰 OPEX & Facturas</button>
+        </div>
+
+        <div id="da-sub-avance" class="sub-tab-content da-sub-group active">
+            <div class="project-section">
+                <div class="project-header">
+                    <h2>🛠️ Diego de Almagro (CC-DA-02) — Revamping Integral (Estado Inicial)</h2>
+                </div>
+                <div class="empty-placeholder">
+                    <p>📋 <strong>Tabla limpia a la espera del inicio de faena y logística de módulos.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="da-sub-sonedix-pago" class="sub-tab-content da-sub-group">
+            <div class="project-section">
+                <div class="project-header">
+                    <h2>💳 Contrato Diego de Almagro (CC-DA-02) — Hitos de Pago Sonedix</h2>
+                    <p>Mandante: Sonedix Chile SpA | Control de Cobros Específico de Diego de Almagro</p>
+                </div>
+                <div class="empty-placeholder">
+                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonedix.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="da-sub-rrhh" class="sub-tab-content da-sub-group">
+            <div class="project-section">
+                <h2>👥 Diego de Almagro — Dotación de RRHH & Acreditaciones</h2>
+                <table>
+                    <thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Formulario Exclusivo</th><th>Estado</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">EMP-001</td><td>Patricio Díaz</td><td>Director Portafolio / Administrador</td><td class="mono">FORM-PATRICIO-DIAZ</td><td><span class="badge-tag ok">🟢 Director Acreditado</span></td></tr>
+                        <tr><td class="mono">EMP-002</td><td>Marcos Font</td><td>PM Senior / Jefe de Proyecto</td><td class="mono">FORM-MARCOS-FONT</td><td><span class="badge-tag ok">🟢 PM Acreditado</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="da-sub-caja-chica" class="sub-tab-content da-sub-group">
+            <div class="project-section">
+                <h2>📦 Diego de Almagro — Control de Caja Chica (CC-DA-02)</h2>
+                <div class="caja-card">
+                    <div class="caja-stat"><span>Fondo Asignado:</span><span class="mono">$0 CLP</span></div>
+                    <div class="caja-stat"><span>Rendido Acumulado:</span><span class="mono">$0 CLP</span></div>
+                    <div class="caja-stat total"><span>Saldo Disponible:</span><span class="mono" style="color:var(--success-green);">$0 CLP</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="da-sub-opex" class="sub-tab-content da-sub-group">
+            <div class="project-section">
+                <h2>💰 OPEX & Facturas Diego de Almagro</h2>
+                <div class="empty-placeholder">
+                    <p>🧾 <strong>Sin rendiciones de gastos ni facturas registradas. Tabla limpia para inicio.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TAB 4: AUDITORÍA DE CAJAS CHICAS Y MAQUINARIA -->
+    <div id="main-tab-auditoria" class="tab-content">
+        <div class="project-section">
+            <h2>🔍 Centro de Auditoría de Cajas Chicas y Pagos a Maquinaria</h2>
+            <h3 style="color:var(--solar-amber); margin-bottom: 12px;">📦 Consolidado Cajas Chicas Portafolio</h3>
+            <table>
+                <thead><tr><th>Proyecto</th><th>Responsable</th><th>Fondo Asignado</th><th>Fondo Rendido</th><th>Saldo</th><th>Estado</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Carrera Pinto</strong></td><td>Víctor Escanilla</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td><span class="badge-tag warning">⚪ Sin Movimientos</span></td></tr>
+                    <tr><td><strong>Diego de Almagro</strong></td><td>Marcos Font</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td class="mono">$0 CLP</td><td><span class="badge-tag warning">⚪ Sin Movimientos</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MAIN TAB 5: PROVEEDORES GLOBALES -->
+    <div id="main-tab-proveedores" class="tab-content">
+        <div class="project-section">
+            <h2>🏭 Maestro Global de Proveedores & Asignación Explícita</h2>
+            <div class="empty-placeholder">
+                <p>🏭 <strong>Maestro de proveedores listo para ir registrando contratistas habilitados por proyecto.</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TAB 6: SONEDIX FACTURACION SEGREGADA POR PROYECTO -->
+    <div id="main-tab-facturacion" class="tab-content">
+        <div class="project-section">
+            <div class="project-header">
+                <div>
+                    <h2>💳 Estado de Pagos Segregados por Proyecto (Sonedix ➔ Terracon)</h2>
+                    <p>Cada contrato es administrado y cobrado de forma 100% independiente</p>
+                </div>
+            </div>
+            <div class="empty-placeholder">
+                <p>💳 <strong>Tabla de hitos de cobro lista para ser configurada a la firma de los contratos con Sonedix.</strong></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentProfile = 'terracon';
+
+    function setProfile(profile) {
+        currentProfile = profile;
+        const btnT = document.getElementById('btn-view-terracon');
+        const btnS = document.getElementById('btn-view-sonedix');
+        const banner = document.getElementById('banner-audience');
+        const hTitle = document.getElementById('header-title');
+        const hSub = document.getElementById('header-subtitle');
+        
+        const kpiFinLabel = document.getElementById('kpi-financial-label');
+        const kpiFinVal = document.getElementById('kpi-financial-val');
+        const kpiFinSub = document.getElementById('kpi-financial-sub');
+        
+        const terraconElements = document.querySelectorAll('.terracon-only');
+        const sonedixElements = document.querySelectorAll('.sonedix-only');
+        
+        if (profile === 'sonedix') {
+            btnT.classList.remove('active');
+            btnS.classList.add('active');
+            banner.className = 'audience-banner sonedix';
+            banner.innerHTML = '<span>👔 <strong>VISTA CLIENTE (SONEDIX)</strong>: Informe Ejecutivo de Estado Inicial + Contratos y Pagos Segregados.</span><span class="mono">REPORTE OFICIAL CLIENTE</span>';
+            
+            hTitle.innerText = 'SONEDIX — INFORME EJECUTIVO DE AVANCE DE PORTAFOLIO';
+            hSub.innerHTML = 'Mandante: Terracon Energy | Cliente Final: Sonedix | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong>';
+            
+            kpiFinLabel.innerText = 'Cobros Acumulados Sonedix';
+            kpiFinVal.innerText = '$0.00 CLP';
+            kpiFinVal.style.color = 'var(--sonedix-blue)';
+            kpiFinSub.innerText = '$0 CLP CP + $0 CLP DDA | Esperando Inicio';
+            
+            document.getElementById('kpi-3-label').innerText = 'Hitos de Avance Aprobados';
+            document.getElementById('kpi-3-val').innerText = '0 Hitos';
+            document.getElementById('kpi-3-val').style.color = 'var(--text-muted)';
+            document.getElementById('kpi-3-sub').innerText = 'Línea Base Inicial';
+            
+            terraconElements.forEach(t => t.style.display = 'none');
+            sonedixElements.forEach(t => t.style.display = 'inline-block');
+            openMainTabDirect('main-tab-consolidado');
+        } else {
+            btnS.classList.remove('active');
+            btnT.classList.add('active');
+            banner.className = 'audience-banner terracon';
+            banner.innerHTML = '<span>🛡️ <strong>MODO INTERNO TERRACON</strong>: Sistema de Control de Portafolio Iniciado | Estado Inicial Limpio | Esperando Hito de Inicio de Contrato.</span><span class="mono">ESTADO INICIAL 0.0%</span>';
+            
+            hTitle.innerText = 'TERRACON ENERGY — VISTA INTERNA DE PORTAFOLIO';
+            hSub.innerHTML = 'Control Técnico-Financiero | Estado Inicial | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong>';
+            
+            kpiFinLabel.innerText = 'Ejecución Presupuestaria OPEX';
+            kpiFinVal.innerText = '$0.00 CLP';
+            kpiFinVal.style.color = 'var(--electric-cyan)';
+            kpiFinSub.innerText = 'CLP Acumulados ($0 Neto | $0 IVA)';
+            
+            document.getElementById('kpi-3-label').innerText = 'Auditoría Cajas Chicas';
+            document.getElementById('kpi-3-val').innerText = '$0 CLP';
+            document.getElementById('kpi-3-val').style.color = 'var(--success-green)';
+            document.getElementById('kpi-3-sub').innerText = 'Rendido $0 CLP de Fondos Asignados';
+            
+            terraconElements.forEach(t => t.style.display = 'inline-block');
+            sonedixElements.forEach(t => t.style.display = 'none');
+        }
+    }
+
+    function openMainTab(evt, mainTabId) {
+        openMainTabDirect(mainTabId);
+        let tablinks = document.getElementsByClassName("main-tab-btn");
+        for (let i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        evt.currentTarget.classList.add("active");
+    }
+
+    function openMainTabDirect(mainTabId) {
+        let tabcontent = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        document.getElementById(mainTabId).classList.add("active");
+    }
+
+    function openSubTab(evt, subTabId, groupClass) {
+        let subcontent = document.getElementsByClassName(groupClass);
+        for (let i = 0; i < subcontent.length; i++) {
+            subcontent[i].classList.remove("active");
+        }
+        document.getElementById(subTabId).classList.add("active");
+        
+        let parentContainer = evt.currentTarget.parentElement;
+        let sublinks = parentContainer.getElementsByClassName("sub-tab-btn");
+        for (let i = 0; i < sublinks.length; i++) {
+            sublinks[i].classList.remove("active");
+        }
+        evt.currentTarget.classList.add("active");
+    }
+</script>
+
+</body>
+</html>
