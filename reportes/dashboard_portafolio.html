@@ -405,6 +405,7 @@
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-rrhh', 'cp-sub-group')">👥 Dotación RRHH & Acreditaciones</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-caja-chica', 'cp-sub-group')">📦 Caja Chica</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-opex', 'cp-sub-group')">💰 OPEX & Facturas</button>
+            <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-instrucciones', 'cp-sub-group')">🗣️ Instrucciones por Audio</button>
         </div>
 
         <div id="cp-sub-avance" class="sub-tab-content cp-sub-group active">
@@ -414,6 +415,15 @@
                 </div>
                 <div class="empty-placeholder">
                     <p>📋 <strong>Tabla limpia a la espera de la firma de contrato e inicio de reportabilidad diaria de terreno.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="cp-sub-instrucciones" class="sub-tab-content cp-sub-group">
+            <div class="project-section">
+                <h2>🗣️ Carrera Pinto — Bitácora de Instrucciones Dictadas por Voz</h2>
+                <div id="cp-instrucciones-container" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Se cargan las instrucciones registradas por audio -->
                 </div>
             </div>
         </div>
@@ -817,6 +827,31 @@
             `;
         });
         tbody.innerHTML = html;
+    }
+
+    function renderInstruccionesAudio(containerId, items) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="empty-placeholder"><p>🗣️ <strong>Sin instrucciones por voz registradas aún.</strong></p></div>';
+            return;
+        }
+        let html = '';
+        items.forEach(inst => {
+            html += `
+                <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-size:11px; color:var(--solar-amber); font-weight:700;">🗣️ INSTRUCCIÓN DICTADA POR VOZ</div>
+                        <h3 style="font-size:15px; font-weight:700; margin:4px 0;">${inst.titulo || 'Instrucción de Terreno'}</h3>
+                        <p style="font-size:12px; color:var(--text-muted);">Emisor: <strong>${inst.reportante || 'Patricio Díaz'}</strong> | Duración: ${inst.duracion || '15'}s</p>
+                    </div>
+                    <div>
+                        <span class="badge-tag ok">🟢 Transcrito & Registrado</span>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
     }
 </script>
 

@@ -1,0 +1,30 @@
+name: Procesador Automático de Audios y Capturas
+
+on:
+  repository_dispatch:
+    types: [nueva_captura_movil]
+  workflow_dispatch:
+
+jobs:
+  procesar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Procesar Audios y Rendiciones Pendientes
+        run: |
+          python scripts/procesar_rendiciones_pendientes.py
+
+      - name: Commit y Push de Cambios
+        run: |
+          git config --global user.name 'Terracon AutoBot'
+          git config --global user.email 'autobot@terracon.cl'
+          git add .
+          git diff-index --quiet HEAD || git commit -m "auto: procesamiento automatico de audio movil"
+          git push
