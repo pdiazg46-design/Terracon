@@ -1,4 +1,1 @@
 item_id,fecha,categoria_codigo,categoria_nombre,proveedor,nro_documento,concepto,monto_neto,iva,monto_total,respaldado,archivo_respaldo
-
-CP-GASTO-3725,2026-07-29,CAT-05,Combustible y Faena,Copec Copiapó,B-9981,Carga Combustible Camioneta Faena,37815,7185,45000,SI,boleta_patricio.jpg
-CP-GASTO-0513,2026-07-29,CAT-05,Combustible y Faena,Copec Copiapo,B-9981,Carga Combustible Camioneta Faena,37815,7185,45000,SI,boleta_patricio.jpg
