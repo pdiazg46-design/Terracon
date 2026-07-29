@@ -2,12 +2,16 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terracon Energy — Portal de Carga Rápida de Terreno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terracon Energy — Portal de Carga Rápida Móvil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Meta etiquetas PWA para agregar a la pantalla de inicio del celular -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#090d16">
     <style>
         :root {
             --bg-dark: #090d16;
@@ -32,69 +36,69 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            padding: 16px;
+            padding: 12px;
             min-height: 100vh;
         }
 
         .app-container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         header {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
-        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
         .brand-icon {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, var(--solar-amber), #d97706);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             color: #000;
             box-shadow: 0 0 15px var(--solar-amber-glow);
         }
 
-        .brand-text h1 { font-size: 18px; font-weight: 700; }
-        .brand-text p { font-size: 12px; color: var(--text-muted); }
+        .brand-text h1 { font-size: 17px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: var(--text-muted); }
 
         /* MODOS DE CARGA */
         .type-selector {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .type-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 16px 10px;
+            padding: 14px 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .type-card i { font-size: 22px; color: var(--text-muted); }
-        .type-card span { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .type-card i { font-size: 20px; color: var(--text-muted); }
+        .type-card span { font-size: 11px; font-weight: 700; color: var(--text-muted); }
 
         .type-card.active {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
@@ -109,10 +113,10 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
@@ -123,8 +127,8 @@
         }
 
         .form-group label {
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -149,14 +153,14 @@
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
         /* CARGADOR DE ARCHIVOS */
         .file-upload-zone {
             border: 2px dashed var(--border-color);
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             background: rgba(0,0,0,0.2);
             cursor: pointer;
@@ -168,9 +172,9 @@
             background: rgba(6, 182, 212, 0.05);
         }
 
-        .file-upload-zone i { font-size: 28px; color: var(--solar-amber); margin-bottom: 8px; }
-        .file-upload-zone p { font-size: 13px; color: var(--text-muted); }
-        .file-upload-zone span { font-size: 11px; color: var(--electric-cyan); font-weight: 600; }
+        .file-upload-zone i { font-size: 26px; color: var(--solar-amber); margin-bottom: 6px; }
+        .file-upload-zone p { font-size: 12px; color: var(--text-muted); }
+        .file-upload-zone span { font-size: 10px; color: var(--electric-cyan); font-weight: 600; }
 
         /* BOTÓN DE GUARDADO */
         .btn-submit {
@@ -179,7 +183,7 @@
             border: none;
             padding: 14px;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
@@ -192,18 +196,18 @@
 
         .btn-submit:active { transform: scale(0.98); }
 
-        /* LOG DE REGISTROS RECIENTES */
+        /* RECIENTES */
         .recent-section {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 16px;
         }
 
         .recent-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -212,29 +216,29 @@
         .recent-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .recent-item {
             background: rgba(0,0,0,0.2);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 10px 14px;
+            padding: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .recent-item-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             background: rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -244,13 +248,13 @@
     <!-- HEADER -->
     <header>
         <div class="brand">
-            <div class="brand-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <div class="brand-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
             <div class="brand-text">
-                <h1>TERRACON CAPTURA</h1>
-                <p>Carga Rápida de Gastos, Reuniones y Terreno</p>
+                <h1>TERRACON CAPTURA MÓVIL</h1>
+                <p>Uso exclusivo: Patricio, Víctor y Marcos</p>
             </div>
         </div>
-        <a href="dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 13px;">
+        <a href="dashboard_portafolio.html" style="color: var(--electric-cyan); font-weight: 600; text-decoration: none; font-size: 12px;">
             <i class="fa-solid fa-chart-line"></i> Dashboard
         </a>
     </header>
@@ -273,13 +277,23 @@
 
     <!-- FORMULARIO DINÁMICO -->
     <div class="form-section">
-        <!-- PROYECTO -->
-        <div class="form-group">
-            <label><i class="fa-solid fa-building-flag"></i> Proyecto / Centro de Costo</label>
-            <select id="form-proyecto" class="form-control">
-                <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
-                <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro (CC-DA-02)</option>
-            </select>
+        <!-- SELECCIÓN DE REPORTANTE -->
+        <div class="form-row">
+            <div class="form-group">
+                <label><i class="fa-solid fa-user-check"></i> ¿Quién Rinde?</label>
+                <select id="form-reportante" class="form-control">
+                    <option value="Patricio Díaz">👨‍💼 Patricio Díaz (Director)</option>
+                    <option value="Víctor Escanilla">👷‍♂️ Víctor Escanilla (Site Manager CP)</option>
+                    <option value="Marcos Font">👔 Marcos Font (PM Senior)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-building-flag"></i> Proyecto</label>
+                <select id="form-proyecto" class="form-control">
+                    <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto</option>
+                    <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro</option>
+                </select>
+            </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: GASTO -->
@@ -296,19 +310,19 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label><i class="fa-solid fa-store"></i> Proveedor / Comercio</label>
-                    <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec / Hotel Atacama">
+                    <label><i class="fa-solid fa-store"></i> Proveedor</label>
+                    <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec / Hotel">
                 </div>
             </div>
 
-            <div class="form-row" style="margin-top: 12px;">
+            <div class="form-row" style="margin-top: 10px;">
                 <div class="form-group">
-                    <label><i class="fa-solid fa-file-invoice"></i> N° Boleta / Factura</label>
+                    <label><i class="fa-solid fa-file-invoice"></i> N° Boleta/Factura</label>
                     <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234">
                 </div>
                 <div class="form-group">
-                    <label><i class="fa-solid fa-sack-dollar"></i> Monto Total ($ CLP)</label>
-                    <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 45000" oninput="calcularImpuestos()">
+                    <label><i class="fa-solid fa-sack-dollar"></i> Monto ($ CLP)</label>
+                    <input type="number" id="gasto-monto" class="form-control" placeholder="45000" oninput="calcularImpuestos()">
                 </div>
             </div>
 
@@ -317,25 +331,25 @@
                 <span>IVA (19%): $0</span>
             </div>
 
-            <div class="form-group" style="margin-top: 12px;">
-                <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto del Gasto</label>
-                <input type="text" id="gasto-concepto" class="form-control" placeholder="Ej: Combustible Camioneta CP-01 Copiapó">
+            <div class="form-group" style="margin-top: 10px;">
+                <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto</label>
+                <input type="text" id="gasto-concepto" class="form-control" placeholder="Ej: Combustible Camioneta CP Copiapó">
             </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: REUNIÓN -->
         <div id="fields-reunion" style="display: none;">
             <div class="form-group">
-                <label><i class="fa-solid fa-heading"></i> Título o Acuerdos de la Reunión</label>
+                <label><i class="fa-solid fa-heading"></i> Título de la Reunión</label>
                 <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Coordinación Outage Bloque 1">
             </div>
-            <div class="form-row" style="margin-top: 12px;">
+            <div class="form-row" style="margin-top: 10px;">
                 <div class="form-group">
-                    <label><i class="fa-solid fa-user-gear"></i> Responsable del Acuerdo</label>
+                    <label><i class="fa-solid fa-user-gear"></i> Responsable</label>
                     <select id="reunion-responsable" class="form-control">
-                        <option value="Víctor Escanilla">Víctor Escanilla (Site Manager CP)</option>
-                        <option value="Marcos Font">Marcos Font (PM Senior)</option>
-                        <option value="Patricio Díaz">Patricio Díaz (Director)</option>
+                        <option value="Víctor Escanilla">Víctor Escanilla</option>
+                        <option value="Marcos Font">Marcos Font</option>
+                        <option value="Patricio Díaz">Patricio Díaz</option>
                         <option value="Sonedix">Sonedix (Mandante)</option>
                     </select>
                 </div>
@@ -344,9 +358,9 @@
                     <input type="date" id="reunion-limite" class="form-control">
                 </div>
             </div>
-            <div class="form-group" style="margin-top: 12px;">
-                <label><i class="fa-solid fa-list-check"></i> Puntos Clave / Compromisos</label>
-                <textarea id="reunion-notas" class="form-control" rows="3" placeholder="Detalla los compromisos acordados..."></textarea>
+            <div class="form-group" style="margin-top: 10px;">
+                <label><i class="fa-solid fa-list-check"></i> Compromisos</label>
+                <textarea id="reunion-notas" class="form-control" rows="2" placeholder="Detalla los acuerdos..."></textarea>
             </div>
         </div>
 
@@ -354,36 +368,36 @@
         <div id="fields-instruccion" style="display: none;">
             <div class="form-group">
                 <label><i class="fa-solid fa-bullhorn"></i> Resumen de la Instrucción</label>
-                <input type="text" id="instruccion-titulo" class="form-control" placeholder="Ej: Avance diario 10 String Inverters montados">
+                <input type="text" id="instruccion-titulo" class="form-control" placeholder="Ej: Avance 10 String Inverters montados">
             </div>
-            <div class="form-group" style="margin-top: 12px;">
-                <label><i class="fa-solid fa-comment-dots"></i> Transcripción o Comentarios</label>
-                <textarea id="instruccion-notas" class="form-control" rows="3" placeholder="Ingresa notas o transcripción de la instrucción..."></textarea>
+            <div class="form-group" style="margin-top: 10px;">
+                <label><i class="fa-solid fa-comment-dots"></i> Transcripción / Comentarios</label>
+                <textarea id="instruccion-notas" class="form-control" rows="2" placeholder="Ingresa notas o transcripción..."></textarea>
             </div>
         </div>
 
         <!-- SUBIDA DE RESPALDO (FOTO O AUDIO) -->
         <div class="form-group">
-            <label><i class="fa-solid fa-paperclip"></i> Adjuntar Respaldo (Foto / PDF / Audio)</label>
+            <label><i class="fa-solid fa-paperclip"></i> Adjuntar Boleta (Cámara / Galería)</label>
             <div class="file-upload-zone" onclick="document.getElementById('file-input').click()">
                 <i class="fa-solid fa-camera" id="upload-icon"></i>
-                <p id="upload-filename">Toca para tomar foto o adjuntar comprobante</p>
-                <span>Formatos: JPG, PNG, PDF, M4A, MP3</span>
+                <p id="upload-filename">📸 Toca para tomar foto o adjuntar comprobante</p>
+                <span>Formatos: Fotos, PDF, Audios</span>
             </div>
-            <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(this)">
+            <input type="file" id="file-input" accept="image/*,application/pdf,audio/*" style="display: none;" onchange="handleFileSelect(this)">
         </div>
 
         <!-- BOTÓN DE REGISTRO -->
         <button class="btn-submit" onclick="guardarRegistroLocal()">
-            <i class="fa-solid fa-check-circle"></i> REGISTRAR Y IMPUTAR AL PORTAFOLIO
+            <i class="fa-solid fa-paper-plane"></i> REGISTRAR Y PUBLICAR AL PORTAFOLIO
         </button>
     </div>
 
     <!-- RECIENTES -->
     <div class="recent-section">
         <div class="recent-title">
-            <span><i class="fa-solid fa-history"></i> Registros de Terreno Ingresados</span>
-            <span style="font-size: 11px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Listo para Sincronizar</span>
+            <span><i class="fa-solid fa-history"></i> Rendiciones Ingresadas Hoy</span>
+            <span style="font-size: 11px; color: var(--success-green);"><i class="fa-solid fa-circle"></i> Sincronizado</span>
         </div>
         <div class="recent-list" id="recent-list">
             <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 1rem;">
@@ -431,9 +445,10 @@
     }
 
     function guardarRegistroLocal() {
+        const reportante = document.getElementById('form-reportante').value;
         const proj = document.getElementById('form-proyecto').value;
         const fecha = new Date().toISOString().split('T')[0];
-        let itemData = { fecha, proyecto: proj, tipo: currentType, archivo: selectedFile ? selectedFile.name : 'Sin adjunto' };
+        let itemData = { fecha, reportante, proyecto: proj, tipo: currentType, archivo: selectedFile ? selectedFile.name : 'Sin adjunto' };
 
         if (currentType === 'gasto') {
             const proveedor = document.getElementById('gasto-proveedor').value || 'Comercial Faena';
@@ -448,7 +463,7 @@
             }
 
             itemData.titulo = `${proveedor} (${doc})`;
-            itemData.sub = `$${monto.toLocaleString('es-CL')} CLP — ${concepto}`;
+            itemData.sub = `$${monto.toLocaleString('es-CL')} CLP por ${reportante}`;
             itemData.monto = monto;
             itemData.proveedor = proveedor;
             itemData.doc = doc;
@@ -462,7 +477,7 @@
             const notas = document.getElementById('reunion-notas').value || 'Acuerdos generales';
 
             itemData.titulo = titulo;
-            itemData.sub = `Resp: ${resp} | Fecha Límite: ${limite}`;
+            itemData.sub = `Resp: ${resp} | Rendido por: ${reportante}`;
             itemData.responsable = resp;
             itemData.limite = limite;
             itemData.notas = notas;
@@ -472,14 +487,14 @@
             const notas = document.getElementById('instruccion-notas').value || 'Sin detalles';
 
             itemData.titulo = titulo;
-            itemData.sub = notas;
+            itemData.sub = `${notas} (${reportante})`;
             itemData.notas = notas;
         }
 
         registrosLocales.push(itemData);
         renderRecientes();
         limpiarFormulario();
-        alert(`✅ Registrado con éxito para ${proj}. Guarda los cambios o actualiza el Dashboard.`);
+        alert(`✅ Registrado por ${reportante} para ${proj}. ¡Gasto imputado con éxito!`);
     }
 
     function renderRecientes() {
@@ -519,7 +534,7 @@
         document.getElementById('reunion-notas').value = '';
         document.getElementById('instruccion-titulo').value = '';
         document.getElementById('instruccion-notas').value = '';
-        document.getElementById('upload-filename').innerText = 'Toca para tomar foto o adjuntar comprobante';
+        document.getElementById('upload-filename').innerText = '📸 Toca para tomar foto o adjuntar comprobante';
         selectedFile = null;
     }
 </script>
