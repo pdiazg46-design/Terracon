@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terracon Energy — Portal de Carga Rápida Móvil</title>
+    <title>Terracon Energy — Portal de Carga Rápida Móvil v2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -46,6 +46,7 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+            width: 100%;
         }
 
         header {
@@ -57,6 +58,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            width: 100%;
         }
 
         .brand { display: flex; align-items: center; gap: 12px; }
@@ -81,6 +83,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
+            width: 100%;
         }
 
         .type-card {
@@ -108,7 +111,7 @@
 
         .type-card.active i, .type-card.active span { color: var(--electric-cyan); }
 
-        /* FORMULARIO DE CARGA MÓVIL SLIM */
+        /* FORMULARIO MÓVIL 1 COLUMNA */
         .form-section {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -118,6 +121,7 @@
             flex-direction: column;
             gap: 14px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
         }
 
         .form-group {
@@ -152,17 +156,12 @@
             border-color: var(--electric-cyan);
         }
 
-        /* Responsive GRID: En celular 1 columna apilada limpia */
+        /* FLEX COLUMN FOR OBLIGATORY FULL WIDTH VERTICAL STACK */
         .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 12px;
-        }
-
-        @media (max-width: 480px) {
-            .form-row {
-                grid-template-columns: 1fr !important;
-            }
+            width: 100%;
         }
 
         /* CARGADOR DE ARCHIVOS */
@@ -174,6 +173,7 @@
             background: rgba(0,0,0,0.25);
             cursor: pointer;
             transition: all 0.2s ease;
+            width: 100%;
         }
 
         .file-upload-zone:hover {
@@ -212,6 +212,7 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 16px;
+            width: 100%;
         }
 
         .recent-title {
@@ -288,53 +289,51 @@
     <!-- FORMULARIO DINÁMICO -->
     <div class="form-section">
         
-        <!-- ROW 1: QUIEN RINDE & PROYECTO -->
-        <div class="form-row">
-            <div class="form-group">
-                <label><i class="fa-solid fa-user-check"></i> ¿Quién Rinde?</label>
-                <select id="form-reportante" class="form-control">
-                    <option value="Patricio Díaz">👨‍💼 Patricio Díaz (Director)</option>
-                    <option value="Víctor Escanilla">👷‍♂️ Víctor Escanilla (Site Manager CP)</option>
-                    <option value="Marcos Font">👔 Marcos Font (PM Senior)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><i class="fa-solid fa-building-flag"></i> Proyecto / Centro Costo</label>
-                <select id="form-proyecto" class="form-control">
-                    <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
-                    <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro (CC-DA-02)</option>
-                </select>
-            </div>
+        <!-- QUIEN RINDE -->
+        <div class="form-group">
+            <label><i class="fa-solid fa-user-check"></i> ¿Quién Rinde?</label>
+            <select id="form-reportante" class="form-control">
+                <option value="Patricio Díaz">👨‍💼 Patricio Díaz (Director)</option>
+                <option value="Víctor Escanilla">👷‍♂️ Víctor Escanilla (Site Manager CP)</option>
+                <option value="Marcos Font">👔 Marcos Font (PM Senior)</option>
+            </select>
+        </div>
+
+        <!-- PROYECTO -->
+        <div class="form-group">
+            <label><i class="fa-solid fa-building-flag"></i> Proyecto / Centro Costo</label>
+            <select id="form-proyecto" class="form-control">
+                <option value="Carrera Pinto (CC-CP-01)">⚡ Carrera Pinto (CC-CP-01)</option>
+                <option value="Diego de Almagro (CC-DA-02)">🛠️ Diego de Almagro (CC-DA-02)</option>
+            </select>
         </div>
 
         <!-- SECCIÓN DINÁMICA: GASTO -->
-        <div id="fields-gasto" style="display: flex; flex-direction: column; gap: 12px;">
-            <div class="form-row">
-                <div class="form-group">
-                    <label><i class="fa-solid fa-tags"></i> Categoría de Gasto</label>
-                    <select id="gasto-categoria" class="form-control">
-                        <option value="CAT-04">Alojamiento / Casino</option>
-                        <option value="CAT-02">Combustible / Vehículos</option>
-                        <option value="CAT-03">Maquinaria / Camión Pluma</option>
-                        <option value="CAT-01">Recursos Humanos / Bono</option>
-                        <option value="CAT-05">Caja Chica / Consumibles</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fa-solid fa-store"></i> Proveedor / Razón Social</label>
-                    <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec S.A. / Hotel Atacama">
-                </div>
+        <div id="fields-gasto" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+            <div class="form-group">
+                <label><i class="fa-solid fa-tags"></i> Categoría de Gasto</label>
+                <select id="gasto-categoria" class="form-control">
+                    <option value="CAT-04">Alojamiento / Casino</option>
+                    <option value="CAT-02">Combustible / Vehículos</option>
+                    <option value="CAT-03">Maquinaria / Camión Pluma</option>
+                    <option value="CAT-01">Recursos Humanos / Bono</option>
+                    <option value="CAT-05">Caja Chica / Consumibles</option>
+                </select>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label><i class="fa-solid fa-file-invoice"></i> N° Boleta / Factura</label>
-                    <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234 / B-9981">
-                </div>
-                <div class="form-group">
-                    <label><i class="fa-solid fa-sack-dollar"></i> Monto Total ($ CLP)</label>
-                    <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 45000" oninput="calcularImpuestos()">
-                </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-store"></i> Proveedor / Razón Social</label>
+                <input type="text" id="gasto-proveedor" class="form-control" placeholder="Ej: Copec S.A. / Hotel Atacama">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-file-invoice"></i> N° Boleta / Factura</label>
+                <input type="text" id="gasto-doc" class="form-control" placeholder="Ej: F-1234 / B-9981">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-sack-dollar"></i> Monto Total ($ CLP)</label>
+                <input type="number" id="gasto-monto" class="form-control" placeholder="Ej: 45000" oninput="calcularImpuestos()">
             </div>
 
             <div style="font-size: 11px; color: var(--text-muted); display: flex; gap: 14px;" id="calc-preview">
@@ -343,31 +342,29 @@
             </div>
 
             <div class="form-group">
-                <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto</label>
+                <label><i class="fa-solid fa-align-left"></i> Detalle / Concepto del Gasto</label>
                 <input type="text" id="gasto-concepto" class="form-control" placeholder="Ej: Combustible Camioneta CP Copiapó">
             </div>
         </div>
 
         <!-- SECCIÓN DINÁMICA: REUNIÓN -->
-        <div id="fields-reunion" style="display: none; flex-direction: column; gap: 12px;">
+        <div id="fields-reunion" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
             <div class="form-group">
                 <label><i class="fa-solid fa-heading"></i> Título de la Reunión</label>
                 <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Coordinación Outage Bloque 1">
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label><i class="fa-solid fa-user-gear"></i> Responsable del Acuerdo</label>
-                    <select id="reunion-responsable" class="form-control">
-                        <option value="Víctor Escanilla">Víctor Escanilla</option>
-                        <option value="Marcos Font">Marcos Font</option>
-                        <option value="Patricio Díaz">Patricio Díaz</option>
-                        <option value="Sonedix">Sonedix (Mandante)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fa-solid fa-calendar-day"></i> Fecha Límite</label>
-                    <input type="date" id="reunion-limite" class="form-control">
-                </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-user-gear"></i> Responsable del Acuerdo</label>
+                <select id="reunion-responsable" class="form-control">
+                    <option value="Víctor Escanilla">Víctor Escanilla</option>
+                    <option value="Marcos Font">Marcos Font</option>
+                    <option value="Patricio Díaz">Patricio Díaz</option>
+                    <option value="Sonedix">Sonedix (Mandante)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-calendar-day"></i> Fecha Límite</label>
+                <input type="date" id="reunion-limite" class="form-control">
             </div>
             <div class="form-group">
                 <label><i class="fa-solid fa-list-check"></i> Compromisos Acordados</label>
@@ -376,7 +373,7 @@
         </div>
 
         <!-- SECCIÓN DINÁMICA: INSTRUCCIÓN / AUDIO -->
-        <div id="fields-instruccion" style="display: none; flex-direction: column; gap: 12px;">
+        <div id="fields-instruccion" style="display: none; flex-direction: column; gap: 12px; width: 100%;">
             <div class="form-group">
                 <label><i class="fa-solid fa-bullhorn"></i> Resumen de la Instrucción</label>
                 <input type="text" id="instruccion-titulo" class="form-control" placeholder="Ej: Avance 10 String Inverters montados">
