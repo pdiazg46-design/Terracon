@@ -4,44 +4,19 @@
       "proyecto": "Carrera Pinto",
       "centro_costo": "CC-CP-01",
       "mvs_id": "MVS 4480",
-      "mvs_estado": "RECIBIDO EN SITIO (Confirmado por Sonnedix)",
+      "mvs_estado": "Esperando Inicio de Faena",
       "total_inversores": 13,
-      "inversores_recibidos": 13,
-      "inversores": [
-        {
-          "id": "INV-CP-01",
-          "nombre": "String Inverter #01 (MVS-01)",
-          "posicion": "Fila A - Tracker 01",
-          "estado_general": "MVS 4480 Recibida en Sitio",
-          "pct_avance": 100.0,
-          "hitos": {
-            "recepcion_mvs": { "estado": "Recibido en Obra", "fecha": "2026-07-30" },
-            "montaje_mecanico": { "estado": "Completado", "fecha": "2026-08-10" },
-            "cables_solares_dc": { "estado": "Completado", "strings_listos": 12, "total_strings": 12, "fecha": "2026-08-14" }
-          }
-        }
-      ]
+      "inversores_recibidos": 0,
+      "inversores": []
     },
     {
       "proyecto": "Diego de Almagro",
       "centro_costo": "CC-DA-02",
       "mvs_id": "MVS 4480",
-      "mvs_estado": "En Instalación",
+      "mvs_estado": "Esperando Inicio de Faena",
       "total_inversores": 13,
-      "inversores_recibidos": 10,
-      "inversores": [
-        {
-          "id": "INV-DA-01",
-          "nombre": "10x String Inverters (Lote #01)",
-          "posicion": "Bloque Mecánico 01-10",
-          "estado_general": "10 Inversores Recibidos en Obra",
-          "pct_avance": 76.9,
-          "hitos": {
-            "recepcion_lote": { "estado": "10/13 Inversores Recibidos", "fecha": "2026-07-30" },
-            "montaje_mecanico": { "estado": "En Curso", "fecha": "2026-08-11" }
-          }
-        }
-      ]
+      "inversores_recibidos": 0,
+      "inversores": []
     }
   ]
 }
