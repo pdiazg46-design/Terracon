@@ -2,7 +2,8 @@
 """
 bot_telegram_terracon.py
 Bot Oficial de Telegram para Terracon Energy.
-Recibe notas de voz, fotos y texto en tiempo real, e inyecta eventos procesados directamente en la Bitácora Central (JSON, CSV y JS).
+Recibe notas de voz, fotos y texto en tiempo real.
+Transcribe los audios usando STT, deduce responsable/proyecto/plazo e inyecta eventos en la Bitácora Central.
 """
 
 import os
@@ -13,6 +14,8 @@ import csv
 import datetime
 import urllib.request
 import urllib.parse
+import soundfile as sf
+import speech_recognition as sr
 
 # Asegurar codificación UTF-8
 if hasattr(sys.stdout, 'reconfigure'):
@@ -54,6 +57,27 @@ def descargar_archivo(token, file_id, path_destino):
         return True
     return False
 
+def transcribir_audio_ogg(path_ogg):
+    """Transcribe un archivo de audio .ogg a texto en español utilizando soundfile y SpeechRecognition."""
+    temp_wav = path_ogg + ".temp.wav"
+    try:
+        data, samplerate = sf.read(path_ogg)
+        sf.write(temp_wav, data, samplerate)
+        
+        r = sr.Recognizer()
+        with sr.AudioFile(temp_wav) as source:
+            audio_data = r.record(source)
+            texto = r.recognize_google(audio_data, language='es-CL')
+            
+        if os.path.exists(temp_wav):
+            os.remove(temp_wav)
+        return texto
+    except Exception as e:
+        print(f"⚠️ Error en transcripción de audio: {e}", flush=True)
+        if os.path.exists(temp_wav):
+            os.remove(temp_wav)
+        return "Audio grabado recibido (no fue posible transcribir el texto exacto)."
+
 def cargar_bitacora():
     if os.path.exists(BITACORA_JSON):
         try:
@@ -68,7 +92,6 @@ def guardar_bitacora(data):
     with open(BITACORA_JSON, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
-    # También guardar archivo JS para compatibilidad con file://
     with open(BITACORA_JS, "w", encoding="utf-8") as f:
         f.write("window.TERRACON_BITACORA_DATA = " + json.dumps(data, ensure_ascii=False, indent=2) + ";\n")
 
@@ -153,7 +176,7 @@ def ejecutar_bot():
     print(" 🤖 BOT DE TELEGRAM TERRACON ENERGY - BITÁCORA EN LÍNEA  ", flush=True)
     print("=========================================================", flush=True)
     print(f"Token activo: {token[:12]}... (Verificado)", flush=True)
-    print("Escuchando mensajes de voz, fotos y texto en tiempo real...\n", flush=True)
+    print("Escuchando mensajes de voz, fotos y texto con STT en tiempo real...\n", flush=True)
 
     offset = 0
     os.makedirs(DEST_RESPALDOS, exist_ok=True)
@@ -201,34 +224,37 @@ def ejecutar_bot():
                                 )
                             })
 
-                    # 🎙️ Procesar Notas de Voz / Audios
+                    # 🎙️ Procesar Notas de Voz / Audios con Transcripción
                     elif "voice" in msg or "audio" in msg:
                         audio_obj = msg.get("voice") or msg.get("audio")
                         f_id = audio_obj["file_id"]
                         fname = f"audio_terreno_{int(time.time())}.ogg"
                         out_path = os.path.join(DEST_REUNIONES, fname)
                         if descargar_archivo(token, f_id, out_path):
-                            resumen_audio = f"Nota de audio recibida desde Telegram por {full_user}. Procesando acordes en Bitácora."
-                            proy, resp = inferir_proyecto_y_responsable(resumen_audio)
+                            print(f" 🎙️  Procesando y transcribiendo audio de {full_user}...", flush=True)
+                            texto_transcrito = transcribir_audio_ogg(out_path)
+                            proy, resp = inferir_proyecto_y_responsable(texto_transcrito)
+                            
+                            resumen_final = f"Audio transcrito: \"{texto_transcrito}\""
                             evento = registrar_evento_bitacora(
                                 usuario=full_user,
-                                tipo="AUDIO / MINUTA",
-                                resumen=resumen_audio,
+                                tipo="TAREA / AUDIO",
+                                resumen=resumen_final,
                                 proyecto=proy,
                                 responsable=resp,
                                 archivo=f"reuniones/{fname}"
                             )
-                            print(f" 🎙️  [{evento['id']}] Audio recibido de {full_user}: {fname}", flush=True)
+                            print(f" 🎙️  [{evento['id']}] Transcripción: {texto_transcrito}", flush=True)
                             make_request(token, "sendMessage", {
                                 "chat_id": chat_id,
                                 "parse_mode": "Markdown",
                                 "text": (
-                                    f"🎙️ *AUDIO INGRESADO A LA BITÁCORA [{evento['id']}]*\n\n"
-                                    f"📍 *Proyecto*: {evento['proyecto']}\n"
-                                    f"🗣️ *Emisor*: {full_user}\n"
-                                    f"📌 *Acción*: Transcripción & Inyección en Bitácora Central en curso.\n"
-                                    f"👤 *Asignado a*: {evento['responsable']}\n"
-                                    f"🔗 *Estado*: Registrado en Bitácora Terracon."
+                                    f"🎙️ *AUDIO TRANSCRIBIDO Y REGISTRADO [{evento['id']}]*\n\n"
+                                    f"🗣️ *Voz de*: {full_user}\n"
+                                    f"📝 *Texto Transcrito*: \"{texto_transcrito}\"\n"
+                                    f"📍 *Proyecto Deducido*: {evento['proyecto']}\n"
+                                    f"👤 *Responsable Asignado*: {evento['responsable']}\n"
+                                    f"🔗 *Estado*: Registrado en Bitácora Central."
                                 )
                             })
 
@@ -242,10 +268,10 @@ def ejecutar_bot():
                                 "text": (
                                     f"👋 *¡Bienvenido al Bot de Bitácora Terracon Energy, {user_name}!*\n\n"
                                     f"Puedes enviar desde aquí:\n"
-                                    f"🎙️ **Notas de voz** (se transcriben y crean tareas/compromisos)\n"
+                                    f"🎙️ **Notas de voz** (se transcriben automáticamente a texto)\n"
                                     f"📷 **Fotos** (boletas, comprobantes o fotos de terreno)\n"
                                     f"📝 **Mensajes de texto** directos a la Bitácora.\n\n"
-                                    f" Todo se registra al instante a costo $0."
+                                    f" Todo se procesa y registra al instante a costo $0."
                                 )
                             })
                         else:
