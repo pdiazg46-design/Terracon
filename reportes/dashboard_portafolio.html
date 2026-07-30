@@ -681,6 +681,14 @@
                 </div>
             </div>
 
+            <!-- Barra de Filtros Rápidos -->
+            <div style="display:flex; gap:10px; margin: 14px 0 10px 0; align-items:center;">
+                <span style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Filtrar Vista:</span>
+                <button onclick="filtrarTablaBitacora('TODOS')" id="btn-filter-todos" style="background:rgba(6, 182, 212, 0.15); border:1px solid var(--electric-cyan); color:var(--electric-cyan); padding:6px 14px; border-radius:8px; cursor:pointer; font-weight:700; font-size:12px;">📌 Todos</button>
+                <button onclick="filtrarTablaBitacora('PENDIENTE')" id="btn-filter-pendientes" style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:12px;">⏳ Solo Pendientes</button>
+                <button onclick="filtrarTablaBitacora('COMPLETADO')" id="btn-filter-completados" style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:12px;">🟢 Resueltos</button>
+            </div>
+
             <!-- Tabla de Pendientes -->
             <table>
                 <thead>
@@ -1003,6 +1011,25 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
         container.innerHTML = html;
     }
 
+    let filtroEstadoGlobal = 'TODOS';
+
+    function filtrarTablaBitacora(filtro) {
+        filtroEstadoGlobal = filtro;
+        document.getElementById('btn-filter-todos').style.background = (filtro === 'TODOS') ? 'rgba(6, 182, 212, 0.15)' : 'var(--bg-card)';
+        document.getElementById('btn-filter-todos').style.borderColor = (filtro === 'TODOS') ? 'var(--electric-cyan)' : 'var(--border-color)';
+        document.getElementById('btn-filter-todos').style.color = (filtro === 'TODOS') ? 'var(--electric-cyan)' : 'var(--text-main)';
+
+        document.getElementById('btn-filter-pendientes').style.background = (filtro === 'PENDIENTE') ? 'rgba(245, 158, 11, 0.15)' : 'var(--bg-card)';
+        document.getElementById('btn-filter-pendientes').style.borderColor = (filtro === 'PENDIENTE') ? 'var(--solar-amber)' : 'var(--border-color)';
+        document.getElementById('btn-filter-pendientes').style.color = (filtro === 'PENDIENTE') ? 'var(--solar-amber)' : 'var(--text-main)';
+
+        document.getElementById('btn-filter-completados').style.background = (filtro === 'COMPLETADO') ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-card)';
+        document.getElementById('btn-filter-completados').style.borderColor = (filtro === 'COMPLETADO') ? 'var(--success-green)' : 'var(--border-color)';
+        document.getElementById('btn-filter-completados').style.color = (filtro === 'COMPLETADO') ? 'var(--success-green)' : 'var(--text-main)';
+
+        renderTablaBitacora([]);
+    }
+
     function renderTablaBitacora(items) {
         const tbody = document.getElementById('bitacora-table-body');
         if (!tbody) return;
@@ -1010,7 +1037,19 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
         const extraLocal = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
         const statusOverrides = JSON.parse(localStorage.getItem('terracon_bitacora_status_overrides') || '{}');
         const sourceData = (window.TERRACON_BITACORA_DATA && window.TERRACON_BITACORA_DATA.length > 0) ? window.TERRACON_BITACORA_DATA : (items || []);
-        const allItems = [...extraLocal, ...sourceData];
+        let allItems = [...extraLocal, ...sourceData];
+
+        if (filtroEstadoGlobal === 'PENDIENTE') {
+            allItems = allItems.filter(b => {
+                const est = statusOverrides[b.id] || b.estado || 'PENDIENTE';
+                return est !== 'COMPLETADO' && est !== 'RESUELTO';
+            });
+        } else if (filtroEstadoGlobal === 'COMPLETADO') {
+            allItems = allItems.filter(b => {
+                const est = statusOverrides[b.id] || b.estado || 'PENDIENTE';
+                return est === 'COMPLETADO' || est === 'RESUELTO';
+            });
+        }
 
         if (allItems.length === 0) {
             tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">Sin temas registrados en la bitácora.</td></tr>';

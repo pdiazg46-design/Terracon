@@ -1,29 +1,16 @@
 window.TERRACON_BITACORA_DATA = [
   {
-    "id": "BIT-2026-009",
+    "id": "BIT-2026-005",
     "fecha": "2026-07-30 15:08:52",
     "origen": "Telegram Bot",
     "usuario": "Patricio Diaz Guajardo",
     "proyecto": "Carrera Pinto",
-    "tipo": "COMPROMISO",
-    "resumen": "Marcos debe pedir la cubicacion de carrera pinto",
+    "tipo": "TAREA",
+    "resumen": "Marcos Font debe solicitar la cubicación oficial del proyecto Carrera Pinto antes del viernes",
     "responsable": "Marcos Font",
     "prioridad": "ALTA",
     "estado": "PENDIENTE",
-    "archivo": null
-  },
-  {
-    "id": "BIT-2026-008",
-    "fecha": "2026-07-30 15:08:18",
-    "origen": "Telegram Bot",
-    "usuario": "Patricio Diaz Guajardo",
-    "proyecto": "Carrera Pinto",
-    "tipo": "TAREA / AUDIO",
-    "resumen": "Audio transcrito: \"corrección a la bitácora 5 marco debe pedir la ubicación del proyecto carrera pinto antes del viernes\"",
-    "responsable": "Marcos Font",
-    "prioridad": "MEDIA",
-    "estado": "PENDIENTE",
-    "archivo": "reuniones/audio_terreno_1785438493.ogg"
+    "archivo": "reuniones/audio_terreno_1785437510.ogg"
   },
   {
     "id": "BIT-2026-007",
@@ -32,7 +19,7 @@ window.TERRACON_BITACORA_DATA = [
     "usuario": "Patricio Diaz Guajardo",
     "proyecto": "Portafolio Global",
     "tipo": "COMPROMISO",
-    "resumen": "Llamar a marcos hoy",
+    "resumen": "Coordinación y llamada telefónica con Marcos Font",
     "responsable": "Marcos Font",
     "prioridad": "ALTA",
     "estado": "PENDIENTE",
@@ -45,37 +32,11 @@ window.TERRACON_BITACORA_DATA = [
     "usuario": "Patricio Diaz Guajardo",
     "proyecto": "Portafolio Global",
     "tipo": "GASTO / RESPALDO",
-    "resumen": "Pago servicio contratado",
+    "resumen": "Pago servicio contratado (Comprobante cargado)",
     "responsable": "Marcos Font",
     "prioridad": "MEDIA",
-    "estado": "PENDIENTE",
-    "archivo": "respaldos_gastos/foto_terreno_1785437651.jpg"
-  },
-  {
-    "id": "BIT-2026-005",
-    "fecha": "2026-07-30 14:51:53",
-    "origen": "Telegram Bot",
-    "usuario": "Patricio Diaz Guajardo",
-    "proyecto": "Carrera Pinto",
-    "tipo": "TAREA / AUDIO",
-    "resumen": "Audio transcrito: \"Marcos solicitar la adjudicación de carrera pinto antes del viernes\"",
-    "responsable": "Marcos Font",
-    "prioridad": "ALTA",
-    "estado": "PENDIENTE",
-    "archivo": "reuniones/audio_terreno_1785437510.ogg"
-  },
-  {
-    "id": "BIT-2026-001",
-    "fecha": "2026-07-29 10:00:00",
-    "origen": "Sistema",
-    "usuario": "Patricio Díaz",
-    "proyecto": "Portafolio Global",
-    "tipo": "TAREA",
-    "resumen": "Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena",
-    "responsable": "Patricio Díaz",
-    "prioridad": "ALTA",
     "estado": "COMPLETADO",
-    "archivo": null
+    "archivo": "respaldos_gastos/foto_terreno_1785437651.jpg"
   },
   {
     "id": "BIT-2026-002",
@@ -104,16 +65,16 @@ window.TERRACON_BITACORA_DATA = [
     "archivo": null
   },
   {
-    "id": "BIT-2026-004",
-    "fecha": "2026-07-29 16:20:00",
+    "id": "BIT-2026-001",
+    "fecha": "2026-07-29 10:00:00",
     "origen": "Sistema",
-    "usuario": "Marcos Font",
-    "proyecto": "Diego de Almagro",
+    "usuario": "Patricio Díaz",
+    "proyecto": "Portafolio Global",
     "tipo": "TAREA",
-    "resumen": "Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos",
-    "responsable": "Marcos Font",
+    "resumen": "Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena",
+    "responsable": "Patricio Díaz",
     "prioridad": "ALTA",
-    "estado": "PENDIENTE",
+    "estado": "COMPLETADO",
     "archivo": null
   }
 ];

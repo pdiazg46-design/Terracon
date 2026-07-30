@@ -1,10 +1,7 @@
 id,fecha,tema,proyecto,responsable,prioridad,estado
-BIT-2026-009,2026-07-30,Marcos debe pedir la cubicacion de carrera pinto,Carrera Pinto,Marcos Font,ALTA,PENDIENTE
-BIT-2026-008,2026-07-30,"Audio transcrito: ""corrección a la bitácora 5 marco debe pedir la ubicación del proyecto carrera pinto antes del viernes""",Carrera Pinto,Marcos Font,MEDIA,PENDIENTE
-BIT-007,2026-07-30,Llamar a marcos hoy,Portafolio Global,Marcos Font,ALTA,PENDIENTE
-BIT-006,2026-07-30,Foto respaldo: Pago servicio contratado,Portafolio Global,Marcos Font,MEDIA,PENDIENTE
-BIT-005,2026-07-30,Audio Telegram: Nota de audio recibida desde Telegram por Patricio Diaz Guajardo,Diego de Almagro,Patricio Díaz,MEDIA,PENDIENTE
-BIT-001,2026-07-29,Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena,Portafolio Global,Patricio Díaz,ALTA,COMPLETADO
-BIT-002,2026-07-29,Coordinación de inicio de partida Inversores de String en bloques MVS 4480,Carrera Pinto,Víctor Escanilla,ALTA,PENDIENTE
-BIT-003,2026-07-29,Revisión y firma de contrato para Hitos de Pago con Sonnedix,Portafolio Global,Patricio Díaz,MEDIA,PENDIENTE
-BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos (Carrera Pinto y Diego de Almagro),Portafolio Global,Patricio Díaz,ALTA,PENDIENTE
+BIT-2026-005,2026-07-30,Marcos Font debe solicitar la cubicación oficial del proyecto Carrera Pinto antes del viernes,Carrera Pinto,Marcos Font,ALTA,PENDIENTE
+BIT-2026-007,2026-07-30,Coordinación y llamada telefónica con Marcos Font,Portafolio Global,Marcos Font,ALTA,PENDIENTE
+BIT-2026-006,2026-07-30,Pago servicio contratado (Comprobante cargado),Portafolio Global,Marcos Font,MEDIA,COMPLETADO
+BIT-2026-002,2026-07-29,Coordinación de inicio de partida Inversores de String en bloques MVS 4480,Carrera Pinto,Víctor Escanilla,ALTA,PENDIENTE
+BIT-2026-003,2026-07-29,Revisión y firma de contrato para Hitos de Pago con Sonnedix,Portafolio Global,Patricio Díaz,MEDIA,PENDIENTE
+BIT-2026-001,2026-07-29,Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena,Portafolio Global,Patricio Díaz,ALTA,COMPLETADO
