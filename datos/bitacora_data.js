@@ -1,5 +1,18 @@
 window.TERRACON_BITACORA_DATA = [
   {
+    "id": "BIT-2026-008",
+    "fecha": "2026-07-30 15:30:00",
+    "origen": "Telegram Bot / Campo",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Diego de Almagro",
+    "tipo": "SUMINISTRO / CABLES",
+    "resumen": "Llegaron 10 carretes de cables solares rojo y 10 carretes de cable solar negro a Diego de Almagro",
+    "responsable": "Marcos Font",
+    "prioridad": "MEDIA",
+    "estado": "PROCESADO",
+    "archivo": null
+  },
+  {
     "id": "BIT-2026-007",
     "fecha": "2026-07-30 15:22:28",
     "origen": "Telegram Bot",
