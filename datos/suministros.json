@@ -8,7 +8,7 @@
         "cantidad_recibida": 10,
         "unidad": "Carretes",
         "fecha_ingreso": "2026-07-30",
-        "origen": "Ingreso Telegram / BIT-783",
+        "origen": "Ingreso Telegram (BIT-2026-008)",
         "estado": "🟢 En Obra"
       },
       {
@@ -18,7 +18,7 @@
         "cantidad_recibida": 10,
         "unidad": "Carretes",
         "fecha_ingreso": "2026-07-30",
-        "origen": "Ingreso Telegram / BIT-783",
+        "origen": "Ingreso Telegram (BIT-2026-008)",
         "estado": "🟢 En Obra"
       },
       {
@@ -28,7 +28,7 @@
         "cantidad_recibida": 10,
         "unidad": "Unidades",
         "fecha_ingreso": "2026-07-30",
-        "origen": "Confirmado por Sonnedix / BIT-007",
+        "origen": "Confirmado por Sonnedix (BIT-2026-007)",
         "estado": "🟢 En Obra"
       }
     ],
@@ -40,7 +40,7 @@
         "cantidad_recibida": 1,
         "unidad": "Bloque MVS",
         "fecha_ingreso": "2026-07-30",
-        "origen": "Confirmado por Sonnedix / BIT-007",
+        "origen": "Confirmado por Sonnedix (BIT-2026-007)",
         "estado": "🟢 En Obra"
       }
     ]
