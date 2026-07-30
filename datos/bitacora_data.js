@@ -1,5 +1,18 @@
 window.TERRACON_BITACORA_DATA = [
   {
+    "id": "BIT-2026-007",
+    "fecha": "2026-07-30 15:22:28",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Carrera Pinto / Diego de Almagro",
+    "tipo": "EQUIPOS / LOGÍSTICA",
+    "resumen": "Sonnedix confirma recepción en obra: MVS 4480 en Carrera Pinto y 10 String Inverters en Diego de Almagro (Inversores actualizados)",
+    "responsable": "Víctor Escanilla / Marcos Font",
+    "prioridad": "ALTA",
+    "estado": "PROCESADO",
+    "archivo": "reuniones/audio_terreno_1785439340.ogg"
+  },
+  {
     "id": "BIT-2026-005",
     "fecha": "2026-07-30 15:08:52",
     "origen": "Telegram Bot",
@@ -11,19 +24,6 @@ window.TERRACON_BITACORA_DATA = [
     "prioridad": "ALTA",
     "estado": "PENDIENTE",
     "archivo": "reuniones/audio_terreno_1785437510.ogg"
-  },
-  {
-    "id": "BIT-2026-007",
-    "fecha": "2026-07-30 14:54:35",
-    "origen": "Telegram Bot",
-    "usuario": "Patricio Diaz Guajardo",
-    "proyecto": "Portafolio Global",
-    "tipo": "COMPROMISO",
-    "resumen": "Coordinación y llamada telefónica con Marcos Font",
-    "responsable": "Marcos Font",
-    "prioridad": "ALTA",
-    "estado": "PENDIENTE",
-    "archivo": null
   },
   {
     "id": "BIT-2026-006",
