@@ -390,12 +390,102 @@
     <!-- LEVEL 1 MAIN TABS (PROYECTOS Y PORTAFOLIO GLOBAL) -->
     <div class="main-tabs">
         <button class="main-tab-btn active terracon-only" onclick="openMainTab(event, 'main-tab-bitacora')">📋 Bitácora Directiva</button>
+        <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-suministros')">📦 Control de Suministros & Equipos</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-consolidado')">🌐 Consolidado Portafolio</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-carrera-pinto')">⚡ Carrera Pinto (CC-CP-01)</button>
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-diego-almagro')">🛠️ Diego de Almagro (CC-DA-02)</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-auditoria')">🔍 Auditoría Cajas & Maquinaria</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-proveedores')">🏭 Maestro Proveedores</button>
         <button class="main-tab-btn sonnedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonnedix</button>
+    </div>
+
+    <!-- MAIN TAB: CONTROL DE SUMINISTROS & EQUIPOS -->
+    <div id="main-tab-suministros" class="tab-content">
+        <div class="project-section">
+            <div class="project-header">
+                <div>
+                    <h2>📦 Control & Inventario de Suministros, Insumos & Equipos de Terreno</h2>
+                    <p>Seguimiento cuantitativo en tiempo real de recepción de cables solares, inversores y centros de potencia</p>
+                </div>
+            </div>
+
+            <!-- Resumen Visual de Suministros -->
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px;">
+                    <span style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">🔴 Cable Solar Rojo (DC)</span>
+                    <h2 style="font-size:24px; color:var(--alert-red); margin-top:4px;">10 Carretes</h2>
+                    <p style="font-size:12px; color:var(--text-muted);">Diego de Almagro (BIT-783)</p>
+                </div>
+                <div class="stat-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px;">
+                    <span style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">⚫ Cable Solar Negro (DC)</span>
+                    <h2 style="font-size:24px; color:var(--text-main); margin-top:4px;">10 Carretes</h2>
+                    <p style="font-size:12px; color:var(--text-muted);">Diego de Almagro (BIT-783)</p>
+                </div>
+                <div class="stat-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px;">
+                    <span style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">⚡ String Inverters</span>
+                    <h2 style="font-size:24px; color:var(--electric-cyan); margin-top:4px;">10 Unidades</h2>
+                    <p style="font-size:12px; color:var(--text-muted);">Diego de Almagro (BIT-007)</p>
+                </div>
+                <div class="stat-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px;">
+                    <span style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">🏢 Estaciones MVS 4480</span>
+                    <h2 style="font-size:24px; color:var(--solar-amber); margin-top:4px;">1 MVS</h2>
+                    <p style="font-size:12px; color:var(--text-muted);">Carrera Pinto (BIT-007)</p>
+                </div>
+            </div>
+
+            <!-- Tabla Detallada de Inventario por Proyecto -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Registro</th>
+                        <th>Proyecto</th>
+                        <th>Categoría</th>
+                        <th>Ítem / Insumo</th>
+                        <th>Cantidad Recibida</th>
+                        <th>Origen / Registro</th>
+                        <th>Estado en Obra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mono">SUM-DA-01</td>
+                        <td><strong>Diego de Almagro</strong></td>
+                        <td><span class="badge-tag blue">Cableado DC</span></td>
+                        <td><strong>Cable Solar Rojo (DC)</strong></td>
+                        <td><span class="mono" style="font-size:15px; font-weight:700; color:var(--alert-red);">10 Carretes</span></td>
+                        <td>Ingreso Telegram (BIT-783)</td>
+                        <td><span class="badge-tag ok">🟢 Recibido en Faena</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono">SUM-DA-02</td>
+                        <td><strong>Diego de Almagro</strong></td>
+                        <td><span class="badge-tag blue">Cableado DC</span></td>
+                        <td><strong>Cable Solar Negro (DC)</strong></td>
+                        <td><span class="mono" style="font-size:15px; font-weight:700; color:var(--text-main);">10 Carretes</span></td>
+                        <td>Ingreso Telegram (BIT-783)</td>
+                        <td><span class="badge-tag ok">🟢 Recibido en Faena</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono">SUM-DA-03</td>
+                        <td><strong>Diego de Almagro</strong></td>
+                        <td><span class="badge-tag info">Equipos Principales</span></td>
+                        <td><strong>String Inverters</strong></td>
+                        <td><span class="mono" style="font-size:15px; font-weight:700; color:var(--electric-cyan);">10 Unidades</span></td>
+                        <td>Confirmado por Sonnedix (BIT-007)</td>
+                        <td><span class="badge-tag ok">🟢 Recibido en Faena</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono">SUM-CP-01</td>
+                        <td><strong>Carrera Pinto</strong></td>
+                        <td><span class="badge-tag warning">Centro de Potencia</span></td>
+                        <td><strong>Estación MVS 4480</strong></td>
+                        <td><span class="mono" style="font-size:15px; font-weight:700; color:var(--solar-amber);">1 Bloque MVS</span></td>
+                        <td>Confirmado por Sonnedix (BIT-007)</td>
+                        <td><span class="badge-tag ok">🟢 Recibido en Faena</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- MAIN TAB 1: CONSOLIDADO PORTAFOLIO -->
@@ -1137,8 +1227,11 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
         const resp = document.getElementById('bitacora-resp-sel').value;
         const prio = document.getElementById('bitacora-prio-sel').value;
 
+        const currentTotal = ((window.TERRACON_BITACORA_DATA || []).length + (JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]').length) + 1);
+        const nextID = 'BIT-2026-' + String(currentTotal).padStart(3, '0');
+
         const nuevoTema = {
-            id: 'BIT-' + Math.floor(100 + Math.random() * 900),
+            id: nextID,
             fecha: new Date().toISOString().substring(0, 10),
             tema: txt,
             proyecto: proy,

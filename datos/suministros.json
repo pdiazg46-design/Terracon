@@ -1,0 +1,48 @@
+{
+  "proyectos": {
+    "Diego de Almagro": [
+      {
+        "id": "SUM-DA-01",
+        "categoria": "Cableado DC",
+        "item": "Cable Solar Rojo (DC)",
+        "cantidad_recibida": 10,
+        "unidad": "Carretes",
+        "fecha_ingreso": "2026-07-30",
+        "origen": "Ingreso Telegram / BIT-783",
+        "estado": "🟢 En Obra"
+      },
+      {
+        "id": "SUM-DA-02",
+        "categoria": "Cableado DC",
+        "item": "Cable Solar Negro (DC)",
+        "cantidad_recibida": 10,
+        "unidad": "Carretes",
+        "fecha_ingreso": "2026-07-30",
+        "origen": "Ingreso Telegram / BIT-783",
+        "estado": "🟢 En Obra"
+      },
+      {
+        "id": "SUM-DA-03",
+        "categoria": "Equipos Principales",
+        "item": "String Inverters",
+        "cantidad_recibida": 10,
+        "unidad": "Unidades",
+        "fecha_ingreso": "2026-07-30",
+        "origen": "Confirmado por Sonnedix / BIT-007",
+        "estado": "🟢 En Obra"
+      }
+    ],
+    "Carrera Pinto": [
+      {
+        "id": "SUM-CP-01",
+        "categoria": "Centro de Potencia",
+        "item": "Estación MVS 4480",
+        "cantidad_recibida": 1,
+        "unidad": "Bloque MVS",
+        "fecha_ingreso": "2026-07-30",
+        "origen": "Confirmado por Sonnedix / BIT-007",
+        "estado": "🟢 En Obra"
+      }
+    ]
+  }
+}
