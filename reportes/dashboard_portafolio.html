@@ -1221,7 +1221,8 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
         const tbody = document.getElementById('bitacora-table-body');
         if (!tbody) return;
         
-        const extraLocal = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
+        const extraLocalRaw = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
+        const extraLocal = extraLocalRaw.filter(b => b.id && b.id.startsWith('BIT-2026-'));
         const statusOverrides = JSON.parse(localStorage.getItem('terracon_bitacora_status_overrides') || '{}');
         const sourceData = (window.TERRACON_BITACORA_DATA && window.TERRACON_BITACORA_DATA.length > 0) ? window.TERRACON_BITACORA_DATA : (items || []);
         let allItems = [...extraLocal, ...sourceData];
