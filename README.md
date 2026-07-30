@@ -40,4 +40,14 @@ Puedes subir transcripciones, notas o audios de reuniones con Sonnedix, Terracon
 - `datos/`: Almacenamiento en CSV y JSON por proyecto y seguimiento de compromisos (`datos/compromisos.json`).
 - `reuniones/`: Registro de transcripciones y notas de reuniones grabadas.
 - `respaldos_gastos/`: Directorios para almacenar las boletas, facturas y comprobantes digitales por proyecto.
-- `scripts/`: Herramientas en Python para automatizar el cálculo de avances, gastos y ruta crítica de la Gantt.
+- `scripts/`: Herramientas en Python para automatizar el cálculo de avances, gastos y ruta crítica de la Gantt (`bot_telegram_terracon.py`).
+
+---
+
+## 🚀 Hoja de Ruta de Infraestructura & Evolución (Fase 2)
+
+> [!NOTE]
+> **Tarea Pendiente Registrada**: Una vez definidos y firmados los contratos oficiales con Sonnedix para el inicio de faena, se procederá a evolucionar la arquitectura actual a **Vercel + Supabase**:
+> 1. **Vercel (Serverless Functions + Webhook Telegram)**: Para procesamiento cloud 24/7 sin dependencia de PC encendido.
+> 2. **Supabase (PostgreSQL Realtime)**: Para almacenamiento de base de datos corporativa con sincronización en tiempo real (WebSockets) y roles de acceso segregados (Director, Site Manager, Cliente Sonnedix).
+
