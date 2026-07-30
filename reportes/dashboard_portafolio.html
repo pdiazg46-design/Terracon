@@ -547,11 +547,55 @@
         <div id="cp-sub-avance" class="sub-tab-content cp-sub-group active">
             <div class="project-section">
                 <div class="project-header">
-                    <h2>⚡ Carrera Pinto (CC-CP-01) — Recambio Eléctrico Puro (Estado Inicial)</h2>
+                    <div>
+                        <h2>⚡ Carrera Pinto (CC-CP-01) — Balance de Suministros & Avance (Ingresados vs Instalados)</h2>
+                        <p>Control comparativo entre materiales y equipos recepcionados en obra versus avance de montaje físico</p>
+                    </div>
                 </div>
-                <div class="empty-placeholder">
-                    <p>📋 <strong>Tabla limpia a la espera de la firma de contrato e inicio de reportabilidad diaria de terreno.</strong></p>
-                </div>
+
+                <!-- Tabla de Control Ingresados vs Instalados -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ítem / Partida Crítica</th>
+                            <th>Unidad</th>
+                            <th>Ingresado / Recibido</th>
+                            <th>Instalado / Ejecutado</th>
+                            <th>Saldo en Cancha</th>
+                            <th>% Avance Montaje</th>
+                            <th>Estado de Suministro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Estación Centro de Potencia MVS 4480</strong></td>
+                            <td class="mono">Bloque MVS</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--solar-amber);">1 Bloque</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Bloques</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--success-green);">1 Bloque</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag ok">🟢 Recibido en Sitio - Listo Montaje</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>String Inverters (MVS-01)</strong></td>
+                            <td class="mono">Unidades</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--electric-cyan);">13 Unidades</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Unidades</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--electric-cyan);">13 Unidades</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag warning">🟡 En Tránsito / Recepción</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reconfiguración de Strings DC</strong></td>
+                            <td class="mono">Strings</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">12 Strings</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Strings</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">12 Strings</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag warning">⏳ Esperando Inicio</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -636,11 +680,64 @@
         <div id="da-sub-avance" class="sub-tab-content da-sub-group active">
             <div class="project-section">
                 <div class="project-header">
-                    <h2>🛠️ Diego de Almagro (CC-DA-02) — Revamping Integral (Estado Inicial)</h2>
+                    <div>
+                        <h2>🛠️ Diego de Almagro (CC-DA-02) — Balance de Suministros & Módulos (Ingresados vs Instalados)</h2>
+                        <p>Control de cables solares, inversores y logística de módulos (Ingresados vs Instalados)</p>
+                    </div>
                 </div>
-                <div class="empty-placeholder">
-                    <p>📋 <strong>Tabla limpia a la espera del inicio de faena y logística de módulos.</strong></p>
-                </div>
+
+                <!-- Tabla de Control Ingresados vs Instalados -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ítem / Suministro Crítico</th>
+                            <th>Unidad</th>
+                            <th>Ingresado / Recibido</th>
+                            <th>Instalado / Ejecutado</th>
+                            <th>Saldo en Cancha</th>
+                            <th>% Avance Montaje</th>
+                            <th>Estado de Suministro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cable Solar Rojo (DC)</strong></td>
+                            <td class="mono">Carretes</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--alert-red);">10 Carretes</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Carretes</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--alert-red);">10 Carretes</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag ok">🟢 Recibido (BIT-783)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cable Solar Negro (DC)</strong></td>
+                            <td class="mono">Carretes</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-main);">10 Carretes</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Carretes</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-main);">10 Carretes</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag ok">🟢 Recibido (BIT-783)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>String Inverters</strong></td>
+                            <td class="mono">Unidades</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--electric-cyan);">10 Unidades</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Unidades</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--electric-cyan);">10 Unidades</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag ok">🟢 Recibido (BIT-007)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desmontaje Módulos Solares Viejos</strong></td>
+                            <td class="mono">Paneles</td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Paneles</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Paneles</span></td>
+                            <td><span class="mono" style="font-size:14px; font-weight:700; color:var(--text-muted);">0 Paneles</span></td>
+                            <td><strong>0.0%</strong><div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%;"></div></div></td>
+                            <td><span class="badge-tag warning">⏳ Logística Inversa</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
