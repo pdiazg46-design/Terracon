@@ -1,6 +1,6 @@
 # Terracon Energy - Sistema de Control y Orquestación de Portafolio Revamping Solar
 
-Este repositorio contiene la arquitectura de control, seguimiento técnico-financiero, administración de Carta Gantt y **gestión de reuniones/compromisos** para los dos proyectos de revamping solar desarrollados por **Terracon Energy** (mandante) para **Sonedix** (cliente final):
+Este repositorio contiene la arquitectura de control, seguimiento técnico-financiero, administración de Carta Gantt y **gestión de reuniones/compromisos** para los dos proyectos de revamping solar desarrollados por **Terracon Energy** (mandante) para **Sonnedix** (cliente final):
 
 1. **Carrera Pinto (CC-CP-01)**: Recambio eléctrico puro (MVS 4480, String Inverters, reconfiguración de strings, recableado DC/AC).
 2. **Diego de Almagro (CC-DA-02)**: Revamping integral (desmontaje/montaje de módulos solares, logística inversa de paneles viejos, MVS 4480, String Inverters, recableado DC/AC).
@@ -10,7 +10,7 @@ Este repositorio contiene la arquitectura de control, seguimiento técnico-finan
 ## 🏆 REGLA DE ORO DE GOBERNANZA E INTERRELACIÓN
 
 1. **Un Solo Equipo (Frente Unido)**: Patricio Díaz (Director Portafolio / Administrador), Marcos Font (PM Senior / Liderazgo Operativo) y Víctor Escanilla (Site Manager Carrera Pinto) conforman **UN SOLO BLOQUE COHESIONADO**.
-2. **Resolución Interna Previa**: Todo problema, contingencia de terreno, imprevisto de transporte o desvío de cronograma se analiza y resuelve **INTERNAMENTE** entre Patricio, Marcos y Víctor antes de emitir cualquier comunicación externa o informe a Terracon Energy o Sonedix.
+2. **Resolución Interna Previa**: Todo problema, contingencia de terreno, imprevisto de transporte o desvío de cronograma se analiza y resuelve **INTERNAMENTE** entre Patricio, Marcos y Víctor antes de emitir cualquier comunicación externa o informe a Terracon Energy o Sonnedix.
 3. **Liderazgo Operativo de Marcos**: Marcos Font define la hoja de ruta y los pasos a seguir; el equipo completo rema alineado en esa dirección con el respaldo administrativo de Patricio.
 
 ---
@@ -27,7 +27,7 @@ Este repositorio contiene la arquitectura de control, seguimiento técnico-finan
 
 ## 🎙️ Gestión de Reuniones y Compromisos
 
-Puedes subir transcripciones, notas o audios de reuniones con Sonedix, Terracon o subcontratistas a la carpeta `reuniones/`. El sistema extraerá automáticamente:
+Puedes subir transcripciones, notas o audios de reuniones con Sonnedix, Terracon o subcontratistas a la carpeta `reuniones/`. El sistema extraerá automáticamente:
 - **Minuta de Reunión**: Puntos clave discutidos.
 - **Matriz de Compromisos**: Asignación de tareas, responsable, entidad, fecha límite e impacto directo en la Carta Gantt o Presupuesto.
 

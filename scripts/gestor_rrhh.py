@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 gestor_rrhh.py
-Gestión del Maestro de Recursos Humanos, Remuneraciones y Acreditaciones Legales (Sonedix) para Terracon.
+Gestión del Maestro de Recursos Humanos, Remuneraciones y Acreditaciones Legales (Sonnedix) para Terracon.
 """
 
 import os
@@ -34,7 +34,7 @@ def listar_rrhh_consola():
         
     total_sueldos = 0.0
     for p in personal:
-        acred = p.get("acreditacion_legal_sonedix", {})
+        acred = p.get("acreditacion_legal_sonnedix", {})
         estado_acred = acred.get("estado_acreditacion", "Sin Registro")
         sueldo = float(p.get("remuneracion_base_mensual", 0))
         total_sueldos += sueldo
@@ -43,7 +43,7 @@ def listar_rrhh_consola():
         print(f"   Cargo: {p['cargo']} | Proyecto: {p['proyecto_asignado']}")
         print(f"   Empresa: {p['entidad_empresa']} | Contrato: {p['tipo_contrato']} | Remuneración: ${sueldo:,.0f} CLP")
         print(f"   Formulario Asignado: {p.get('formulario_rendicion_id', 'N/A')}")
-        print(f"   Acreditación Sonedix: {estado_acred} (Examen Altura: {'OK' if acred.get('examen_ocupacional_altura') else 'PENDIENTE'})")
+        print(f"   Acreditación Sonnedix: {estado_acred} (Examen Altura: {'OK' if acred.get('examen_ocupacional_altura') else 'PENDIENTE'})")
         print("-" * 60)
 
     print(f"\n📊 Total Costo Mensual Planilla Dotación: ${total_sueldos:,.0f} CLP")

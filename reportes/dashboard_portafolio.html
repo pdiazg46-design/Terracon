@@ -7,11 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="../datos/bitacora_data.js"></script>
     <style>
         :root {
             --bg-dark: #090d16;
             --bg-card: #131b2e;
             --bg-card-hover: #1c2742;
+            --bg-input: #0b1120;
             --border-color: rgba(255, 255, 255, 0.08);
             
             --solar-amber: #f59e0b;
@@ -20,7 +22,7 @@
             --electric-cyan-glow: rgba(6, 182, 212, 0.15);
             --success-green: #10b981;
             --alert-red: #ef4444;
-            --sonedix-blue: #3b82f6;
+            --sonnedix-blue: #3b82f6;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --text-dim: #64748b;
@@ -104,8 +106,8 @@
             box-shadow: 0 2px 10px var(--solar-amber-glow);
         }
 
-        .view-btn.active.sonedix {
-            background: linear-gradient(135deg, var(--sonedix-blue), #1d4ed8);
+        .view-btn.active.sonnedix {
+            background: linear-gradient(135deg, var(--sonnedix-blue), #1d4ed8);
             color: #fff;
             box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
         }
@@ -147,7 +149,7 @@
             background: var(--solar-amber);
         }
 
-        .kpi-card.blue::before { background: var(--sonedix-blue); }
+        .kpi-card.blue::before { background: var(--sonnedix-blue); }
         .kpi-card.cyan::before { background: var(--electric-cyan); }
         .kpi-card.green::before { background: var(--success-green); }
         .kpi-card.red::before { background: var(--alert-red); }
@@ -274,13 +276,52 @@
         }
 
         .audience-banner.terracon { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--solar-amber); }
-        .audience-banner.sonedix { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--sonedix-blue); }
+        .audience-banner.sonnedix { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--sonnedix-blue); }
 
         .empty-placeholder {
             text-align: center;
             padding: 3rem 1rem;
             color: var(--text-muted);
             font-size: 14px;
+        }
+
+        /* FORM CONTROLS */
+        .form-control {
+            background: var(--bg-input);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14.5px;
+            font-family: inherit;
+            color: var(--text-main);
+            outline: none;
+            width: 100%;
+            height: 48px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: var(--solar-amber);
+            box-shadow: 0 0 12px var(--solar-amber-glow);
+            background: #0f172a;
+        }
+
+        select.form-control {
+            cursor: pointer;
+            color: var(--text-main);
+            background-color: var(--bg-input);
+        }
+
+        select.form-control option {
+            background-color: #131b2e;
+            color: var(--text-main);
+            padding: 10px;
         }
     </style>
 </head>
@@ -290,7 +331,9 @@
     <!-- HEADER -->
     <header>
         <div class="brand">
-            <div class="brand-icon">⚡</div>
+            <div class="brand-logo-wrapper" style="display: flex; align-items: center; justify-content: center; height: 50px; background: #ffffff; padding: 4px 14px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                <img id="header-brand-logo" src="LOGO-terracon.png" alt="Logo Terracon" style="max-height: 40px; width: auto; object-fit: contain; transition: all 0.3s ease;">
+            </div>
             <div class="brand-title">
                 <h1 id="header-title">TERRACON ENERGY — VISTA INTERNA DE PORTAFOLIO</h1>
                 <p id="header-subtitle">Control Técnico-Financiero | Estado Inicial | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong></p>
@@ -302,8 +345,8 @@
                 <button id="btn-view-terracon" class="view-btn active terracon" onclick="setProfile('terracon')">
                     🛡️ Vista Interna (Terracon)
                 </button>
-                <button id="btn-view-sonedix" class="view-btn sonedix" onclick="setProfile('sonedix')">
-                    👔 Vista Cliente (Sonedix)
+                <button id="btn-view-sonnedix" class="view-btn sonnedix" onclick="setProfile('sonnedix')">
+                    👔 Vista Cliente (Sonnedix)
                 </button>
             </div>
             
@@ -352,7 +395,7 @@
         <button class="main-tab-btn" onclick="openMainTab(event, 'main-tab-diego-almagro')">🛠️ Diego de Almagro (CC-DA-02)</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-auditoria')">🔍 Auditoría Cajas & Maquinaria</button>
         <button class="main-tab-btn terracon-only" onclick="openMainTab(event, 'main-tab-proveedores')">🏭 Maestro Proveedores</button>
-        <button class="main-tab-btn sonedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonedix</button>
+        <button class="main-tab-btn sonnedix-only" id="main-tab-btn-facturacion" style="display:none;" onclick="openMainTab(event, 'main-tab-facturacion')">💳 Pagos Segregados Sonnedix</button>
     </div>
 
     <!-- MAIN TAB 1: CONSOLIDADO PORTAFOLIO -->
@@ -404,7 +447,7 @@
     <div id="main-tab-carrera-pinto" class="tab-content">
         <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="openSubTab(event, 'cp-sub-avance', 'cp-sub-group')">📈 Avance Físico & Partidas</button>
-            <button class="sub-tab-btn sonedix-only" style="display:none;" onclick="openSubTab(event, 'cp-sub-sonedix-pago', 'cp-sub-group')">💳 Contrato & Pagos Sonedix CP</button>
+            <button class="sub-tab-btn sonnedix-only" style="display:none;" onclick="openSubTab(event, 'cp-sub-sonnedix-pago', 'cp-sub-group')">💳 Contrato & Pagos Sonnedix CP</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-rrhh', 'cp-sub-group')">👥 Dotación RRHH & Acreditaciones</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-caja-chica', 'cp-sub-group')">📦 Caja Chica</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'cp-sub-opex', 'cp-sub-group')">💰 OPEX & Facturas</button>
@@ -431,14 +474,14 @@
             </div>
         </div>
 
-        <div id="cp-sub-sonedix-pago" class="sub-tab-content cp-sub-group">
+        <div id="cp-sub-sonnedix-pago" class="sub-tab-content cp-sub-group">
             <div class="project-section">
                 <div class="project-header">
-                    <h2>💳 Contrato Carrera Pinto (CC-CP-01) — Hitos de Pago Sonedix</h2>
-                    <p>Mandante: Sonedix Chile SpA | Control de Cobros Específico de Carrera Pinto</p>
+                    <h2>💳 Contrato Carrera Pinto (CC-CP-01) — Hitos de Pago Sonnedix</h2>
+                    <p>Mandante: Sonnedix Chile SpA | Control de Cobros Específico de Carrera Pinto</p>
                 </div>
                 <div class="empty-placeholder">
-                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonedix.</strong></p>
+                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonnedix.</strong></p>
                 </div>
             </div>
         </div>
@@ -494,7 +537,7 @@
     <div id="main-tab-diego-almagro" class="tab-content">
         <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="openSubTab(event, 'da-sub-avance', 'da-sub-group')">📈 Avance Físico & Módulos</button>
-            <button class="sub-tab-btn sonedix-only" style="display:none;" onclick="openSubTab(event, 'da-sub-sonedix-pago', 'da-sub-group')">💳 Contrato & Pagos Sonedix DA</button>
+            <button class="sub-tab-btn sonnedix-only" style="display:none;" onclick="openSubTab(event, 'da-sub-sonnedix-pago', 'da-sub-group')">💳 Contrato & Pagos Sonnedix DA</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-rrhh', 'da-sub-group')">👥 Dotación RRHH</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-caja-chica', 'da-sub-group')">📦 Caja Chica</button>
             <button class="sub-tab-btn terracon-only" onclick="openSubTab(event, 'da-sub-opex', 'da-sub-group')">💰 OPEX & Facturas</button>
@@ -511,14 +554,14 @@
             </div>
         </div>
 
-        <div id="da-sub-sonedix-pago" class="sub-tab-content da-sub-group">
+        <div id="da-sub-sonnedix-pago" class="sub-tab-content da-sub-group">
             <div class="project-section">
                 <div class="project-header">
-                    <h2>💳 Contrato Diego de Almagro (CC-DA-02) — Hitos de Pago Sonedix</h2>
-                    <p>Mandante: Sonedix Chile SpA | Control de Cobros Específico de Diego de Almagro</p>
+                    <h2>💳 Contrato Diego de Almagro (CC-DA-02) — Hitos de Pago Sonnedix</h2>
+                    <p>Mandante: Sonnedix Chile SpA | Control de Cobros Específico de Diego de Almagro</p>
                 </div>
                 <div class="empty-placeholder">
-                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonedix.</strong></p>
+                    <p>💳 <strong>Hitos de pago listos para ser configurados al inicio del contrato con Sonnedix.</strong></p>
                 </div>
             </div>
         </div>
@@ -631,7 +674,7 @@
                             <option value="MEDIA">🟡 Media</option>
                             <option value="NORMAL">🟢 Normal</option>
                         </select>
-                        <button onclick="ingresarTemaLocalBitacora()" style="background: linear-gradient(135deg, var(--solar-amber), #d97706); color: #000; font-weight: 800; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap;">
+                        <button onclick="ingresarTemaLocalBitacora()" style="background: linear-gradient(135deg, var(--solar-amber), #d97706); color: #000; font-weight: 800; border: none; padding: 0 22px; height: 48px; border-radius: 10px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                             ➕ Agregar Tema
                         </button>
                     </div>
@@ -668,17 +711,17 @@
         </div>
     </div>
 
-    <!-- MAIN TAB 6: SONEDIX FACTURACION SEGREGADA POR PROYECTO -->
+    <!-- MAIN TAB 6: SONNEDIX FACTURACION SEGREGADA POR PROYECTO -->
     <div id="main-tab-facturacion" class="tab-content">
         <div class="project-section">
             <div class="project-header">
                 <div>
-                    <h2>💳 Estado de Pagos Segregados por Proyecto (Sonedix ➔ Terracon)</h2>
+                    <h2>💳 Estado de Pagos Segregados por Proyecto (Sonnedix ➔ Terracon)</h2>
                     <p>Cada contrato es administrado y cobrado de forma 100% independiente</p>
                 </div>
             </div>
             <div class="empty-placeholder">
-                <p>💳 <strong>Tabla de hitos de cobro lista para ser configurada a la firma de los contratos con Sonedix.</strong></p>
+                <p>💳 <strong>Tabla de hitos de cobro lista para ser configurada a la firma de los contratos con Sonnedix.</strong></p>
             </div>
         </div>
     </div>
@@ -691,7 +734,7 @@
     function setProfile(profile) {
         currentProfile = profile;
         const btnT = document.getElementById('btn-view-terracon');
-        const btnS = document.getElementById('btn-view-sonedix');
+        const btnS = document.getElementById('btn-view-sonnedix');
         const banner = document.getElementById('banner-audience');
         const hTitle = document.getElementById('header-title');
         const hSub = document.getElementById('header-subtitle');
@@ -701,20 +744,22 @@
         const kpiFinSub = document.getElementById('kpi-financial-sub');
         
         const terraconElements = document.querySelectorAll('.terracon-only');
-        const sonedixElements = document.querySelectorAll('.sonedix-only');
+        const sonnedixElements = document.querySelectorAll('.sonnedix-only');
         
-        if (profile === 'sonedix') {
+        if (profile === 'sonnedix') {
             btnT.classList.remove('active');
             btnS.classList.add('active');
-            banner.className = 'audience-banner sonedix';
-            banner.innerHTML = '<span>👔 <strong>VISTA CLIENTE (SONEDIX)</strong>: Informe Ejecutivo de Estado Inicial + Contratos y Pagos Segregados.</span><span class="mono">REPORTE OFICIAL CLIENTE</span>';
+            const logoImg = document.getElementById('header-brand-logo');
+            if (logoImg) { logoImg.src = 'LOGO-Sonnedix.jpg'; logoImg.alt = 'Logo Sonnedix'; }
+            banner.className = 'audience-banner sonnedix';
+            banner.innerHTML = '<span>👔 <strong>VISTA CLIENTE (SONNEDIX)</strong>: Informe Ejecutivo de Estado Inicial + Contratos y Pagos Segregados.</span><span class="mono">REPORTE OFICIAL CLIENTE</span>';
             
-            hTitle.innerText = 'SONEDIX — INFORME EJECUTIVO DE AVANCE DE PORTAFOLIO';
-            hSub.innerHTML = 'Mandante: Terracon Energy | Cliente Final: Sonedix | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong>';
+            hTitle.innerText = 'SONNEDIX — INFORME EJECUTIVO DE AVANCE DE PORTAFOLIO';
+            hSub.innerHTML = 'Mandante: Terracon Energy | Cliente Final: Sonnedix | Alcances: <strong>Carrera Pinto (CC-CP-01) y Diego de Almagro (CC-DA-02)</strong>';
             
-            kpiFinLabel.innerText = 'Cobros Acumulados Sonedix';
+            kpiFinLabel.innerText = 'Cobros Acumulados Sonnedix';
             kpiFinVal.innerText = '$0.00 CLP';
-            kpiFinVal.style.color = 'var(--sonedix-blue)';
+            kpiFinVal.style.color = 'var(--sonnedix-blue)';
             kpiFinSub.innerText = '$0 CLP CP + $0 CLP DDA | Esperando Inicio';
             
             document.getElementById('kpi-3-label').innerText = 'Hitos de Avance Aprobados';
@@ -723,11 +768,13 @@
             document.getElementById('kpi-3-sub').innerText = 'Línea Base Inicial';
             
             terraconElements.forEach(t => t.style.display = 'none');
-            sonedixElements.forEach(t => t.style.display = 'inline-block');
+            sonnedixElements.forEach(t => t.style.display = 'inline-block');
             openMainTabDirect('main-tab-consolidado');
         } else {
             btnS.classList.remove('active');
             btnT.classList.add('active');
+            const logoImg = document.getElementById('header-brand-logo');
+            if (logoImg) { logoImg.src = 'LOGO-terracon.png'; logoImg.alt = 'Logo Terracon'; }
             banner.className = 'audience-banner terracon';
             banner.innerHTML = '<span>🛡️ <strong>MODO INTERNO TERRACON</strong>: Sistema de Control de Portafolio Iniciado | Estado Inicial Limpio | Esperando Hito de Inicio de Contrato.</span><span class="mono">ESTADO INICIAL 0.0%</span>';
             
@@ -745,7 +792,7 @@
             document.getElementById('kpi-3-sub').innerText = 'Rendido $0 CLP de Fondos Asignados';
             
             terraconElements.forEach(t => t.style.display = 'inline-block');
-            sonedixElements.forEach(t => t.style.display = 'none');
+            sonnedixElements.forEach(t => t.style.display = 'none');
         }
     }
 
@@ -796,7 +843,7 @@
                 textBit = `id,fecha,tema,proyecto,responsable,prioridad,estado
 BIT-001,2026-07-29,Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena,Portafolio Global,Patricio Díaz,ALTA,PENDIENTE
 BIT-002,2026-07-29,Coordinación de inicio de partida Inversores de String en bloques MVS 4480,Carrera Pinto,Víctor Escanilla,ALTA,PENDIENTE
-BIT-003,2026-07-29,Revisión y firma de contrato para Hitos de Pago con Sonedix,Portafolio Global,Patricio Díaz,MEDIA,PENDIENTE
+BIT-003,2026-07-29,Revisión y firma de contrato para Hitos de Pago con Sonnedix,Portafolio Global,Patricio Díaz,MEDIA,PENDIENTE
 BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos (Carrera Pinto y Diego de Almagro),Portafolio Global,Patricio Díaz,ALTA,PENDIENTE`;
             } else {
                 try {
@@ -825,7 +872,9 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
                 renderInstruccionesAudio('cp-instrucciones-container', rowsInstCP);
             }
 
-            if (textBit) {
+            if (window.TERRACON_BITACORA_DATA && window.TERRACON_BITACORA_DATA.length > 0) {
+                renderTablaBitacora(window.TERRACON_BITACORA_DATA);
+            } else if (textBit) {
                 const rowsBit = parseCSV(textBit);
                 renderTablaBitacora(rowsBit);
             }
@@ -958,7 +1007,8 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
         if (!tbody) return;
         
         const extraLocal = JSON.parse(localStorage.getItem('terracon_bitacora_local') || '[]');
-        const allItems = [...extraLocal, ...(items || [])];
+        const sourceData = (window.TERRACON_BITACORA_DATA && window.TERRACON_BITACORA_DATA.length > 0) ? window.TERRACON_BITACORA_DATA : (items || []);
+        const allItems = [...extraLocal, ...sourceData];
 
         if (allItems.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Sin temas registrados en la bitácora.</td></tr>';
@@ -971,13 +1021,16 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
             if (b.prioridad === 'ALTA') prioTag = '<span class="badge-tag alert">🔴 Alta (Crítico)</span>';
             if (b.prioridad === 'NORMAL') prioTag = '<span class="badge-tag ok">🟢 Normal</span>';
 
+            const temaTxt = b.resumen || b.tema || 'Sin detalle';
+            const fechaTxt = (b.fecha || '').substring(0, 10) || new Date().toISOString().substring(0,10);
+
             html += `
                 <tr>
                     <td class="mono">${b.id || ('BIT-00' + (idx+1))}</td>
-                    <td>${b.fecha || new Date().toISOString().substring(0,10)}</td>
-                    <td><strong>${b.tema}</strong></td>
-                    <td>${b.proyecto}</td>
-                    <td>${b.responsable}</td>
+                    <td>${fechaTxt}</td>
+                    <td><strong>${temaTxt}</strong> ${b.archivo ? `<br><small style="color:var(--solar-amber);"><i class="fa-solid fa-paperclip"></i> <a href="../${b.archivo}" target="_blank" style="color:var(--solar-amber);">Ver adjunto</a></small>` : ''}</td>
+                    <td>${b.proyecto || 'Portafolio Global'}</td>
+                    <td>${b.responsable || 'Por Asignar'}</td>
                     <td>${prioTag}</td>
                     <td><span class="badge-tag warning">⏳ ${b.estado || 'PENDIENTE'}</span></td>
                 </tr>

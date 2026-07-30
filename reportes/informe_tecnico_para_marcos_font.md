@@ -4,7 +4,7 @@
 **DE**: Patricio Díaz — Director del Portafolio / Administrador  
 **FECHA**: 23 de Julio de 2026  
 **PROYECTO**: Portafolio de Reacondicionamiento Solar (Revamping Solar: Carrera Pinto y Diego de Almagro)  
-**MANDANTE**: Terracon Energy | **CLIENTE FINAL**: Sonedix  
+**MANDANTE**: Terracon Energy | **CLIENTE FINAL**: Sonnedix  
 **ASUNTO**: Presentación de la Estructura de Control, Gobernanza y Herramientas Operativas para el Enfrentamiento del Proyecto  
 
 ---
@@ -15,7 +15,7 @@ Estimado Marcos,
 
 Con el objetivo de garantizar el éxito absoluto en la ejecución de los proyectos de reacondicionamiento solar (*revamping*) **Carrera Pinto** y **Diego de Almagro**, he estructurado una plataforma integral de control operacional, seguimiento financiero por centro de costo, administración de Carta Gantt (cronograma) y gestión de compromisos.
 
-Esta infraestructura técnica ha sido concebida para **liberarte de la carga administrativa repetitiva** y permitirte concentrar el 100% de tu liderazgo en la dirección operacional, la estrategia técnica y la relación directa con la faena y el cliente Sonedix.
+Esta infraestructura técnica ha sido concebida para **liberarte de la carga administrativa repetitiva** y permitirte concentrar el 100% de tu liderazgo en la dirección operacional, la estrategia técnica y la relación directa con la faena y el cliente Sonnedix.
 
 ---
 
@@ -24,7 +24,7 @@ Esta infraestructura técnica ha sido concebida para **liberarte de la carga adm
 Para enfrentar este desafío con la máxima solidez corporativa, hemos establecido la siguiente **Regla de Oro de Interrelación**:
 
 1. **Un Solo Equipo (Frente Unido)**: **Patricio Díaz**, **Marcos Font** y **Víctor Escanilla** constituimos un bloque único, cohesionado e inquebrantable.
-2. **Resolución Interna Previa**: Todo imprevisto, hallazgo técnico, retraso de suministros o contingencia de faena se analiza y resuelve **EXCLUSIVAMENTE ENTRE NOSOTROS** antes de emitir cualquier reporte u oficio formal a Terracon Energy o Sonedix.
+2. **Resolución Interna Previa**: Todo imprevisto, hallazgo técnico, retraso de suministros o contingencia de faena se analiza y resuelve **EXCLUSIVAMENTE ENTRE NOSOTROS** antes de emitir cualquier reporte u oficio formal a Terracon Energy o Sonnedix.
 3. **Liderazgo Técnico y Respaldo Administrativo**: Tú (Marcos) defines la hoja de ruta técnica, operacional y los pasos a seguir. Mi rol como Director es respaldarte sin fisuras, asegurar la disponibilidad de recursos (Recursos Humanos, maquinarias, caja chica) y blindar la gestión administrativa. **Todos remamos hacia el mismo lado.**
 
 ---
@@ -36,7 +36,7 @@ El portafolio se dividirá limpiamente en dos frentes de trabajo independientes 
 ```text
                                ┌────────────────────────────────────────────────────────┐
                                │  PORTAFOLIO DE REACONDICIONAMIENTO SOLAR (REVAMPING)   │
-                               │        Terracon Energy (Mandante) / Sonedix            │
+                               │        Terracon Energy (Mandante) / Sonnedix            │
                                └───────────────────────────┬────────────────────────────┘
                                                            │
                          ┌─────────────────────────────────┴─────────────────────────────────┐
@@ -91,7 +91,7 @@ A partir de la firma del contrato y la entrega de la Carta Gantt inicial por par
 
 - **Índice de Rendimiento del Cronograma (SPI - Schedule Performance Index)**: Monitoreo continuo de Avance Real vs. Avance Programado.
 - **Control de Ruta Crítica**: Alertas automáticas ante posibles retrasos en la llegada de Estaciones de Media Tensión (MVS 4480), inversores o camiones de transporte.
-- **Coordinación de Ventanas de Desconexión (Outages / Paradas de Planta)**: Evaluación previa de ventanas de desconexión solicitadas a Sonedix para evitar penalizaciones por falta de generación comercial.
+- **Coordinación de Ventanas de Desconexión (Outages / Paradas de Planta)**: Evaluación previa de ventanas de desconexión solicitadas a Sonnedix para evitar penalizaciones por falta de generación comercial.
 
 ---
 
@@ -99,10 +99,10 @@ A partir de la firma del contrato y la entrega de la Carta Gantt inicial por par
 
 Para optimizar el tiempo del equipo y evitar la pérdida de acuerdos contractuales:
 
-1. **Grabación de Audio**: Cualquier reunión de coordinación (con Sonedix, proveedores o faena) puede ser grabada directamente desde la computadora y guardada en la carpeta `reuniones/` (formatos `.mp3`, `.wav`, `.m4a`).
+1. **Grabación de Audio**: Cualquier reunión de coordinación (con Sonnedix, proveedores o faena) puede ser grabada directamente desde la computadora y guardada en la carpeta `reuniones/` (formatos `.mp3`, `.wav`, `.m4a`).
 2. **Análisis Automático**: El sistema procesará el audio directamente, extrayendo:
    - Minuta oficial formateada ([minuta_reunion_compromisos.md](file:///c:/Users/pdiaz/Desarrollos/Terracon/plantillas/minuta_reunion_compromisos.md)).
-   - Matriz de Compromisos con responsables (Terracon Energy, Sonedix, Subcontratistas), plazos e impacto en la Carta Gantt o Presupuesto.
+   - Matriz de Compromisos con responsables (Terracon Energy, Sonnedix, Subcontratistas), plazos e impacto en la Carta Gantt o Presupuesto.
 
 ---
 

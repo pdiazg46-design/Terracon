@@ -4,7 +4,7 @@
 **Fecha de Reunión**: YYYY-MM-DD  
 **Participantes**:
 - Terracon Energy: Marcos Font, Víctor Escanilla, [Otros]
-- Sonedix: [Representante Sonedix]
+- Sonnedix: [Representante Sonnedix]
 - Proveedores / Subcontratistas: [Nombre Empresa]
 
 ---
@@ -21,7 +21,7 @@
 | ID | Compromiso / Tarea Acordada | Proyecto | Responsable | Entidad | Fecha Límite | Estado | Impacto (Gantt / Costo / Outage) |
 | :---: | :--- | :---: | :--- | :---: | :---: | :---: | :--- |
 | COM-01 | Entregar protocolo Megado Bloque 1 | Carrera Pinto | Víctor Escanilla | Terracon | YYYY-MM-DD | Pendiente | Alta en Gantt |
-| COM-02 | Aprobar ventana outage Bloque 2 | Diego de Almagro | [Nombre] | Sonedix | YYYY-MM-DD | En Proceso | Bloquea energización |
+| COM-02 | Aprobar ventana outage Bloque 2 | Diego de Almagro | [Nombre] | Sonnedix | YYYY-MM-DD | En Proceso | Bloquea energización |
 | COM-03 | Enviar facturas de flete módulos | Diego de Almagro | Transportes X | Proveedor | YYYY-MM-DD | Pendiente | Rendición OPEX |
 
 ---

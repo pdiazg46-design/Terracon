@@ -18,7 +18,7 @@
             "conectorizacion_mc4": { "estado": "Completado", "conectores_listos": 24, "total_conectores": 24, "fecha": "2026-08-16" },
             "triadas_bt_mvs": { "estado": "Completado", "fecha": "2026-08-18" },
             "pruebas_megado_polaridad": { "estado": "Completado", "fecha": "2026-08-20" },
-            "protocolo_qaqc": { "estado": "Aprobado Sonedix", "fecha": "2026-08-22" }
+            "protocolo_qaqc": { "estado": "Aprobado Sonnedix", "fecha": "2026-08-22" }
           }
         }
       ]
@@ -41,7 +41,7 @@
             "conectorizacion_mc4": { "estado": "Completado", "conectores_listos": 24, "total_conectores": 24, "fecha": "2026-08-17" },
             "triadas_bt_mvs": { "estado": "Completado", "fecha": "2026-08-19" },
             "pruebas_megado_polaridad": { "estado": "Completado", "fecha": "2026-08-21" },
-            "protocolo_qaqc": { "estado": "Aprobado Sonedix", "fecha": "2026-08-23" }
+            "protocolo_qaqc": { "estado": "Aprobado Sonnedix", "fecha": "2026-08-23" }
           }
         }
       ]

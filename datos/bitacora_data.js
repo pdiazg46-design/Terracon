@@ -1,0 +1,88 @@
+window.TERRACON_BITACORA_DATA = [
+  {
+    "id": "BIT-2026-007",
+    "fecha": "2026-07-30 14:54:35",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Portafolio Global",
+    "tipo": "COMPROMISO",
+    "resumen": "Llamar a marcos hoy",
+    "responsable": "Marcos Font",
+    "prioridad": "ALTA",
+    "estado": "PENDIENTE"
+  },
+  {
+    "id": "BIT-2026-006",
+    "fecha": "2026-07-30 14:54:13",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Portafolio Global",
+    "tipo": "GASTO / RESPALDO",
+    "resumen": "Foto respaldo: Pago servicio contratado",
+    "responsable": "Marcos Font",
+    "prioridad": "MEDIA",
+    "estado": "PENDIENTE",
+    "archivo": "respaldos_gastos/foto_terreno_1785437651.jpg"
+  },
+  {
+    "id": "BIT-2026-005",
+    "fecha": "2026-07-30 14:51:53",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Diego de Almagro",
+    "tipo": "AUDIO / MINUTA",
+    "resumen": "Audio Telegram: Nota de audio recibida desde Telegram por Patricio Diaz Guajardo",
+    "responsable": "Patricio Díaz",
+    "prioridad": "MEDIA",
+    "estado": "PENDIENTE",
+    "archivo": "reuniones/audio_terreno_1785437510.ogg"
+  },
+  {
+    "id": "BIT-2026-001",
+    "fecha": "2026-07-29 10:00:00",
+    "origen": "Sistema",
+    "usuario": "Patricio Díaz",
+    "proyecto": "Portafolio Global",
+    "tipo": "TAREA",
+    "resumen": "Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena",
+    "responsable": "Patricio Díaz",
+    "prioridad": "ALTA",
+    "estado": "COMPLETADO"
+  },
+  {
+    "id": "BIT-2026-002",
+    "fecha": "2026-07-29 11:30:00",
+    "origen": "Sistema",
+    "usuario": "Víctor Escanilla",
+    "proyecto": "Carrera Pinto",
+    "tipo": "TAREA",
+    "resumen": "Coordinación de inicio de partida Inversores de String en bloques MVS 4480",
+    "responsable": "Víctor Escanilla",
+    "prioridad": "ALTA",
+    "estado": "PENDIENTE"
+  },
+  {
+    "id": "BIT-2026-003",
+    "fecha": "2026-07-29 14:00:00",
+    "origen": "Sistema",
+    "usuario": "Patricio Díaz",
+    "proyecto": "Portafolio Global",
+    "tipo": "COMPROMISO",
+    "resumen": "Revisión y firma de contrato para Hitos de Pago con Sonnedix",
+    "responsable": "Patricio Díaz",
+    "prioridad": "MEDIA",
+    "estado": "PENDIENTE"
+  },
+  {
+    "id": "BIT-2026-004",
+    "fecha": "2026-07-29 16:20:00",
+    "origen": "Sistema",
+    "usuario": "Marcos Font",
+    "proyecto": "Diego de Almagro",
+    "tipo": "TAREA",
+    "resumen": "Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos (Carrera Pinto y Diego de Almagro)",
+    "responsable": "Marcos Font",
+    "prioridad": "ALTA",
+    "estado": "PENDIENTE"
+  }
+];

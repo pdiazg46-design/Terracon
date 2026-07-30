@@ -16,8 +16,8 @@
             --border-color: rgba(255, 255, 255, 0.12);
             --solar-amber: #f59e0b;
             --electric-cyan: #06b6d4;
-            --sonedix-blue: #3b82f6;
-            --sonedix-blue-glow: rgba(59, 130, 246, 0.2);
+            --sonnedix-blue: #3b82f6;
+            --sonnedix-blue-glow: rgba(59, 130, 246, 0.2);
             --success-green: #10b981;
             --alert-red: #ef4444;
             --text-main: #f8fafc;
@@ -34,15 +34,15 @@
         }
         .brand { display: flex; align-items: center; gap: 12px; }
         .brand-icon {
-            width: 40px; height: 40px; background: linear-gradient(135deg, var(--sonedix-blue), #1d4ed8);
+            width: 40px; height: 40px; background: linear-gradient(135deg, var(--sonnedix-blue), #1d4ed8);
             border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff;
         }
         .brand-text h1 { font-size: 15px; font-weight: 700; }
-        .brand-text p { font-size: 10.5px; color: var(--sonedix-blue); font-weight: 600; }
+        .brand-text p { font-size: 10.5px; color: var(--sonnedix-blue); font-weight: 600; }
 
         .user-badge {
             background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 10px 14px; border-radius: 12px; font-size: 12.5px; font-weight: 700; color: var(--sonedix-blue);
+            padding: 10px 14px; border-radius: 12px; font-size: 12.5px; font-weight: 700; color: var(--sonnedix-blue);
             display: flex; align-items: center; justify-content: space-between;
         }
 
@@ -56,7 +56,7 @@
         }
         .mode-btn i { font-size: 18px; }
         .mode-btn.active {
-            background: rgba(59, 130, 246, 0.15); border-color: var(--sonedix-blue); color: var(--sonedix-blue);
+            background: rgba(59, 130, 246, 0.15); border-color: var(--sonnedix-blue); color: var(--sonnedix-blue);
             box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
         }
 
@@ -73,11 +73,11 @@
         }
 
         .upload-zone-large {
-            border: 2px dashed var(--sonedix-blue); border-radius: 14px; padding: 20px 14px; text-align: center;
+            border: 2px dashed var(--sonnedix-blue); border-radius: 14px; padding: 20px 14px; text-align: center;
             background: rgba(59, 130, 246, 0.05); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;
             overflow: hidden; width: 100%;
         }
-        .upload-zone-large i { font-size: 36px; color: var(--sonedix-blue); }
+        .upload-zone-large i { font-size: 36px; color: var(--sonnedix-blue); }
 
         .filename-badge {
             background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success-green);
@@ -91,7 +91,7 @@
         }
 
         .btn-rec-inline {
-            background: rgba(59, 130, 246, 0.15); border: 1.5px solid var(--sonedix-blue); color: var(--sonedix-blue);
+            background: rgba(59, 130, 246, 0.15); border: 1.5px solid var(--sonnedix-blue); color: var(--sonnedix-blue);
             padding: 14px; border-radius: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
         }
@@ -111,7 +111,7 @@
             text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
 
-        .record-timer { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 800; color: var(--sonedix-blue); }
+        .record-timer { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 800; color: var(--sonnedix-blue); }
 
         .record-status-tag {
             font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05); color: var(--text-muted);
@@ -127,7 +127,7 @@
         }
 
         .btn-submit-ai {
-            background: linear-gradient(135deg, var(--sonedix-blue), #1d4ed8); color: #fff; border: none; padding: 16px;
+            background: linear-gradient(135deg, var(--sonnedix-blue), #1d4ed8); color: #fff; border: none; padding: 16px;
             border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center;
             justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
@@ -176,7 +176,7 @@
         .modal-info-row strong { color: var(--text-main); font-weight: 700; }
 
         .btn-modal-close {
-            background: linear-gradient(135deg, var(--sonedix-blue), #1d4ed8); color: #fff; border: none;
+            background: linear-gradient(135deg, var(--sonnedix-blue), #1d4ed8); color: #fff; border: none;
             padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer;
             width: 100%; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
@@ -187,7 +187,11 @@
 <div class="app-container">
     <header>
         <div class="brand">
-            <div class="brand-icon"><i class="fa-solid fa-user-tie"></i></div>
+            <div style="display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 10px; border: 1px solid var(--border-color);">
+                <img src="LOGO-terracon.png" alt="Terracon Energy" style="max-height: 28px; width: auto; object-fit: contain;">
+                <span style="color: #64748b; font-size: 10px; font-weight: 800;">➔</span>
+                <img src="LOGO-Sonnedix.jpg" alt="Sonnedix" style="max-height: 28px; width: auto; object-fit: contain;">
+            </div>
             <div class="brand-text">
                 <h1>TERRACON CAPTURA</h1>
                 <p>Gastos | Reuniones | Instrucciones</p>
@@ -258,7 +262,7 @@
     <div class="form-section" id="section-reunion" style="display: none;">
         <div class="form-group">
             <label><i class="fa-solid fa-heading"></i> Asunto / Título de la Reunión</label>
-            <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Outage Bloque 2 Sonedix">
+            <input type="text" id="reunion-titulo" class="form-control" placeholder="Ej: Minuta Outage Bloque 2 Sonnedix">
         </div>
 
         <div class="recorder-box">

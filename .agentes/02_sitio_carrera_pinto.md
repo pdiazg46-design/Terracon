@@ -10,7 +10,7 @@
 ## 🏆 REGLA DE ORO DE GOBERNANZA E INTERRELACIÓN
 
 1. **Un Solo Equipo**: Víctor Escanilla, Marcos Font y Patricio Díaz forman un bloque único y alineado.
-2. **Resolución Interna de Problemas**: Cualquier desviación técnica, retraso de proveedor o problema en faena se canaliza y resuelve internamente con Marcos Font y Patricio Díaz antes de reportar a Terracon/Sonedix.
+2. **Resolución Interna de Problemas**: Cualquier desviación técnica, retraso de proveedor o problema en faena se canaliza y resuelve internamente con Marcos Font y Patricio Díaz antes de reportar a Terracon/Sonnedix.
 3. **Respaldo Directivo**: Víctor lidera la faena electromecánica en terreno con el apoyo total de la dirección del proyecto.
 
 ---

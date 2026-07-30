@@ -3,7 +3,7 @@
 **Código RDI**: RDI-TER-[CP/DA]-YYYY-XXX  
 **Fecha**: YYYY-MM-DD  
 **De**: Marcos Font (PM Senior - Terracon Energy)  
-**Para**: Administrador de Contrato (Sonedix / Terracon)  
+**Para**: Administrador de Contrato (Sonnedix / Terracon)  
 **Proyecto**: [Carrera Pinto / Diego de Almagro]  
 
 ---

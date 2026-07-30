@@ -10,7 +10,7 @@
       "tipo_contrato": "Indefinido",
       "remuneracion_base_mensual": 4500000,
       "formulario_rendicion_id": "FORM-PATRICIO-DIAZ",
-      "acreditacion_legal_sonedix": {
+      "acreditacion_legal_sonnedix": {
         "contrato_firmado": true,
         "examen_ocupacional_altura": true,
         "vencimiento_examen": "2027-05-15",
@@ -30,7 +30,7 @@
       "tipo_contrato": "Indefinido",
       "remuneracion_base_mensual": 3800000,
       "formulario_rendicion_id": "FORM-MARCOS-FONT",
-      "acreditacion_legal_sonedix": {
+      "acreditacion_legal_sonnedix": {
         "contrato_firmado": true,
         "examen_ocupacional_altura": true,
         "vencimiento_examen": "2027-04-10",
@@ -50,7 +50,7 @@
       "tipo_contrato": "Obra o Faena",
       "remuneracion_base_mensual": 3200000,
       "formulario_rendicion_id": "FORM-VICTOR-ESCANILLA",
-      "acreditacion_legal_sonedix": {
+      "acreditacion_legal_sonnedix": {
         "contrato_firmado": true,
         "examen_ocupacional_altura": true,
         "vencimiento_examen": "2027-03-22",
@@ -70,7 +70,7 @@
       "tipo_contrato": "Obra o Faena",
       "remuneracion_base_mensual": 1800000,
       "formulario_rendicion_id": "N/A",
-      "acreditacion_legal_sonedix": {
+      "acreditacion_legal_sonnedix": {
         "contrato_firmado": true,
         "examen_ocupacional_altura": true,
         "vencimiento_examen": "2026-12-01",
@@ -90,7 +90,7 @@
       "tipo_contrato": "Obra o Faena",
       "remuneracion_base_mensual": 2100000,
       "formulario_rendicion_id": "N/A",
-      "acreditacion_legal_sonedix": {
+      "acreditacion_legal_sonnedix": {
         "contrato_firmado": true,
         "examen_ocupacional_altura": false,
         "vencimiento_examen": "Pendiente Renovación",

@@ -9,7 +9,7 @@
     {
       "proyecto": "Carrera Pinto",
       "centro_costo": "CC-CP-01",
-      "mandante": "Sonedix Chile SpA",
+      "mandante": "Sonnedix Chile SpA",
       "contratista": "Terracon Energy SpA",
       "monto_contrato_clp": 200000000,
       "monto_cobrado_clp": 60000000,
@@ -21,9 +21,9 @@
           "condicion": "Firma de Contrato e Instalación de Faena CP",
           "pct_monto": 30.0,
           "monto_clp": 60000000,
-          "factura_dte": "F-7701 (Terracon ➔ Sonedix)",
+          "factura_dte": "F-7701 (Terracon ➔ Sonnedix)",
           "fecha_pago": "2026-07-15",
-          "estado_pago": "🟢 Pagado por Sonedix"
+          "estado_pago": "🟢 Pagado por Sonnedix"
         },
         {
           "id_hito": "HITO-CP-02",
@@ -33,7 +33,7 @@
           "monto_clp": 47500000,
           "factura_dte": "F-7740 (En Emisión)",
           "fecha_pago": "2026-08-30 (Estimado)",
-          "estado_pago": "🔵 En Proceso de Aprobación Sonedix"
+          "estado_pago": "🔵 En Proceso de Aprobación Sonnedix"
         },
         {
           "id_hito": "HITO-CP-03",
@@ -60,7 +60,7 @@
     {
       "proyecto": "Diego de Almagro",
       "centro_costo": "CC-DA-02",
-      "mandante": "Sonedix Chile SpA",
+      "mandante": "Sonnedix Chile SpA",
       "contratista": "Terracon Energy SpA",
       "monto_contrato_clp": 200000000,
       "monto_cobrado_clp": 60000000,
@@ -72,9 +72,9 @@
           "condicion": "Firma de Contrato e Instalación Faena DDA",
           "pct_monto": 30.0,
           "monto_clp": 60000000,
-          "factura_dte": "F-7702 (Terracon ➔ Sonedix)",
+          "factura_dte": "F-7702 (Terracon ➔ Sonnedix)",
           "fecha_pago": "2026-07-15",
-          "estado_pago": "🟢 Pagado por Sonedix"
+          "estado_pago": "🟢 Pagado por Sonnedix"
         },
         {
           "id_hito": "HITO-DA-02",
@@ -84,7 +84,7 @@
           "monto_clp": 47500000,
           "factura_dte": "F-7741 (En Emisión)",
           "fecha_pago": "2026-08-30 (Estimado)",
-          "estado_pago": "🔵 En Proceso de Aprobación Sonedix"
+          "estado_pago": "🔵 En Proceso de Aprobación Sonnedix"
         },
         {
           "id_hito": "HITO-DA-03",

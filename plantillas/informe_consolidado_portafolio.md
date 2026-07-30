@@ -2,7 +2,7 @@
 
 **Periodo**: Semana N° XX (Del YYYY-MM-DD al YYYY-MM-DD)  
 **Mandante**: Terracon Energy  
-**Cliente Final**: Sonedix  
+**Cliente Final**: Sonnedix  
 **Elaborado por**: Orquestador PM (Marcos Font - Directivo)  
 
 ---
@@ -62,6 +62,6 @@
 
 ---
 
-## 📝 5. Próximos Hitos y Solicitudes a Terracon / Sonedix
+## 📝 5. Próximos Hitos y Solicitudes a Terracon / Sonnedix
 1. Aprobación de Ventana de Desconexión Bloque X.
 2. Liberación de RDI N° XX.

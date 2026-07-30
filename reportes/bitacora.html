@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terracon Energy — Bitácora Central en Línea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-hover: #1c2742;
+            --border-color: rgba(255, 255, 255, 0.12);
+            --solar-amber: #f59e0b;
+            --electric-cyan: #06b6d4;
+            --success-green: #10b981;
+            --alert-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--solar-amber), #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #000;
+        }
+        .brand-text h1 { font-size: 20px; font-weight: 700; }
+        .brand-text p { font-size: 13px; color: var(--text-muted); }
+
+        .live-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success-green);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .stat-card span { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .stat-card h2 { font-size: 24px; font-weight: 700; color: var(--solar-amber); }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-filter {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .btn-filter.active, .btn-filter:hover {
+            background: var(--electric-cyan);
+            color: #000;
+            border-color: var(--electric-cyan);
+            font-weight: 600;
+        }
+
+        .bitacora-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bitacora-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        .bitacora-item:hover {
+            border-color: rgba(255,255,255,0.25);
+            background: var(--bg-card-hover);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        .item-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--solar-amber);
+            background: rgba(245, 158, 11, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        .item-meta { color: var(--text-muted); }
+
+        .item-body {
+            font-size: 15px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .item-footer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+        .tag {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .tag-proy { background: rgba(6, 182, 212, 0.15); color: var(--electric-cyan); }
+        .tag-tipo { background: rgba(255, 255, 255, 0.08); color: var(--text-main); }
+        .tag-resp { background: rgba(16, 185, 129, 0.15); color: var(--success-green); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-list-check"></i></div>
+                <div class="brand-text">
+                    <h1>Terracon Energy — Bitácora Central en Línea</h1>
+                    <p>Sincronización automática en tiempo real desde Telegram & Terreno</p>
+                </div>
+            </div>
+            <div class="live-badge">
+                <div class="pulse-dot"></div> TELEGRAM CONECTADO EN VIVO
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>Eventos Registrados</span>
+                <h2 id="total-eventos">0</h2>
+            </div>
+            <div class="stat-card">
+                <span>Tareas Pendientes</span>
+                <h2 id="total-tareas" style="color: var(--electric-cyan)">0</h2>
+            </div>
+            <div class="stat-card">
+                <span>Respaldos Fotográficos</span>
+                <h2 id="total-fotos" style="color: var(--success-green)">0</h2>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-filter active" onclick="filtrar('TODOS')">Todos los Eventos</button>
+            <button class="btn-filter" onclick="filtrar('Carrera Pinto')">Carrera Pinto</button>
+            <button class="btn-filter" onclick="filtrar('Diego de Almagro')">Diego de Almagro</button>
+            <button class="btn-filter" onclick="filtrar('Telegram Bot')">Origen Telegram</button>
+        </div>
+
+        <div class="bitacora-list" id="lista-bitacora">
+            <p style="color: var(--text-muted)">Cargando eventos de la Bitácora Central...</p>
+        </div>
+    </div>
+
+    <script>
+        let bitacoraData = [];
+        let filtroActual = 'TODOS';
+
+        async function cargarBitacora() {
+            try {
+                const res = await fetch('../datos/bitacora_central.json?t=' + Date.now());
+                if (!res.ok) return;
+                bitacoraData = await res.json();
+                renderizar();
+            } catch (e) {
+                console.error("Error al cargar bitácora:", e);
+            }
+        }
+
+        function renderizar() {
+            const container = document.getElementById('lista-bitacora');
+            let items = bitacoraData;
+
+            if (filtroActual !== 'TODOS') {
+                items = bitacoraData.filter(i => 
+                    i.proyecto === filtroActual || 
+                    i.origen === filtroActual ||
+                    i.tipo === filtroActual
+                );
+            }
+
+            document.getElementById('total-eventos').innerText = bitacoraData.length;
+            document.getElementById('total-tareas').innerText = bitacoraData.filter(i => i.tipo === 'TAREA' || i.tipo === 'COMPROMISO').length;
+            document.getElementById('total-fotos').innerText = bitacoraData.filter(i => i.tipo && i.tipo.includes('GASTO')).length;
+
+            if (items.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted)">No hay eventos registrados para este filtro.</p>';
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="bitacora-item">
+                    <div class="item-header">
+                        <span class="item-id">${item.id}</span>
+                        <span class="item-meta"><i class="fa-regular fa-clock"></i> ${item.fecha} | Origen: ${item.origen}</span>
+                    </div>
+                    <div class="item-body">
+                        ${item.resumen}
+                    </div>
+                    <div class="item-footer">
+                        <span class="tag tag-proy"><i class="fa-solid fa-solar-panel"></i> ${item.proyecto}</span>
+                        <span class="tag tag-tipo">${item.tipo}</span>
+                        <span class="tag tag-resp"><i class="fa-solid fa-user-check"></i> ${item.responsable}</span>
+                        ${item.archivo ? `<a href="../${item.archivo}" target="_blank" style="color: var(--solar-amber); text-decoration: none; font-weight: 600;"><i class="fa-solid fa-paperclip"></i> Ver Adjunto</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filtrar(val) {
+            filtroActual = val;
+            document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderizar();
+        }
+
+        cargarBitacora();
+        setInterval(cargarBitacora, 3000); // Polling automático cada 3 segundos
+    </script>
+</body>
+</html>
