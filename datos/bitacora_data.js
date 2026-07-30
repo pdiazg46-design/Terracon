@@ -1,5 +1,31 @@
 window.TERRACON_BITACORA_DATA = [
   {
+    "id": "BIT-2026-009",
+    "fecha": "2026-07-30 15:08:52",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Carrera Pinto",
+    "tipo": "COMPROMISO",
+    "resumen": "Marcos debe pedir la cubicacion de carrera pinto",
+    "responsable": "Marcos Font",
+    "prioridad": "ALTA",
+    "estado": "PENDIENTE",
+    "archivo": null
+  },
+  {
+    "id": "BIT-2026-008",
+    "fecha": "2026-07-30 15:08:18",
+    "origen": "Telegram Bot",
+    "usuario": "Patricio Diaz Guajardo",
+    "proyecto": "Carrera Pinto",
+    "tipo": "TAREA / AUDIO",
+    "resumen": "Audio transcrito: \"corrección a la bitácora 5 marco debe pedir la ubicación del proyecto carrera pinto antes del viernes\"",
+    "responsable": "Marcos Font",
+    "prioridad": "MEDIA",
+    "estado": "PENDIENTE",
+    "archivo": "reuniones/audio_terreno_1785438493.ogg"
+  },
+  {
     "id": "BIT-2026-007",
     "fecha": "2026-07-30 14:54:35",
     "origen": "Telegram Bot",
@@ -9,7 +35,8 @@ window.TERRACON_BITACORA_DATA = [
     "resumen": "Llamar a marcos hoy",
     "responsable": "Marcos Font",
     "prioridad": "ALTA",
-    "estado": "PENDIENTE"
+    "estado": "PENDIENTE",
+    "archivo": null
   },
   {
     "id": "BIT-2026-006",
@@ -18,7 +45,7 @@ window.TERRACON_BITACORA_DATA = [
     "usuario": "Patricio Diaz Guajardo",
     "proyecto": "Portafolio Global",
     "tipo": "GASTO / RESPALDO",
-    "resumen": "Foto respaldo: Pago servicio contratado",
+    "resumen": "Pago servicio contratado",
     "responsable": "Marcos Font",
     "prioridad": "MEDIA",
     "estado": "PENDIENTE",
@@ -47,7 +74,8 @@ window.TERRACON_BITACORA_DATA = [
     "resumen": "Definición de arquitectura macro para carga automática de audios y fotos desde celulares de faena",
     "responsable": "Patricio Díaz",
     "prioridad": "ALTA",
-    "estado": "COMPLETADO"
+    "estado": "COMPLETADO",
+    "archivo": null
   },
   {
     "id": "BIT-2026-002",
@@ -59,7 +87,8 @@ window.TERRACON_BITACORA_DATA = [
     "resumen": "Coordinación de inicio de partida Inversores de String en bloques MVS 4480",
     "responsable": "Víctor Escanilla",
     "prioridad": "ALTA",
-    "estado": "PENDIENTE"
+    "estado": "PENDIENTE",
+    "archivo": null
   },
   {
     "id": "BIT-2026-003",
@@ -71,7 +100,8 @@ window.TERRACON_BITACORA_DATA = [
     "resumen": "Revisión y firma de contrato para Hitos de Pago con Sonnedix",
     "responsable": "Patricio Díaz",
     "prioridad": "MEDIA",
-    "estado": "PENDIENTE"
+    "estado": "PENDIENTE",
+    "archivo": null
   },
   {
     "id": "BIT-2026-004",
@@ -80,9 +110,10 @@ window.TERRACON_BITACORA_DATA = [
     "usuario": "Marcos Font",
     "proyecto": "Diego de Almagro",
     "tipo": "TAREA",
-    "resumen": "Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos (Carrera Pinto y Diego de Almagro)",
+    "resumen": "Solicitar a Víctor Escanilla y Marcos Font la cubicación oficial de proyectos",
     "responsable": "Marcos Font",
     "prioridad": "ALTA",
-    "estado": "PENDIENTE"
+    "estado": "PENDIENTE",
+    "archivo": null
   }
 ];

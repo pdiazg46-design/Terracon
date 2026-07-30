@@ -3,7 +3,7 @@
 bot_telegram_terracon.py
 Bot Oficial de Telegram para Terracon Energy.
 Recibe notas de voz, fotos y texto en tiempo real.
-Transcribe los audios usando STT, deduce responsable/proyecto/plazo e inyecta eventos en la Bitácora Central.
+Permite ingresar Y GESTIONAR (completar, reasignar) tareas desde Telegram o la Web.
 """
 
 import os
@@ -58,7 +58,6 @@ def descargar_archivo(token, file_id, path_destino):
     return False
 
 def transcribir_audio_ogg(path_ogg):
-    """Transcribe un archivo de audio .ogg a texto en español utilizando soundfile y SpeechRecognition."""
     temp_wav = path_ogg + ".temp.wav"
     try:
         data, samplerate = sf.read(path_ogg)
@@ -76,7 +75,7 @@ def transcribir_audio_ogg(path_ogg):
         print(f"⚠️ Error en transcripción de audio: {e}", flush=True)
         if os.path.exists(temp_wav):
             os.remove(temp_wav)
-        return "Audio grabado recibido (no fue posible transcribir el texto exacto)."
+        return "Audio grabado recibido."
 
 def cargar_bitacora():
     if os.path.exists(BITACORA_JSON):
@@ -95,36 +94,17 @@ def guardar_bitacora(data):
     with open(BITACORA_JS, "w", encoding="utf-8") as f:
         f.write("window.TERRACON_BITACORA_DATA = " + json.dumps(data, ensure_ascii=False, indent=2) + ";\n")
 
-def actualizar_csv_pendientes(nuevo_evento):
-    file_exists = os.path.exists(BITACORA_CSV)
-    filas_existentes = []
-    if file_exists:
-        try:
-            with open(BITACORA_CSV, "r", encoding="utf-8") as f:
-                reader = list(csv.reader(f))
-                if reader:
-                    header = reader[0]
-                    filas_existentes = reader[1:]
-        except Exception as e:
-            print("Error leyendo CSV:", e, flush=True)
-            
-    header = ["id", "fecha", "tema", "proyecto", "responsable", "prioridad", "estado"]
-    nueva_fila = [
-        nuevo_evento["id"],
-        datetime.datetime.now().strftime("%Y-%m-%d"),
-        nuevo_evento["resumen"],
-        nuevo_evento["proyecto"],
-        nuevo_evento["responsable"],
-        nuevo_evento["prioridad"],
-        nuevo_evento["estado"]
-    ]
-    
-    filas_totales = [nueva_fila] + filas_existentes
-    
-    with open(BITACORA_CSV, "w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        writer.writerows(filas_totales)
+def cambiar_estado_tarea(event_id, nuevo_estado="COMPLETADO"):
+    bitacora = cargar_bitacora()
+    encontrado = False
+    for item in bitacora:
+        if event_id.lower() in item.get("id", "").lower() or event_id in str(item.get("id", "")):
+            item["estado"] = nuevo_estado
+            encontrado = item
+            break
+    if encontrado:
+        guardar_bitacora(bitacora)
+    return encontrado
 
 def registrar_evento_bitacora(usuario, tipo, resumen, proyecto="Portafolio Global", responsable="Por Asignar", archivo=None):
     bitacora = cargar_bitacora()
@@ -147,7 +127,6 @@ def registrar_evento_bitacora(usuario, tipo, resumen, proyecto="Portafolio Globa
     
     bitacora.insert(0, nuevo_evento)
     guardar_bitacora(bitacora)
-    actualizar_csv_pendientes(nuevo_evento)
     return nuevo_evento
 
 def inferir_proyecto_y_responsable(texto):
@@ -169,14 +148,12 @@ def inferir_proyecto_y_responsable(texto):
 def ejecutar_bot():
     token = obtener_token()
     if not token:
-        print("❌ No se encontró TOKEN de Telegram. Guarda el token en 'telegram_token.txt'.", flush=True)
+        print("❌ No se encontró TOKEN de Telegram.", flush=True)
         return
 
     print("=========================================================", flush=True)
     print(" 🤖 BOT DE TELEGRAM TERRACON ENERGY - BITÁCORA EN LÍNEA  ", flush=True)
     print("=========================================================", flush=True)
-    print(f"Token activo: {token[:12]}... (Verificado)", flush=True)
-    print("Escuchando mensajes de voz, fotos y texto con STT en tiempo real...\n", flush=True)
 
     offset = 0
     os.makedirs(DEST_RESPALDOS, exist_ok=True)
@@ -211,27 +188,19 @@ def ejecutar_bot():
                                 responsable=resp,
                                 archivo=f"respaldos_gastos/{fname}"
                             )
-                            print(f" 🧾 [{evento['id']}] Foto recibida de {full_user}: {fname}", flush=True)
                             make_request(token, "sendMessage", {
                                 "chat_id": chat_id,
                                 "parse_mode": "Markdown",
-                                "text": (
-                                    f"✅ *FOTO REGISTRADA EN BITÁCORA [{evento['id']}]*\n\n"
-                                    f"📍 *Proyecto*: {evento['proyecto']}\n"
-                                    f"📝 *Detalle*: {caption}\n"
-                                    f"📸 *Archivo*: `{fname}`\n"
-                                    f"🔗 *Estado*: Sincronizado en línea con Bitácora Terracon."
-                                )
+                                "text": f"✅ *FOTO REGISTRADA EN BITÁCORA [{evento['id']}]*\n📍 *Proyecto*: {evento['proyecto']}\n📝 *Detalle*: {caption}"
                             })
 
-                    # 🎙️ Procesar Notas de Voz / Audios con Transcripción
+                    # 🎙️ Procesar Audios
                     elif "voice" in msg or "audio" in msg:
                         audio_obj = msg.get("voice") or msg.get("audio")
                         f_id = audio_obj["file_id"]
                         fname = f"audio_terreno_{int(time.time())}.ogg"
                         out_path = os.path.join(DEST_REUNIONES, fname)
                         if descargar_archivo(token, f_id, out_path):
-                            print(f" 🎙️  Procesando y transcribiendo audio de {full_user}...", flush=True)
                             texto_transcrito = transcribir_audio_ogg(out_path)
                             proy, resp = inferir_proyecto_y_responsable(texto_transcrito)
                             
@@ -244,7 +213,6 @@ def ejecutar_bot():
                                 responsable=resp,
                                 archivo=f"reuniones/{fname}"
                             )
-                            print(f" 🎙️  [{evento['id']}] Transcripción: {texto_transcrito}", flush=True)
                             make_request(token, "sendMessage", {
                                 "chat_id": chat_id,
                                 "parse_mode": "Markdown",
@@ -252,26 +220,37 @@ def ejecutar_bot():
                                     f"🎙️ *AUDIO TRANSCRIBIDO Y REGISTRADO [{evento['id']}]*\n\n"
                                     f"🗣️ *Voz de*: {full_user}\n"
                                     f"📝 *Texto Transcrito*: \"{texto_transcrito}\"\n"
-                                    f"📍 *Proyecto Deducido*: {evento['proyecto']}\n"
-                                    f"👤 *Responsable Asignado*: {evento['responsable']}\n"
-                                    f"🔗 *Estado*: Registrado en Bitácora Central."
+                                    f"📍 *Proyecto*: {evento['proyecto']}\n"
+                                    f"👤 *Responsable*: {evento['responsable']}"
                                 )
                             })
 
-                    # 📝 Procesar Texto Corto
+                    # 📝 Procesar Texto & Comandos de Gestión
                     elif "text" in msg:
-                        txt = msg["text"]
-                        if txt.startswith("/start"):
+                        txt = msg["text"].strip()
+                        
+                        # Comandos de gestión: /completar BIT-005 o /resuelto 5
+                        if txt.lower().startswith("/completar") or txt.lower().startswith("/resuelto"):
+                            partes = txt.split()
+                            if len(partes) > 1:
+                                target_id = partes[1]
+                                item = cambiar_estado_tarea(target_id, "COMPLETADO")
+                                if item:
+                                    make_request(token, "sendMessage", {
+                                        "chat_id": chat_id,
+                                        "parse_mode": "Markdown",
+                                        "text": f"🟢 *TAREA MARCADA COMO RESUELTA [{item['id']}]*\n📝 *Detalle*: {item['resumen']}\n👤 *Responsable*: {item['responsable']}"
+                                    })
+                                else:
+                                    make_request(token, "sendMessage", {"chat_id": chat_id, "text": f"⚠️ No se encontró la tarea '{target_id}'."})
+                        elif txt.startswith("/start"):
                             make_request(token, "sendMessage", {
                                 "chat_id": chat_id,
                                 "parse_mode": "Markdown",
                                 "text": (
-                                    f"👋 *¡Bienvenido al Bot de Bitácora Terracon Energy, {user_name}!*\n\n"
-                                    f"Puedes enviar desde aquí:\n"
-                                    f"🎙️ **Notas de voz** (se transcriben automáticamente a texto)\n"
-                                    f"📷 **Fotos** (boletas, comprobantes o fotos de terreno)\n"
-                                    f"📝 **Mensajes de texto** directos a la Bitácora.\n\n"
-                                    f" Todo se procesa y registra al instante a costo $0."
+                                    f"👋 *¡Bienvenido al Bot de Bitácora Terracon Energy!*\n\n"
+                                    f"📌 **Crear tareas**: Envía voz, foto o texto.\n"
+                                    f"✅ **Resolver tareas**: Escribe `/completar 5` o `/resuelto BIT-2026-005`."
                                 )
                             })
                         else:
@@ -284,18 +263,10 @@ def ejecutar_bot():
                                 proyecto=proy,
                                 responsable=resp
                             )
-                            print(f" 📝 [{evento['id']}] Texto de {full_user}: {txt}", flush=True)
                             make_request(token, "sendMessage", {
                                 "chat_id": chat_id,
                                 "parse_mode": "Markdown",
-                                "text": (
-                                    f"📌 *EVENTO REGISTRADO EN BITÁCORA [{evento['id']}]*\n\n"
-                                    f"📍 *Proyecto*: {evento['proyecto']}\n"
-                                    f"📝 *Detalle*: \"{txt}\"\n"
-                                    f"🏷️ *Tipo*: {evento['tipo']}\n"
-                                    f"👤 *Responsable*: {evento['responsable']}\n"
-                                    f"🟢 *Estado*: Activo en Bitácora Central."
-                                )
+                                "text": f"📌 *EVENTO REGISTRADO [{evento['id']}]*\n📝 *Detalle*: \"{txt}\"\n👤 *Responsable*: {evento['responsable']}"
                             })
 
             time.sleep(2)
