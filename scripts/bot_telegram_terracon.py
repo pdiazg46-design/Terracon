@@ -111,6 +111,10 @@ def registrar_evento_bitacora(usuario, tipo, resumen, proyecto="Portafolio Globa
     next_id_num = len(bitacora) + 1
     event_id = f"BIT-2026-{next_id_num:03d}"
     
+    # Determinar si el emisor es el Director Patricio Díaz
+    is_director = any(d in usuario.lower() for d in ["patricio", "díaz", "diaz"])
+    estado_inicial = "PENDIENTE" if is_director else "POR REVISAR DIRECTOR"
+    
     nuevo_evento = {
         "id": event_id,
         "fecha": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -121,7 +125,7 @@ def registrar_evento_bitacora(usuario, tipo, resumen, proyecto="Portafolio Globa
         "resumen": resumen,
         "responsable": responsable,
         "prioridad": "ALTA" if tipo in ["TAREA", "COMPROMISO"] else "MEDIA",
-        "estado": "PENDIENTE",
+        "estado": estado_inicial,
         "archivo": archivo
     }
     

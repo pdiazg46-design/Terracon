@@ -1255,6 +1255,12 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
             if (estadoActual === 'COMPLETADO' || estadoActual === 'RESUELTO') {
                 estadoBadgeClass = 'ok';
                 estadoSymbol = '🟢';
+            } else if (estadoActual === 'APROBADO DIRECTOR') {
+                estadoBadgeClass = 'ok';
+                estadoSymbol = '🟢';
+            } else if (estadoActual === 'POR REVISAR DIRECTOR') {
+                estadoBadgeClass = 'warning';
+                estadoSymbol = '🟡';
             } else if (estadoActual === 'EN PROCESO') {
                 estadoBadgeClass = 'info';
                 estadoSymbol = '🟡';
@@ -1263,11 +1269,17 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
                 estadoSymbol = '🔴';
             }
 
+            const isPorRevisar = estadoActual === 'POR REVISAR DIRECTOR';
+
             html += `
-                <tr id="row-${itemID}">
+                <tr id="row-${itemID}" style="${isPorRevisar ? 'background: rgba(245, 158, 11, 0.08); border-left: 3px solid var(--solar-amber);' : ''}">
                     <td class="mono">${itemID}</td>
                     <td>${fechaTxt}</td>
-                    <td><strong>${temaTxt}</strong> ${b.archivo ? `<br><small style="color:var(--solar-amber);"><i class="fa-solid fa-paperclip"></i> <a href="../${b.archivo}" target="_blank" style="color:var(--solar-amber);">Ver adjunto</a></small>` : ''}</td>
+                    <td>
+                        <strong>${temaTxt}</strong>
+                        ${b.usuario ? `<br><small style="color:var(--text-muted);">Ingresado por: <strong>${b.usuario}</strong></small>` : ''}
+                        ${b.archivo ? `<br><small style="color:var(--solar-amber);"><i class="fa-solid fa-paperclip"></i> <a href="../${b.archivo}" target="_blank" style="color:var(--solar-amber);">Ver adjunto</a></small>` : ''}
+                    </td>
                     <td>${b.proyecto || 'Portafolio Global'}</td>
                     <td>
                         <select onchange="reasignarResponsableBitacora('${itemID}', this.value)" style="background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-color); border-radius:6px; padding:4px 6px; font-size:12px;">
@@ -1279,6 +1291,8 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
                     <td>${prioTag}</td>
                     <td>
                         <select onchange="cambiarEstadoBitacora('${itemID}', this.value)" style="background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-color); border-radius:6px; padding:4px 6px; font-size:12px; font-weight:700;">
+                            <option value="POR REVISAR DIRECTOR" ${estadoActual === 'POR REVISAR DIRECTOR' ? 'selected' : ''}>⏳ POR REVISAR DIRECTOR</option>
+                            <option value="APROBADO DIRECTOR" ${estadoActual === 'APROBADO DIRECTOR' ? 'selected' : ''}>🟢 APROBADO DIRECTOR</option>
                             <option value="PENDIENTE" ${estadoActual === 'PENDIENTE' ? 'selected' : ''}>⏳ PENDIENTE</option>
                             <option value="EN PROCESO" ${estadoActual === 'EN PROCESO' ? 'selected' : ''}>🟡 EN PROCESO</option>
                             <option value="COMPLETADO" ${estadoActual === 'COMPLETADO' || estadoActual === 'RESUELTO' ? 'selected' : ''}>🟢 COMPLETADO</option>
@@ -1286,6 +1300,11 @@ BIT-004,2026-07-29,Solicitar a Víctor Escanilla y Marcos Font la cubicación of
                         </select>
                     </td>
                     <td>
+                        ${isPorRevisar ? `
+                            <button onclick="cambiarEstadoBitacora('${itemID}', 'APROBADO DIRECTOR')" style="background:rgba(16, 185, 129, 0.2); color:var(--success-green); border:1px solid var(--success-green); padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; margin-bottom:4px;">
+                                🟢 Aprobar Director
+                            </button>
+                        ` : ''}
                         <button onclick="marcarCompletadoQuick('${itemID}')" style="background:rgba(16, 185, 129, 0.2); color:var(--success-green); border:1px solid var(--success-green); padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
                             ${estadoActual === 'COMPLETADO' ? '✅ Resuelto' : '✔️ Marcar Resuelto'}
                         </button>
